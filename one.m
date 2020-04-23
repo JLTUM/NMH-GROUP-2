@@ -1,5 +1,5 @@
 clear all
-
+%these are Julians comments 
 for exp = 1:1:4
 
     % Number of grid points
