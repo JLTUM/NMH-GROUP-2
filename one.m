@@ -85,7 +85,7 @@ for exp = 1:1:4
     % Plotting of analytical solution and numerical approximation of first
     % derivatives
     subplot(2,2,exp)
-    plot(x, dfn_U, x, dfn_U, x, dfn_C, x, dfe)
+    plot(x, dfn_U, x, dfn_D, x, dfn_C, x, dfe)
     legend('Upwind','Downwind','Central','Exact')
     set(gca,'FontSize',14); 
     title(n);
