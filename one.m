@@ -80,7 +80,7 @@ for exp = 1:1:4
         er_C(i) = abs( ( dfe(i) - dfn_C(i) ) / dfe(i) );
     
       
-    end
+    end  
 
     % Plotting of analytical solution and numerical approximation of first
     % derivatives
