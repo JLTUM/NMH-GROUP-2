@@ -71,7 +71,7 @@ for exp = 1:1:4
     
     figure
     % Plotting of analytical solution and numerical approximation
-    plot(x, dfn_U, x, dfn_U, x, dfn_C, x, dfe)
+    plot(x, dfn_U, x, dfn_D, x, dfn_C, x, dfe)
     legend('Upwind','Downwind','Central Limit','Exact','Location','SouthEast')
     set(gca,'FontSize',14); 
     title(n);
