@@ -24,3 +24,5 @@ To update your local files rightclick --> fetch (this will let the computer know
 If you create a new file you first have to add it to git by right click --> source control --> Add to git. then again commit and push.
 
 ! be carefull to always work on your branch !
+
+If you dont understand it you are silly
