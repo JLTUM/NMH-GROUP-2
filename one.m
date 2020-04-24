@@ -1,9 +1,19 @@
+%% Header
+
+%%% Numerische Methoden der Hydromechanik
+%%% Assignment: 1
+%%% Group: 2
+%%% Members: Nick Pfeiffer, Andreas Mirlach, Julian Lenz, Faro Schäfer
+
 clear all
-%these are Julians comments 
+close all
+
+%% grid and analytical solution 
+
 for exp = 1:1:4
 
     % Number of grid points
-    n = 10^exp;
+    n = 10^exp
 
     % Grid spacing
     h = 2.0*pi / (n-1);
@@ -15,9 +25,11 @@ for exp = 1:1:4
       x(i) = 0.0 + (i-1) * h;
 
       % ...analytical values of function and derivative
-      f(i) = sin(x(i));
-      dfe(i) = cos( x(i) );
+      f(i) = sin(x(i)); % analytical
+      dfe(i) = cos( x(i) ); % analytical derivative
     end
+    
+%% Discretization for numerical solution
 
     for i = 1 : n
 
@@ -39,7 +51,6 @@ for exp = 1:1:4
 
       end
 
-
       % If point is not at the boundaries 
       if ( ( i ~= 1 ) && ( i ~= n ) )
         fp = f(i+1);
@@ -48,31 +59,34 @@ for exp = 1:1:4
 
       fi = f(i);
 
+%% function values 
+
     % First derivative: Upwind
         dfn_U(i) = ( fi - fm ) / ( 1.0*h );
       
     % First derivative: Downwind
         dfn_D(i) = ( fp - fi ) / ( 1.0*h );
         
-    % First derivative: Central Limit
+    % First derivative: Central
         dfn_C(i) = ( fp - fm) / ( 2.0*h );
 
     % Error: Upwind
         er_U(i) = abs( ( dfe(i) - dfn_U(i) ) / dfe(i) );
     
-    % Error: Upwind
+    % Error: Downwind
         er_D(i) = abs( ( dfe(i) - dfn_D(i) ) / dfe(i) );
       
-    % Error: Upwind
+    % Error: Central
         er_C(i) = abs( ( dfe(i) - dfn_C(i) ) / dfe(i) );
     
       
     end
-    
-    figure
-    % Plotting of analytical solution and numerical approximation
+
+    % Plotting of analytical solution and numerical approximation of first
+    % derivatives
+    subplot(2,2,exp)
     plot(x, dfn_U, x, dfn_U, x, dfn_C, x, dfe)
-    legend('Upwind','Downwind','Central Limit','Exact','Location','SouthEast')
+    legend('Upwind','Downwind','Central','Exact')
     set(gca,'FontSize',14); 
     title(n);
 
@@ -82,34 +96,12 @@ for exp = 1:1:4
     error(exp,3) = er_D(n/5);
     error(exp,4) = er_C(n/5);
     
-
 end
 
-
+figure
 % Plotting of error over grid spacing in normal scale
-loglog(error(:,1),error(:,2),error(:,1),error(:,3),error(:,1),error(:,4));
-%set(gca,'FontSize',14); 
+loglog(error(:,1),error(:,2),'-x',error(:,1),error(:,3),'-x',error(:,1),error(:,4),'-x', x, x,'-k');
 title('Error plot');
 xlabel('Grid spacing h');
 ylabel('Relative error');
-legend('Error Upwind','Error Downwind','Error Central Limit','Location','SouthEast')
-
-figure
-
-% Changing axes to logarithmic scale 
-loglog(error(:,1),error(:,2),'-ro');
-%set(gca,'FontSize',14); 
-title('Error plot');
-xlabel('Grid spacing h');
-ylabel('Relative error');
-legend('Error','Location','SouthEast')
-
-figure
-
-% Adding the linear function for comparison 
-loglog(error(:,1),error(:,2),'-ro',x,x);
-%set(gca,'FontSize',14); 
-title('Error plot');
-xlabel('Grid spacing h');
-ylabel('Relative error');
-legend('Error','x','Location','SouthEast')
+legend('Error Upwind','Error Downwind','Error Central','Location','SouthEast')
