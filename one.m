@@ -11,6 +11,7 @@ close all
 %% grid and analytical solution 
 
 grid = [10,20,50,100,1000,10000];
+% grid = linspace(10,10000,1000);
 for j = 1:length(grid)
 
     % Number of grid points
@@ -29,6 +30,7 @@ for j = 1:length(grid)
       f(i) = sin(2*x(i)); % analytical
       dfe(i) = cos( 2*x(i) ) * 2; % analytical first derivative
       dfe2(i) = -sin( 2*x(i) ) * 4; % analytical second derivative
+      
     end
     
 %% Discretization for numerical solution
@@ -87,25 +89,40 @@ for j = 1:length(grid)
     % Error: Central second derivative
         er_C2(i) = abs ( ( dfe2(i) - dfn_C2(i) ) / dfe(i) );
         
+        
     end  
 
-    % Plotting of analytical solution and numerical approximation of first
-    % derivatives
+%% Interpolation of Points
+
+    xq = [0+h/2:h:n];
+    dfn_U_interp = interp1(x,dfn_U,xq);
+    dfn_D_interp = interp1(x,dfn_D,xq);
+    dfn_C_interp = interp1(x,dfn_C,xq);
+    dfn_C2_interp = interp1(x,dfn_C2,xq);
+    
+    %% Plots
+    
     if j == 1 
-        fig_first = figure;
-        fig_second = figure;
+        fig_first_derivative = figure;
+        fig_second_derivative = figure;
     end
     
-    set(0,'CurrentFigure',fig_first)
+    % plot first derivative 
+    set(0,'CurrentFigure',fig_first_derivative)
     subplot(3,2,j)
-    plot(x, dfn_U, x, dfn_D, x, dfn_C, x, dfe, '--k')
+    plot(x, dfn_U, 'b.:', x, dfn_D, 'r.:', x, dfn_C, 'g.:', x, dfe, '--k') % numerical values
+    hold on 
+    plot(xq, dfn_U_interp, 'b.', xq, dfn_D_interp, 'r.', xq, dfn_C_interp, 'g.') % interpolated values
     legend('Upwind','Downwind','Central', 'Exact')
     set(gca,'FontSize',14); 
     title(n);
 
-    set(0,'CurrentFigure',fig_second)
+    % plot second derivative
+    set(0,'CurrentFigure',fig_second_derivative)
     subplot(3,2,j)
-    plot(x, dfn_C2, x, dfe2, '--k')
+    plot(x, dfn_C2, 'g.:', x, dfe2, '--k')
+    hold on
+    plot(xq, dfn_C2_interp, 'g.')
     legend('Central', 'Exact')
     set(gca,'FontSize',14); 
     title(n);
@@ -118,19 +135,18 @@ for j = 1:length(grid)
     error(j,5) = er_C2(n/5);
     
 end
-
-figure
 % Plotting of error over grid spacing in normal scale
-loglog(error(:,1),error(:,2),'-x',error(:,1),error(:,3),'-x',error(:,1),error(:,4),'-x', x, x,'-k');
-title('Error plot first derivative');
-xlabel('Grid spacing h');
-ylabel('Relative error');
-legend('Error Upwind','Error Downwind','Error Central','Location','SouthEast')
-
 figure
+    loglog(error(:,1),error(:,2),'-',error(:,1),error(:,3),'-',error(:,1),error(:,4),'-', x, x,'-k');
+    title('Error plot first derivative');
+    xlabel('Grid spacing h');
+    ylabel('Relative error');
+    legend('Error Upwind','Error Downwind','Error Central','Location','SouthEast')
+
 % Plotting of error over grid spacing in normal scale
-loglog(error(:,1),error(:,5),'-x', x, x,'-k');
-title('Error plot second derivative');
-xlabel('Grid spacing h');
-ylabel('Relative error');
-legend('Error Central','Location','SouthEast')
+figure
+    loglog(error(:,1),error(:,5),'-', x, x,'-k');
+    title('Error plot second derivative');
+    xlabel('Grid spacing h');
+    ylabel('Relative error');
+    legend('Error Central','Location','SouthEast')
