@@ -135,23 +135,23 @@ for j = 1:length(grid)
         fig_second_derivative = figure;
     end
     
-    %plot first derivative 
-    set(0,'CurrentFigure',fig_first_derivative)
-    subplot(3,2,j)
-    %plot(x, dfn_U, '-', x, dfn_D, '-', x, dfn_C, '-', x, dfe, '-k') % values of numerical difference scheme
-    hold on 
-    plot(xq, dfn_U_interp, '-', xq, dfn_D_interp, '-', xq, dfn_C_interp, '-',x, dfe, '-k') % interpolated values
-    legend('Upwind','Downwind','Central', 'Exact')
-    set(gca,'FontSize',14); 
-    title(n);
-    hold off
+%     %plot first derivative 
+%     set(0,'CurrentFigure',fig_first_derivative)
+%     subplot(3,2,j)
+%     %plot(x, dfn_U, '-', x, dfn_D, '-', x, dfn_C, '-', x, dfe, '-k') % values of numerical difference scheme
+%     hold on 
+%     plot(xq, dfn_U_interp, '-', xq, dfn_D_interp, '-', xq, dfn_C_interp, '-',x, dfe, '-k') % interpolated values
+%     legend('Upwind','Downwind','Central', 'Exact')
+%     set(gca,'FontSize',14); 
+%     title(n);
+%     hold off
 
     % plot second derivative
     set(0,'CurrentFigure',fig_second_derivative)
-    subplot(3,2,j)
-    plot(x, dfn_C2, 'r-', x, dfe2, '-k') % values of numerical difference scheme
+    subplot(1,1,j)
+    plot(x, dfn_C2, '-x', x, dfe2, '-k') % values of numerical difference scheme
     hold on
-    plot(xq, dfn_C2_interp, 'b-') % interpolated values
+    plot(xq, dfn_C2_interp, '-o') % interpolated values
     legend('Central', 'Exact', "Interpolated")
     set(gca,'FontSize',14); 
     title(n);
