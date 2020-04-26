@@ -12,7 +12,7 @@ close all
 
 %% grid and analytical solution 
 
-grid = [10];  %,20,50,100,1000,10000]; % amount of grid points 
+grid = [10,20,50,100,1000,10000]; % amount of grid points 
  
 for j = 1:length(grid)
 
@@ -104,23 +104,24 @@ for j = 1:length(grid)
     dfn_C_interp = interp1(x,dfn_C,xq); % Interpolated Points for Central
     dfn_C2_interp = interp1(x,dfn_C2,xq); % Interpolated Points for Central (second der.)
     
-    dfe_int(i) = cos( 2*xq(i) ) * 2; % analytical first derivative
-    dfe2(i)_int = -sin( 2*xq(i) ) * 4; % analytical second derivative
+    for k = 1:n-1
+    dfe_int(k) = cos( 2*xq(k) ) * 2; % analytical first derivative
+    dfe2_int(k) = -sin( 2*xq(k) ) * 4; % analytical second derivative
   
-    for i = 1 : n     
+        
         %% function values 
 
     % Error: Int_Upwind
-        int_er_U(i) = abs( ( dfe_int(i) - dfn_U_interp(i) ) / dfe_int(i) );
+        int_er_U(k) = abs( ( dfe_int(k) - dfn_U_interp(k) ) / dfe_int(k) );
     
     % Error: Int_Downwind
-        int_er_D(i) = abs( ( dfe_int(i) - dfn_D_interp(i) ) / dfe_int(i) );
+        int_er_D(k) = abs( ( dfe_int(k) - dfn_D_interp(k) ) / dfe_int(k) );
       
     % Error: Central first derivative
-        int_er_C(i) = abs( ( dfe_int(i) - dfn_C_interp(i) ) / dfe_int(i) );
+        int_er_C(k) = abs( ( dfe_int(k) - dfn_C_interp(k) ) / dfe_int(k) );
         
     % Error: Central second derivative
-        int_er_C2(i) = abs ( ( dfe2_int(i) - dfn_C2_interp(i) ) / dfe_int(i) ); 
+        int_er_C2(k) = abs ( ( dfe2_int(k) - dfn_C2_interp(k) ) / dfe_int(k) ); 
         
     end
     
