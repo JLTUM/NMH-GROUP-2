@@ -90,20 +90,7 @@ for j = 1:length(grid)
         
     % Error: Central second derivative
         er_C2(i) = abs ( ( dfe2(i) - dfn_C2(i) ) / dfe(i) );
-
-        
-    end
     
-%% Interpolation of Points
-
-    xq = [0+h/2:h:n]; % x-values on which function values get interpolated: points in the middle of two grid points
-    dfn_U_interp = interp1(x,dfn_U,xq); % Interpolated Points for Upwind
-    dfn_D_interp = interp1(x,dfn_D,xq); % Interpolated Points for Downwind
-    dfn_C_interp = interp1(x,dfn_C,xq); % Interpolated Points for Central
-    dfn_C2_interp = interp1(x,dfn_C2,xq); % Interpolated Points for Central (second der.)
-
-  
-    for i = 1 : n     
         %% function values 
 
     % Error: Int_Upwind
@@ -118,7 +105,20 @@ for j = 1:length(grid)
     % Error: Central second derivative
         int_er_C2(i) = abs ( ( dfe2(i) - dfn_C2_interp(i) ) / dfe(i) ); 
         
+        
     end
+    
+%% Interpolation of Points
+
+    xq = [0+h/2:h:n]; % x-values on which function values get interpolated: points in the middle of two grid points
+    dfn_U_interp = interp1(x,dfn_U,xq); % Interpolated Points for Upwind
+    dfn_D_interp = interp1(x,dfn_D,xq); % Interpolated Points for Downwind
+    dfn_C_interp = interp1(x,dfn_C,xq); % Interpolated Points for Central
+    dfn_C2_interp = interp1(x,dfn_C2,xq); % Interpolated Points for Central (second der.)
+
+  
+
+    
     
     
     
@@ -167,8 +167,7 @@ end
 
 % Plotting of error over grid spacing in log scale
 figure
-    loglog(error(:,1),error(:,2),'-x',error(:,1),error(:,3),'-x',error(:,1),error(:,4),'-x'...
-        ,error(:,1),error(:,6),'-o',error(:,1),error(:,7),'-o',error(:,1),error(:,8),'-o',error(:,1),error(:,9),'-o', x, x,'-k');
+    loglog(error(:,1),error(:,2),'-x',error(:,1),error(:,4),'-x',error(:,1),error(:,5),'-x',error(:,1),error(:,6),'-x',error(:,1),error(:,7),'-x',error(:,1),error(:,8),'-o',error(:,1),error(:,9),'-o', x, x,'-k');
     title('Error plot first derivative');
     xlabel('Grid spacing h');
     ylabel('Relative error');
