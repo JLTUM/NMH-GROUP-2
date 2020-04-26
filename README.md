@@ -5,7 +5,7 @@ Initialise Git in Matlab:
 
 1: Create Github Account
 2: Install Git on your computer
-2: Click on Link from Julian
+2: Give Julian your Account name to add as Contributor and accept invitation
 3: Click on 'CloneorDownload' and copy the link (either HTTPS or SSH)
 4: In Matlab browse to the folder where you want the code to be (has to be an empty folder
 5: right click on a white spot in Matlab file manager --> source control --> manage files --> choose git and paste link to repository path --> retrieve
