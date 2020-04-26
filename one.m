@@ -147,8 +147,8 @@ for j = 1:length(grid)
 %     hold off
 
     % plot second derivative
-    set(0,'CurrentFigure',fig_second_derivative)
-    subplot(1,1,j)
+%     set(0,'CurrentFigure',fig_second_derivative)
+%     subplot(3,2,j)
     plot(x, dfn_C2, '-x', x, dfe2, '-k') % values of numerical difference scheme
     hold on
     plot(xq, dfn_C2_interp, '-o') % interpolated values
@@ -174,8 +174,8 @@ end
 
 % Plotting of error over grid spacing in log scale
 figure
-    loglog(error(:,1),error(:,2),'-x',error(:,1),error(:,3),'-x',error(:,1),error(:,4),'-x'...
-        ,error(:,1),error(:,6),'-o',error(:,1),error(:,7),'-o',error(:,1),error(:,8),'-o', x, x,'-k');
+    loglog(error(:,10),error(:,2),'-x',error(:,10),error(:,3),'-x',error(:,10),error(:,4),'-x'...
+        ,error(:,10),error(:,6),'-o',error(:,10),error(:,7),'-o',error(:,10),error(:,8),'-o', x, x,'-k');
     title('Error plot first derivative');
     xlabel('Grid spacing h');
     ylabel('Relative error');
