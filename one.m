@@ -193,61 +193,14 @@ for j = 1:length(grid)
     
     
     
-%     error(j,8) = er_C2(n/5);
-%     error(j,9) = int_er_C2(n/5);
+     error(j,8) = er_C2(n/5);
+     error(j,9) = int_er_C2(n/5);
      error(j,1)=n;
     
-    
-    
-
-        
-        
     end
     
-%% Interpolation of Points
 
-    xq = [0+h/2:h:n]; % x-values on which function values get interpolated: points in the middle of two grid points
-    dfn_U_interp = interp1(x,dfn_U,xq); % Interpolated Points for Upwind
-    dfn_D_interp = interp1(x,dfn_D,xq); % Interpolated Points for Downwind
-    dfn_C_interp = interp1(x,dfn_C,xq); % Interpolated Points for Central
-    dfn_C2_interp = interp1(x,dfn_C2,xq); % Interpolated Points for Central (second der.)
-    
-%% Plots
-    
-    if j == 1 
-        fig_first_derivative = figure;
-        fig_second_derivative = figure;
-    end
-    
-    % plot first derivative 
-    set(0,'CurrentFigure',fig_first_derivative)
-    subplot(3,2,j)
-    plot(x, dfn_U, 'b.:', x, dfn_D, 'r.:', x, dfn_C, 'g.:', x, dfe, '--k') % values of numerical difference scheme
-    hold on 
-    plot(xq, dfn_U_interp, 'b.', xq, dfn_D_interp, 'r.', xq, dfn_C_interp, 'g.') % interpolated values
-    legend('Upwind','Downwind','Central', 'Exact')
-    set(gca,'FontSize',14); 
-    title(n);
 
-    % plot second derivative
-    set(0,'CurrentFigure',fig_second_derivative)
-    subplot(3,2,j)
-    plot(x, dfn_C2, 'g.:', x, dfe2, '--k') % values of numerical difference scheme
-    hold on
-    plot(xq, dfn_C2_interp, 'g.') % interpolated values
-    legend('Central', 'Exact')
-    set(gca,'FontSize',14); 
-    title(n);
-    
-    % Storing grid spacing and relative error in matrix
-    error(j,1) = h;
-    error(j,2) = er_U(n/5);
-    error(j,3) = er_D(n/5);
-    error(j,4) = er_C(n/5);
-    error(j,5) = er_C2(n/5);
-    
-
-end
 
 % Plotting of error over grid spacing in log scale
 figure
@@ -264,17 +217,11 @@ figure
 
 % Plotting of error over grid spacing in log scale
 
-    loglog(error(:,1),error(:,2),'-',error(:,1),error(:,3),'-',error(:,1),error(:,4),'-', x, x,'-k');
-    title('Error plot first derivative');
-    xlabel('Grid spacing h');
-    ylabel('Relative error');
-    legend('Error Upwind','Error Downwind','Error Central','Location','SouthEast')
-
 % Plotting of error over grid spacing in log scale
 figure
-    loglog(error(:,1),error(:,5),'-', x, x,'-k');
+    loglog(error(:,1),error(:,8),'-x',error(:,1),error(:,9),'-o');
     title('Error plot second derivative');
     xlabel('Grid spacing h');
     ylabel('Relative error');
-    legend('Error Central','Location','SouthEast')
+    legend('Error Central 2nd','Error Central 2nd Int''Location','SouthEast')
 
