@@ -161,24 +161,24 @@ for j = 1:length(grid)
     title(n);
     
     % Storing grid spacing and relative error in matrix
-%         error(j,1) = h;
-%         error(j,2) = mean(er_U);
-%         error(j,3) = mean(er_D);
-%         error(j,4) = mean(er_C);
-%         error(j,5) = mean(er_C2);
-%         error(j,6) = mean(int_er_U);
-%         error(j,7) = mean(int_er_D);
-%         error(j,8) = mean(int_er_C);
-%         error(j,9) = mean(int_er_C2);
+        error(j,1) = h;
+        error(j,2) = mean(er_U);
+        error(j,3) = mean(er_D);
+        error(j,4) = mean(er_C);
+        error(j,5) = mean(er_C2);
+        error(j,6) = mean(int_er_U);
+        error(j,7) = mean(int_er_D);
+        error(j,8) = mean(int_er_C);
+        error(j,9) = mean(int_er_C2);
 %     
     %error(j,1) = h;
-    error(j,2) = er_U(n/5);
-    error(j,3) = er_D(n/5);
-    error(j,4) = er_C(n/5);
-    
-    error(j,5) = int_er_U(n/5);
-    error(j,6) = int_er_D(n/5);
-    error(j,7) = int_er_C(n/5);
+%     error(j,2) = er_U(n/5);
+%     error(j,3) = er_D(n/5);
+%     error(j,4) = er_C(n/5);
+%     
+%     error(j,5) = int_er_U(n/5);
+%     error(j,6) = int_er_D(n/5);
+%     error(j,7) = int_er_C(n/5);
     
 %     error(j,2) = er_U(n/2);
 %     error(j,3) = er_D(n/2);
