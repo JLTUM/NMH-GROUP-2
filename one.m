@@ -193,8 +193,8 @@ for j = 1:length(grid)
     
     
     
-%     error(j,8) = er_C2(n/5);
-%     error(j,9) = int_er_C2(n/5);
+     error(j,8) = er_C2(n/5);
+     error(j,9) = int_er_C2(n/5);
      error(j,1)=n;
     
     end
@@ -219,9 +219,9 @@ figure
 
 % Plotting of error over grid spacing in log scale
 figure
-    loglog(error(:,1),error(:,5),'-', x, x,'-k');
+    loglog(error(:,1),error(:,8),'-x',error(:,1),error(:,9),'-o');
     title('Error plot second derivative');
     xlabel('Grid spacing h');
     ylabel('Relative error');
-    legend('Error Central','Location','SouthEast')
+    legend('Error Central 2nd','Error Central 2nd Int''Location','SouthEast')
 
