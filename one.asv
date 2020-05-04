@@ -12,7 +12,6 @@ close all
 
 %% grid and analytical solution 
 
-
 %grid = [10,12,13,14,15,16,17,18,20,30,50,100,1000,10000];
 grid = [10,15,20,25,30,35,40,50,70,100,1000,10000];
 %grid = [2,4,6,8,10,12,14,16,18,20,30,40,60,100,1000];
@@ -82,9 +81,8 @@ for j = 1:length(grid)
         
     % Second Derivative: Central 
         dfn_C2(i) = ( fp - 2*fi + fm ) / (h^2);
-
         
-      
+            
 
     % Error: Upwind
         er_U(i) = abs( ( dfe(i) - dfn_U(i) ) / dfe(i) );
@@ -97,7 +95,6 @@ for j = 1:length(grid)
         
     % Error: Central second derivative
         er_C2(i) = abs ( ( dfe2(i) - dfn_C2(i) ) / dfe(i) );
-
 
         
     end
@@ -155,8 +152,7 @@ for j = 1:length(grid)
 
     % plot second derivative
     set(0,'CurrentFigure',fig_second_derivative)
-
-    subplot(3,2,j)
+    subplot(2,20,j)
     plot(x, dfn_C2, '-x', x, dfe2, '-k') % values of numerical difference scheme
     hold on
     plot(xq, dfn_C2_interp, '-o') % interpolated values
@@ -165,24 +161,24 @@ for j = 1:length(grid)
     title(n);
     
     % Storing grid spacing and relative error in matrix
-%         error(j,1) = h;
-%         error(j,2) = mean(er_U);
-%         error(j,3) = mean(er_D);
-%         error(j,4) = mean(er_C);
-%         error(j,5) = mean(er_C2);
-%         error(j,6) = mean(int_er_U);
-%         error(j,7) = mean(int_er_D);
-%         error(j,8) = mean(int_er_C);
-%         error(j,9) = mean(int_er_C2);
+        error(j,1) = h;
+        error(j,2) = mean(er_U);
+        error(j,3) = mean(er_D);
+        error(j,4) = mean(er_C);
+        error(j,5) = mean(er_C2);
+        error(j,6) = mean(int_er_U);
+        error(j,7) = mean(int_er_D);
+        error(j,8) = mean(int_er_C);
+        error(j,9) = mean(int_er_C2);
 %     
     %error(j,1) = h;
-    error(j,2) = er_U(n/5);
-    error(j,3) = er_D(n/5);
-    error(j,4) = er_C(n/5);
-    
-    error(j,5) = int_er_U(n/5);
-    error(j,6) = int_er_D(n/5);
-    error(j,7) = int_er_C(n/5);
+%     error(j,2) = er_U(n/5);
+%     error(j,3) = er_D(n/5);
+%     error(j,4) = er_C(n/5);
+%     
+%     error(j,5) = int_er_U(n/5);
+%     error(j,6) = int_er_D(n/5);
+%     error(j,7) = int_er_C(n/5);
     
 %     error(j,2) = er_U(n/2);
 %     error(j,3) = er_D(n/2);
@@ -194,14 +190,13 @@ for j = 1:length(grid)
     
     
     
-     error(j,8) = er_C2(n/5);
-     error(j,9) = int_er_C2(n/5);
+%     error(j,8) = er_C2(n/5);
+%     error(j,9) = int_er_C2(n/5);
      error(j,1)=n;
     
-    end
     
-
-
+    
+end
 
 % Plotting of error over grid spacing in log scale
 figure
@@ -217,12 +212,3 @@ figure
         'Location','SouthEast')
 
 % Plotting of error over grid spacing in log scale
-
-% Plotting of error over grid spacing in log scale
-figure
-    loglog(error(:,1),error(:,8),'-x',error(:,1),error(:,9),'-o');
-    title('Error plot second derivative');
-    xlabel('Grid spacing h');
-    ylabel('Relative error');
-    legend('Error Central 2nd','Error Central 2nd Int''Location','SouthEast')
-
