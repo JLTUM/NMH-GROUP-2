@@ -13,7 +13,7 @@ close all
 %% grid and analytical solution 
 
 %grid = [10,12,13,14,15,16,17,18,20,30,50,100,1000,10000];
-grid = [10,20,30,50,70,100,1000,10000];
+grid = [10,20,30,50,100,1000,10000];
 % grid = [10:5:1000];
 %grid = [2,4,6,8,10,12,14,16,18,20,30,40,60,100,1000];
 % amount of grid points 
@@ -145,42 +145,50 @@ for j = 1:length(grid)
 %% Plots
     
     if j == 1 
-        fig_first_derivative = figure;
-        fig_second_derivative = figure;
+        fig_first_derivative = figure('units','normalized','outerposition',[0 0 1 1]);
+        fig_second_derivative = figure('units','normalized','outerposition',[0 0 1 1]);
+    end
+
+    if (6<j)            % no need to plot high n (look identical to n = 1000) 
+        continue
     end
     
 %     plot first derivative 
     set(0,'CurrentFigure',fig_first_derivative)
-    subplot(4,2,j)
-    plot(x, dfn_U, 'x-', x, dfn_D, 'x-', x, dfn_C, 'x-', x, dfe, '-k') % values of numerical difference scheme
+    subplot(3,2,j)
+    plot(x, dfn_U, '-', x, dfn_D, '-', x, dfn_C, '-', x, dfe, '-k') % values of numerical difference scheme
     hold on 
     ax = gca;
     ax.ColorOrderIndex = 1;
-    plot(xq, dfn_U_interp, '.--', xq, dfn_D_interp, '.--', xq, dfn_C_interp, '.--') % interpolated values
+%     plot(xq, dfn_U_interp, '.--', xq, dfn_D_interp, '.--', xq, dfn_C_interp, '.--') % interpolated values
     legend('Upwind','Downwind','Central', 'Exact','Autoupdate','off')
     set(gca,'FontSize',14); 
-    title(n);
     xline(x_error);
+    text(x_error,1,'\leftarrow 2\pi/5')
+    xlim([0,2*pi])
+    title(['n=',num2str(n)]);
     hold off
 
 %     plot second derivative
     set(0,'CurrentFigure',fig_second_derivative)
-    subplot(4,2,j)
+    subplot(3,2,j)
     ax = gca;
-    ax.ColorOrderIndex = 4;
+    ax.ColorOrderIndex = 5;
     hold on
-    plot(x, dfn_C2, '-x', x, dfe2, '-k') % values of numerical difference scheme
-    ax.ColorOrderIndex = 4;
-    plot(xq, dfn_C2_interp, '.--') % interpolated values
+    plot(x, dfn_C2, '-', x, dfe2, '-k') % values of numerical difference scheme
+    ax.ColorOrderIndex = 5;
+%     plot(xq, dfn_C2_interp, '.--') % interpolated values
     legend('Central', 'Exact','Autoupdate','off')
     set(gca,'FontSize',14); 
     xline(x_error);
-    title(n);
+    text(x_error,1,'\leftarrow 2\pi/5')
+    xlim([0,2*pi])
+    title(['n=',num2str(n)]);
     
 end
     
 % Plotting of error over grid spacing in log scale
-figure
+fig_error = figure;
     loglog(error(:,1),error(:,2),'-',error(:,1),error(:,3),'-',...
         error(:,1),error(:,4),'-',error(:,1),error(:,8),'-')
     hold on
@@ -188,9 +196,15 @@ figure
     ax.ColorOrderIndex = 1;
     loglog(error(:,1),error(:,5),'--',error(:,1),error(:,6),'--',...
         error(:,1),error(:,7),'--',error(:,1),error(:,9),'--')
-    title('Error plot first derivative');
+%     title('Error plot first derivative');
     xlabel('Grid spacing h');
     ylabel('Relative error');
     legend('Upwind','Downwind','Central','Central Second',...
         'Upwind Int','Downwind Int','Central Int','Central Second Int',...
         'Location','SouthEast')
+
+%% Save files for report
+
+print(fig_first_derivative,'-dpng',"Plots_one/First_derivative.png",'-r150');
+print(fig_second_derivative,'-dpng',"Plots_one/Second_derivative.png",'-r150');
+print(fig_error,'-dpng',"Plots_one/Error.png",'-r150');
