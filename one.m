@@ -9,14 +9,13 @@
 
 clear all
 close all
+addpath('Plots_one')
 
 %% grid and analytical solution 
 
-%grid = [10,12,13,14,15,16,17,18,20,30,50,100,1000,10000];
 grid = [10,20,30,50,100,1000,10000];
-% grid = [10:5:1000];
-%grid = [2,4,6,8,10,12,14,16,18,20,30,40,60,100,1000];
-% amount of grid points 
+
+% amount of grid points
  
 for j = 1:length(grid)
 
@@ -118,10 +117,10 @@ for j = 1:length(grid)
 %% Error of interpolated points
 
     % Value at Location of Error
-    val_error_U_interp = interp1(xq,dfn_U_interp,x_error);   % Value at linearily interpolated locatin of error: Upwind
-    val_error_D_interp = interp1(xq,dfn_D_interp,x_error);   % Value at linearily interpolated locatin of error: Downwind       
-    val_error_C_interp = interp1(xq,dfn_C_interp,x_error);   % Value at linearily interpolated locatin of error: Central
-    val_error_C2_interp = interp1(xq,dfn_C2_interp,x_error); % Value at linearily interpolated locatin of error: Central second derivative
+    val_error_U_interp = interp1(xq,dfn_U_interp,x_error);   % Value at linearely interpolated locatin of error: Upwind
+    val_error_D_interp = interp1(xq,dfn_D_interp,x_error);   % Value at linearely interpolated locatin of error: Downwind       
+    val_error_C_interp = interp1(xq,dfn_C_interp,x_error);   % Value at linearely interpolated locatin of error: Central
+    val_error_C2_interp = interp1(xq,dfn_C2_interp,x_error); % Value at linearely interpolated locatin of error: Central second derivative
  
     % Error
     er_U_interp = abs( ( val_error_dfe - val_error_U_interp ) / val_error_dfe ) ;
@@ -141,12 +140,16 @@ for j = 1:length(grid)
     error(j,7) = er_C_interp;   
     error(j,8) = er_C2;            
     error(j,9) = er_C2_interp;  
-        
+   
 %% Plots
     
     if j == 1 
+        % set X-tick Lables
+            xticks = [0, 2*pi/5, pi/2, pi, 3*pi/2, 2*pi];
+            xticklabels = {'\fontsize{11} 0','\color[rgb]{0.5,0.5,0.5}\fontsize{11}2\pi/5','\fontsize{11} \pi/2','\fontsize{11} \pi','\fontsize{11} 3\pi/2','\fontsize{11} 2\pi'};
         fig_first_derivative = figure('units','normalized','outerposition',[0 0 1 1]);
         fig_second_derivative = figure('units','normalized','outerposition',[0 0 1 1]);
+
     end
 
     if (6<j)            % no need to plot high n (look identical to n = 1000) 
@@ -161,12 +164,14 @@ for j = 1:length(grid)
     ax = gca;
     ax.ColorOrderIndex = 1;
 %     plot(xq, dfn_U_interp, '.--', xq, dfn_D_interp, '.--', xq, dfn_C_interp, '.--') % interpolated values
-    legend('Upwind','Downwind','Central', 'Exact','Autoupdate','off')
+    legend('Upwind','Downwind','Central', 'Exact','Autoupdate','off','Location','best')
     set(gca,'FontSize',14); 
-    xline(x_error);
-    text(x_error,1,'\leftarrow 2\pi/5')
+%     xline(x_error);
+%     text(x_error,1,'\leftarrow 2\pi/5')
     xlim([0,2*pi])
     title(['n=',num2str(n)]);
+    set(gca,'XTick',xticks)
+    ax.XTickLabel = xticklabels;
     hold off
 
 %     plot second derivative
@@ -178,12 +183,12 @@ for j = 1:length(grid)
     plot(x, dfn_C2, '-', x, dfe2, '-k') % values of numerical difference scheme
     ax.ColorOrderIndex = 5;
 %     plot(xq, dfn_C2_interp, '.--') % interpolated values
-    legend('Central', 'Exact','Autoupdate','off')
+    legend('Central', 'Exact','Autoupdate','off','Location','best')
     set(gca,'FontSize',14); 
-    xline(x_error);
-    text(x_error,1,'\leftarrow 2\pi/5')
     xlim([0,2*pi])
     title(['n=',num2str(n)]);
+    set(gca,'XTick',xticks)
+    ax.XTickLabel = xticklabels;  
     
 end
     
@@ -202,6 +207,13 @@ fig_error = figure;
     legend('Upwind','Downwind','Central','Central Second',...
         'Upwind Int','Downwind Int','Central Int','Central Second Int',...
         'Location','SouthEast')
+    
+%% Order of error
+
+order_of_er_U = (log10(error(end,2)) - log10(error(end-1,2))) / (log10(error(end,1)) - log10(error(end-1,1)));
+order_of_er_D = (log10(error(end,3)) - log10(error(end-1,3))) / (log10(error(end,1)) - log10(error(end-1,1)));
+order_of_er_C = (log10(error(end,4)) - log10(error(end-1,4))) / (log10(error(end,1)) - log10(error(end-1,1)));
+order_of_er_C2 = (log10(error(end,8)) - log10(error(end-1,8))) / (log10(error(end,1)) - log10(error(end-1,1)));
 
 %% Save files for report
 
