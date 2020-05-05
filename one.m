@@ -164,12 +164,12 @@ for j = 1:length(grid)
     hold on 
     ax = gca;
     ax.ColorOrderIndex = 1;
-    legend('Upwind','Downwind','Central', 'Exact','Autoupdate','off','Location','best')
+    legend('Upwind','Exact','Downwind', 'Central','Autoupdate','off','Location','best')
     set(gca,'FontSize',14); 
 %     xline(x_error);
 %     text(x_error,1,'\leftarrow 2\pi/5')
     xlim([0,2*pi])
-    title(['n=',num2str(n)]);
+    title(['First Derivative n=',num2str(n)]);
     set(gca,'XTick',xticks)
     ax.XTickLabel = xticklabels;
     hold off
@@ -186,7 +186,7 @@ for j = 1:length(grid)
     legend('Central', 'Exact','Central Int','Autoupdate','off','Location','best')
     set(gca,'FontSize',14); 
     xlim([0,2*pi])
-    title(['n=',num2str(n)]);
+    title(['Second Derivative n=',num2str(n)]);
     set(gca,'XTick',xticks)
     ax.XTickLabel = xticklabels;  
     hold off
@@ -211,7 +211,7 @@ for j = 1:length(grid)
     
     plot(x, dfn_U, '-', x, dfe, '-k',xq, dfn_U_interp, '.--')%, x, dfn_D, '-', x, dfn_C, '-' % values of numerical difference scheme
     legend('Upwind','Exact','Upwind Int','Location','best')
-    title(['Upwind n=',num2str(n)]);
+    title(['Upwind Interpolated n=',num2str(n)]);
     hold off
     
     
@@ -227,7 +227,7 @@ for j = 1:length(grid)
     
     plot(x, dfn_D, '-', x, dfe, '-k',xq, dfn_D_interp, '.--')
     legend('Downwind','Downwind Int','Exact','Location','best')
-    title(['Downwind n=',num2str(n)]);
+    title(['Downwind Interpolated n=',num2str(n)]);
     hold off
     
     subplot(3,2,j+4)
@@ -242,7 +242,7 @@ for j = 1:length(grid)
     
     plot(x, dfn_C, '-', x, dfe, '-k',xq, dfn_C_interp, '.--')
     legend('Central','Exact','Central Int','Location','best')
-    title(['Central n=',num2str(n)]);
+    title(['Central Interpolated n=',num2str(n)]);
     %xline(x_error);
     %text(x_error,1,'\leftarrow 2\pi/5')
     
