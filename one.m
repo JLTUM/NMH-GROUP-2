@@ -266,13 +266,14 @@ fig_error = figure;
     
 %% Order of error
 
-order_of_er_U = (log10(error(end,2)) - log10(error(end-1,2))) / (log10(error(end,1)) - log10(error(end-1,1)));
-order_of_er_D = (log10(error(end,3)) - log10(error(end-1,3))) / (log10(error(end,1)) - log10(error(end-1,1)));
-order_of_er_C = (log10(error(end,4)) - log10(error(end-1,4))) / (log10(error(end,1)) - log10(error(end-1,1)));
-order_of_er_C2 = (log10(error(end,8)) - log10(error(end-1,8))) / (log10(error(end,1)) - log10(error(end-1,1)));
+order_of_er_U = (log10(error(end,2)) - log10(error(end-1,2))) / (log10(error(end,1)) - log10(error(end-1,1)))
+order_of_er_D = (log10(error(end,3)) - log10(error(end-1,3))) / (log10(error(end,1)) - log10(error(end-1,1)))
+order_of_er_C = (log10(error(end,4)) - log10(error(end-1,4))) / (log10(error(end,1)) - log10(error(end-1,1)))
+order_of_er_C2 = (log10(error(end,8)) - log10(error(end-1,8))) / (log10(error(end,1)) - log10(error(end-1,1)))
 
 %% Save files for report
 
+mkdir Plots_one
 print(fig_first_derivative,'-dpng',"Plots_one/First_derivative.png",'-r150');
 print(fig_second_derivative,'-dpng',"Plots_one/Second_derivative.png",'-r150');
 print(fig_error,'-dpng',"Plots_one/Error.png",'-r150');
