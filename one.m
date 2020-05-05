@@ -266,6 +266,7 @@ fig_error = figure;
     
 %% Order of error
 
+mkdir Plot_one
 order_of_er_U = (log10(error(end,2)) - log10(error(end-1,2))) / (log10(error(end,1)) - log10(error(end-1,1)))
 order_of_er_D = (log10(error(end,3)) - log10(error(end-1,3))) / (log10(error(end,1)) - log10(error(end-1,1)))
 order_of_er_C = (log10(error(end,4)) - log10(error(end-1,4))) / (log10(error(end,1)) - log10(error(end-1,1)))
