@@ -226,7 +226,7 @@ for j = 1:length(grid)
     set(gca,'FontSize',14); 
     
     plot(x, dfn_D, '-', x, dfe, '-k',xq, dfn_D_interp, '.--')
-    legend('Downwind','Downwind Int','Exact','Location','best')
+    legend('Downwind','Exact','Downwind Int','Location','best')
     title(['Downwind Interpolated n=',num2str(n)]);
     hold off
     
