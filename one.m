@@ -149,6 +149,7 @@ for j = 1:length(grid)
             xticklabels = {'\fontsize{11} 0','\color[rgb]{0.5,0.5,0.5}\fontsize{11}2\pi/5','\fontsize{11} \pi/2','\fontsize{11} \pi','\fontsize{11} 3\pi/2','\fontsize{11} 2\pi'};
         fig_first_derivative = figure('units','normalized','outerposition',[0 0 1 1]);
         fig_second_derivative = figure('units','normalized','outerposition',[0 0 1 1]);
+        fig_first_derivative_int = figure('units','normalized','outerposition',[0 0 1 1]);
 
     end
 
@@ -159,11 +160,10 @@ for j = 1:length(grid)
 %     plot first derivative 
     set(0,'CurrentFigure',fig_first_derivative)
     subplot(3,2,j)
-    plot(x, dfn_U, '-', x, dfn_D, '-', x, dfn_C, '-', x, dfe, '-k') % values of numerical difference scheme
+    plot(x, dfn_U, '-', x, dfe, '-k', x, dfn_D, '-', x, dfn_C, '-') % values of numerical difference scheme
     hold on 
     ax = gca;
     ax.ColorOrderIndex = 1;
-%     plot(xq, dfn_U_interp, '.--', xq, dfn_D_interp, '.--', xq, dfn_C_interp, '.--') % interpolated values
     legend('Upwind','Downwind','Central', 'Exact','Autoupdate','off','Location','best')
     set(gca,'FontSize',14); 
 %     xline(x_error);
@@ -182,13 +182,69 @@ for j = 1:length(grid)
     hold on
     plot(x, dfn_C2, '-', x, dfe2, '-k') % values of numerical difference scheme
     ax.ColorOrderIndex = 5;
-%     plot(xq, dfn_C2_interp, '.--') % interpolated values
-    legend('Central', 'Exact','Autoupdate','off','Location','best')
+    plot(xq, dfn_C2_interp, '.--') % interpolated values
+    legend('Central', 'Exact','Central Int','Autoupdate','off','Location','best')
     set(gca,'FontSize',14); 
     xlim([0,2*pi])
     title(['n=',num2str(n)]);
     set(gca,'XTick',xticks)
     ax.XTickLabel = xticklabels;  
+    hold off
+    
+    if (j>2)            % no need to plot high n (look identical to n = 1000) 
+        continue
+    end
+    
+%     plot first derivative 
+    set(0,'CurrentFigure',fig_first_derivative_int)
+    
+    subplot(3,2,j)
+    hold on
+    
+    ax = gca;
+    ax.ColorOrderIndex = 5;
+    xlim([0,2*pi])
+    title(['n=',num2str(n)]);
+    set(gca,'XTick',xticks)
+    ax.XTickLabel = xticklabels;
+    set(gca,'FontSize',14); 
+    
+    plot(x, dfn_U, '-', x, dfe, '-k',xq, dfn_U_interp, '.--')%, x, dfn_D, '-', x, dfn_C, '-' % values of numerical difference scheme
+    legend('Upwind','Exact','Upwind Int','Location','best')
+    title(['Upwind n=',num2str(n)]);
+    hold off
+    
+    
+    subplot(3,2,j+2)
+
+    hold on
+    ax = gca;
+    ax.ColorOrderIndex = 5;
+    xlim([0,2*pi])
+    set(gca,'XTick',xticks)
+    ax.XTickLabel = xticklabels;
+    set(gca,'FontSize',14); 
+    
+    plot(x, dfn_D, '-', x, dfe, '-k',xq, dfn_D_interp, '.--')
+    legend('Downwind','Downwind Int','Exact','Location','best')
+    title(['Downwind n=',num2str(n)]);
+    hold off
+    
+    subplot(3,2,j+4)
+    hold on
+    ax = gca;
+    ax.ColorOrderIndex = 5;
+    xlim([0,2*pi])
+    title(['n=',num2str(n)]);
+    set(gca,'XTick',xticks)
+    ax.XTickLabel = xticklabels;
+    set(gca,'FontSize',14); 
+    
+    plot(x, dfn_C, '-', x, dfe, '-k',xq, dfn_C_interp, '.--')
+    legend('Central','Exact','Central Int','Location','best')
+    title(['Central n=',num2str(n)]);
+    %xline(x_error);
+    %text(x_error,1,'\leftarrow 2\pi/5')
     
 end
     
@@ -220,3 +276,6 @@ order_of_er_C2 = (log10(error(end,8)) - log10(error(end-1,8))) / (log10(error(en
 print(fig_first_derivative,'-dpng',"Plots_one/First_derivative.png",'-r150');
 print(fig_second_derivative,'-dpng',"Plots_one/Second_derivative.png",'-r150');
 print(fig_error,'-dpng',"Plots_one/Error.png",'-r150');
+print(fig_first_derivative_int,'-dpng',"Plots_one/fig_first_derivative_int.png",'-r150');
+
+
