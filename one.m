@@ -13,9 +13,11 @@ addpath('Plots_one')
 
 %% grid and analytical solution 
 
+
 grid = [10,20,30,50,100,1000,10000];
 
 % amount of grid points
+
  
 for j = 1:length(grid)
 
@@ -80,8 +82,21 @@ for j = 1:length(grid)
     dfn_C(i) = ( fp - fm ) / ( 2.0*h );
         
     % Second Derivative: Central 
+
     dfn_C2(i) = ( fp - 2*fi + fm ) / (h^2);
       
+    % Error: Upwind
+        er_U(i) = abs( ( dfe(i) - dfn_U(i) ) / dfe(i) );
+    
+    % Error: Downwind
+        er_D(i) = abs( ( dfe(i) - dfn_D(i) ) / dfe(i) );
+      
+    % Error: Central first derivative
+        er_C(i) = abs( ( dfe(i) - dfn_C(i) ) / dfe(i) );
+        
+    % Error: Central second derivative
+        er_C2(i) = abs ( ( dfe2(i) - dfn_C2(i) ) / dfe(i) );
+
     end
     
 %% Error of numerical shemes
@@ -105,6 +120,7 @@ for j = 1:length(grid)
     
 %% Interpolation of Points
     
+
     % Location of interpolated points
     xq = [0+h/2:h:h*(n-1)];               % x-values on which function values get interpolated
 
@@ -140,7 +156,7 @@ for j = 1:length(grid)
     error(j,7) = er_C_interp;   
     error(j,8) = er_C2;            
     error(j,9) = er_C2_interp;  
-   
+
 %% Plots
     
     if j == 1 
@@ -157,6 +173,7 @@ for j = 1:length(grid)
         continue
     end
     
+
 %     plot first derivative 
     set(0,'CurrentFigure',fig_first_derivative)
     subplot(3,2,j)
@@ -172,6 +189,7 @@ for j = 1:length(grid)
     ax.XTickLabel = xticklabels;
     hold off
 
+
 %     plot second derivative
     set(0,'CurrentFigure',fig_second_derivative)
     subplot(3,2,j)
@@ -182,6 +200,7 @@ for j = 1:length(grid)
     ax.ColorOrderIndex = 5;
     plot(xq, dfn_C2_interp, '.--') % interpolated values
     legend('Exact','Central','Central Int','Autoupdate','off','Location','best')
+
     set(gca,'FontSize',14); 
     xlim([0,2*pi])
     title(['Second Derivative n=',num2str(n)]);
@@ -249,6 +268,7 @@ for j = 1:length(grid)
 end
     
 % Plotting of error over grid spacing in log scale
+
 fig_error = figure;
     loglog(error(:,1),error(:,2),'-',error(:,1),error(:,3),'-',...
         error(:,1),error(:,4),'-',error(:,1),error(:,8),'-')
@@ -280,5 +300,4 @@ print(fig_first_derivative,'-dpng',"Plots_one/First_derivative.png",'-r150');
 print(fig_second_derivative,'-dpng',"Plots_one/Second_derivative.png",'-r150');
 print(fig_error,'-dpng',"Plots_one/Error.png",'-r150');
 print(fig_first_derivative_int,'-dpng',"Plots_one/fig_first_derivative_int.png",'-r150');
-
 
