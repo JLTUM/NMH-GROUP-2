@@ -114,7 +114,7 @@ end
 
 % calculate error
 
-if scheme == "Central"
+if scheme == "Central" || scheme == "Upwind"
     er = abs((phi_analytic(nn) - phi(nn)) / phi_analytic(nn));
 else
     er(1) = abs((phi_analytic(nn) - phi(nn,1)) / phi_analytic(nn)); % Upwind 
