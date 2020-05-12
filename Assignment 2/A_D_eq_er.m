@@ -16,7 +16,7 @@
 % u=0
 % 0 <= x <= 2pi
 
-function A_D_eq(U0,Gamma,points,nn,scheme)
+function [er] = A_D_eq_er(U0,Gamma,points,nn,scheme)
 
 global sp; % sp: subplot number 
 
@@ -112,22 +112,13 @@ else
     phi = A\b;
 end
 
-% Plot the solution
+% calculate error
 
-subplot(2,2,sp)
-if scheme == "Upwind"
-    plot(x,phi,'r', x,phi_analytic, 'k');
-%     hold on
-elseif scheme == "Central"
-    plot(x,phi,'g', x,phi_analytic, 'k');
-%     hold on
-elseif scheme == "Both"
-    plot(x,phi(:,1),'r',x,phi(:,2),'g',x,phi_analytic,'k');
-%     hold on
+if scheme == "Central"
+    er = (phi_analytic(nn) - phi(nn)) / phi_analytic(nn);
+else
+    er(1) = (phi_analytic(nn) - phi(nn,1)) / phi_analytic(nn); % Upwind 
+    er(2) = (phi_analytic(nn) - phi(nn,2)) / phi_analytic(nn); % Central 
 end
-
-
-% Plot the error
-
 
 sp = sp +1;
