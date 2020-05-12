@@ -115,10 +115,10 @@ end
 % calculate error
 
 if scheme == "Central"
-    er = (phi_analytic(nn) - phi(nn)) / phi_analytic(nn);
+    er = abs((phi_analytic(nn) - phi(nn)) / phi_analytic(nn));
 else
-    er(1) = (phi_analytic(nn) - phi(nn,1)) / phi_analytic(nn); % Upwind 
-    er(2) = (phi_analytic(nn) - phi(nn,2)) / phi_analytic(nn); % Central 
+    er(1) = abs((phi_analytic(nn) - phi(nn,1)) / phi_analytic(nn)); % Upwind 
+    er(2) = abs((phi_analytic(nn) - phi(nn,2)) / phi_analytic(nn)); % Central 
 end
 
 sp = sp +1;

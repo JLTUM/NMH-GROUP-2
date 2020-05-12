@@ -19,7 +19,6 @@
 function [er] = A_D_eq(U0,Gamma,points,nn,scheme)
 
 global sp; % sp: subplot number 
-global fig_A_D_eq;
 
 % Clear all variables and plots.
 format long;
@@ -116,10 +115,10 @@ end
 % Plot the solution
 
 if sp == 1
-    fig_A_D_eq = figure('units','normalized','outerposition',[0 0 1 1]);
+    figure_A_D_eq = figure('units','normalized','outerposition',[0 0 1 1]);
 end
 
-set(0,'CurrentFigure',fig_A_D_eq)
+set(0,'CurrentFigure',fig_A_D_)
 subplot(2,2,sp)
 hold on
 if sp == 1
