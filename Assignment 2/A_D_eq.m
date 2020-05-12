@@ -16,12 +16,11 @@
 % u=0
 % 0 <= x <= 2pi
 
-function A_D_eq(U0,Gamma,points,nn,scheme)
+function A_D_eq(U0,Gamma,points,scheme)
 
 
 % Clear all variables and plots.
 format long;
-close all
 hold off;
 
 % Set convection velocity
@@ -57,11 +56,11 @@ for i = 2 : points-1
 
     if scheme == "Central"
         % Central Sheme
-        a_w = ((U0/2*dx)+(Gamma/dx^2));
-        a_p = (2*Gamma)/dx^2;
-        a_e = ((-U0/2*dx)+(Gamma/dx^2));
+        a_w = ((U0/2*dx)+(Gamma/dx^2));%dieses minus ist problematisch
+        a_p = (-2*Gamma)/dx^2;
+        a_e = -((U0/2*dx)-(Gamma/dx^2));
         
-    elseif scheme == "Upwind";
+    elseif scheme == "Upwind"
 
         % Upwind
         a_w = ((U0/dx)+(Gamma/dx^2));
@@ -98,10 +97,11 @@ phi_analytic = (exp((U0.*x/Gamma))-1)/(exp((2*pi*U0)/Gamma)-1);
 % error
 
 % nn = points / 2;
-er = (phi_analytic(nn) - phi(nn)) / phi_analytic(nn);
+%er = (phi_analytic(nn) - phi(nn)) / phi_analytic(nn);
 
 % Plot the solution
-plot(x,phi,'r', x,phi_analytic, 'gx');
+
+plot(x,phi,'r', x,phi_analytic, 'g');
 
 % Plot the error
 % 
