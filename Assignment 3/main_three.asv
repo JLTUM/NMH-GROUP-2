@@ -9,7 +9,7 @@ xend = 2.0 * pi;
 cells = 51; 
 nn = cells/2;
 scheme = "Central"; % "Central" or "Upwind"
-A_D_eq_cells(U0,Gamma,cells,scheme)
+A_D_eq_cells(U0,Gamma,cells,nn,scheme)
 
 
 global sp;
@@ -19,27 +19,27 @@ sp = 1;
 %% task 2 
 U0 = 10;
 Gamma = 1;
-cells = 5; 
-scheme = "Upwind"; % "Central" or "Upwind or "Both"
-A_D_eq_cells(U0,Gamma,cells,scheme);
+cells = 51; 
+scheme = "Both"; % "Central" or "Upwind or "Both"
+A_D_eq_cells(U0,Gamma,points,scheme);
 
 U0 = -10;
 Gamma = 1;
-cells = 5; 
-scheme = "Upwind"; % "Central" or "Upwind or "Both"
-A_D_eq_cells(U0,Gamma,cells,scheme);
+cells = 51; 
+scheme = "Both"; % "Central" or "Upwind or "Both"
+A_D_eq_cells(U0,Gamma,points,scheme);
 
 U0 = 10;
 Gamma = 1;
 cells = 51; 
-scheme = "Upwind"; % "Central" or "Upwind or "Both"
-A_D_eq_cells(U0,Gamma,cells,scheme);
+scheme = "Both"; % "Central" or "Upwind or "Both"
+A_D_eq_cells(U0,Gamma,points,scheme);
 
 U0 = -10;
 Gamma = 1;
 cells = 51; 
-scheme = "Upwind"; % "Central" or "Upwind or "Both"
-A_D_eq_cells(U0,Gamma,cells,scheme);
+scheme = "Both"; % "Central" or "Upwind or "Both"
+A_D_eq_cells(U0,Gamma,points,scheme);
 
 
 % %% task 7 

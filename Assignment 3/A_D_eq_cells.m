@@ -22,24 +22,10 @@
 % Author: Yoshiyuki Sakai
 % Email: yoshiyuki.sakai@tum.de
 %%
+function A_D_eq_cells(U0,Gamma,cells,scheme)
 
-% Set constant advection velocity
-U0 = 1.0;
-
-% Set constant diffusivity
-Gamma = 1.0;
-
-% Set up grid cells
-xend = 2.0 * pi;
-cells = 51;
-
-%%
-%function A_D_eq_cells(U0,Gamma,cells,nn,scheme)
-
-% Clear all variables and plots.
-% format long;
-% clear;
-% hold off;
+global sp; % sp: subplot number 
+global fig_A_D_eq;;
 
 % Set up grid cells
 xend = 2.0 * pi;
@@ -103,7 +89,39 @@ phi_analytic = (exp((U0.*x/Gamma))-1)/(exp((2*pi*U0)/Gamma)-1); %%correct?
 plot(x, phi, 'r', x, phi_analytic, 'go');
 legend('Numerical','Analytic')
 
+
+if sp == 1
+    fig_A_D_eq = figure('units','normalized','outerposition',[0 0 1 1]);
+end
+
+set(0,'CurrentFigure',fig_A_D_eq)
+subplot(2,2,sp)
+hold on
+if sp == 1
+title('U: 10 Points: 5');
+elseif sp == 2
+title('U: -10 Points: 5');
+elseif sp == 3
+title('U: 10 Points: 51');
+elseif sp == 4
+title('U: -10 Points: 51');
+end
+
+if scheme == "Upwind"
+    plot(x,phi,'r', x,phi_analytic, 'k');
+    legend('Upwind','Analytic')
+elseif scheme == "Central"
+    plot(x,phi,'g', x,phi_analytic, 'k');
+    legend('Central','Analytic')
+elseif scheme == "Both"
+    plot(x,phi(:,1),'r',x,phi(:,2),'g',x,phi_analytic,'k');
+    legend('Upwind','Central','Analytic')
+end
+
+sp = sp +1;
+
+
 % Plot the error as function of dx in log-log scale
 %???
 
-%end
+end
