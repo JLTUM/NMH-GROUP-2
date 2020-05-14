@@ -1,45 +1,54 @@
 clear,clc, close all;
 %% task 1
 % Set constant advection velocity
-U0 = 1.0;
+%U0 = 1.0;
 % Set constant diffusivity
-Gamma = 1.0;
+%Gamma = 1.0;
 % Set up grid cells
 xend = 2.0 * pi;
-cells = 51; 
-nn = cells/2;
-scheme = "Central"; % "Central" or "Upwind"
-A_D_eq_cells(U0,Gamma,cells,scheme)
-
-
 global sp;
 global fig_A_D_eq;
 sp = 1;
+
+U0 = 1;
+Gamma = 1;
+cells = 51; 
+scheme = "Central"; % "Central" or "Upwind or "Both"
+[phi_val]=A_D_eq_cells(U0,Gamma,cells,scheme);
+
+U0 = -1;
+Gamma = 1;
+cells = 51; 
+scheme = "Central"; % "Central" or "Upwind or "Both"
+[phi_val]=A_D_eq_cells(U0,Gamma,cells,scheme);
+
+
+
 
 %% task 2 
 U0 = 10;
 Gamma = 1;
 cells = 5; 
-scheme = "Upwind"; % "Central" or "Upwind or "Both"
-A_D_eq_cells(U0,Gamma,cells,scheme);
+scheme = "Central"; % "Central" or "Upwind or "Both"
+[phi_val]=A_D_eq_cells(U0,Gamma,cells,scheme);
 
 U0 = -10;
 Gamma = 1;
 cells = 5; 
-scheme = "Upwind"; % "Central" or "Upwind or "Both"
-A_D_eq_cells(U0,Gamma,cells,scheme);
+scheme = "Central"; % "Central" or "Upwind or "Both"
+[phi_val]=A_D_eq_cells(U0,Gamma,cells,scheme);
 
 U0 = 10;
 Gamma = 1;
 cells = 51; 
-scheme = "Upwind"; % "Central" or "Upwind or "Both"
-A_D_eq_cells(U0,Gamma,cells,scheme);
+scheme = "Central"; % "Central" or "Upwind or "Both"
+[phi_val]=A_D_eq_cells(U0,Gamma,cells,scheme);
 
 U0 = -10;
 Gamma = 1;
 cells = 51; 
-scheme = "Upwind"; % "Central" or "Upwind or "Both"
-A_D_eq_cells(U0,Gamma,cells,scheme);
+scheme = "Central"; % "Central" or "Upwind or "Both"
+[phi_val]=A_D_eq_cells(U0,Gamma,cells,scheme);
 
 
 % %% task 7 

@@ -22,10 +22,13 @@
 % Author: Yoshiyuki Sakai
 % Email: yoshiyuki.sakai@tum.de
 %%
-function A_D_eq_cells(U0,Gamma,cells,scheme)
+function [phi_val]=A_D_eq_cells(U0,Gamma,cells,scheme)
 
 global sp; % sp: subplot number 
-global fig_A_D_eq;;
+global fig_A_D_eq;
+
+% Clear all variables and plots.
+format long;
 
 % Set up grid cells
 xend = 2.0 * pi;
@@ -46,7 +49,8 @@ phi_end = 1.0;
 % Loop over grid cells
 % NB: boundary cells are excluded
 for i = 2 : cells-1
-
+ if scheme == "Central"
+        
      a_w = U0/2+Gamma/dx;
      a_p = -2*Gamma/dx;
      a_e = -U0/2+Gamma/dx;
@@ -55,7 +59,13 @@ for i = 2 : cells-1
      A(i,i) = a_p;
      A(i,i-1) = a_w;
      A(i,i+1) = a_e;
-
+    elseif scheme == "Upwind"
+        disp('If you want an upwind scheme do it by yourself!')
+        return
+    elseif scheme == "Both"
+        disp('stop making jokes')
+        return
+    end
 %     assign values to RHS vector b
      b(i) = 0; %???
 end
@@ -69,8 +79,8 @@ end
 
 % at i = cells
  A(cells,cells) = U0/2-3*Gamma/dx ; %Ap,BC right side
- A(cells,cells-1) = U0/2+Gamma/dx ; %Aw
- b(cells) = U0-2*Gamma/dx*phi_end;
+ A(cells,cells-1) = U0/2-Gamma/dx ; %Aw
+ b(cells) = (U0-2*Gamma/dx)*phi_end;
 
 % Solution of the linear system
 phi = A\b;
@@ -86,38 +96,58 @@ phi_analytic = (exp((U0.*x/Gamma))-1)/(exp((2*pi*U0)/Gamma)-1); %%correct?
 % err_mean = ???
 
 % Plot the numerical and analytical solutions
-plot(x, phi, 'r', x, phi_analytic, 'go');
-legend('Numerical','Analytic')
 
-
-if sp == 1
-    fig_A_D_eq = figure('units','normalized','outerposition',[0 0 1 1]);
-end
-
-set(0,'CurrentFigure',fig_A_D_eq)
-subplot(2,2,sp)
+%h=figure
+subplot(3,2,sp)
 hold on
+plot(x, phi, 'r', x, phi_analytic, 'g');
+legend('Numerical','Analytic')
 if sp == 1
-title('U: 10 Points: 5');
+title('U: 1 cells: 51');
 elseif sp == 2
-title('U: -10 Points: 5');
+title('U: -1 cells: 51');
 elseif sp == 3
-title('U: 10 Points: 51');
-elseif sp == 4
-title('U: -10 Points: 51');
+title('U: 10 cells: 5');
+elseif sp ==4
+title('U: -10 cells: 5');
+elseif sp == 5
+title('U: 10 cells: 51');
+elseif sp == 6
+title('U: -10 cells: 51');
 end
+%saveas(h,sprintf('FIG%d.png',sp));
+%hold on 
 
-if scheme == "Upwind"
-    plot(x,phi,'r', x,phi_analytic, 'k');
-    legend('Upwind','Analytic')
-elseif scheme == "Central"
-    plot(x,phi,'g', x,phi_analytic, 'k');
-    legend('Central','Analytic')
-elseif scheme == "Both"
-    plot(x,phi(:,1),'r',x,phi(:,2),'g',x,phi_analytic,'k');
-    legend('Upwind','Central','Analytic')
-end
 
+% if sp == 1
+%     fig_A_D_eq = figure('units','normalized','outerposition',[0 0 1 1]);
+% end
+
+
+%set(0,'CurrentFigure',fig_A_D_eq)
+% subplot(3,3,sp)
+% hold on
+% if sp == 1
+% title('U: 10 Points: 5');
+% elseif sp == 2
+% title('U: -10 Points: 5');
+% elseif sp == 3
+% title('U: 10 Points: 51');
+% elseif sp == 4
+% title('U: -10 Points: 51');
+% end
+% 
+% if scheme == "Upwind"
+%     plot(x,phi,'r', x,phi_analytic, 'k');
+%     legend('Upwind','Analytic')
+% elseif scheme == "Central"
+%     plot(x,phi,'g', x,phi_analytic, 'k');
+%     legend('Central','Analytic')
+% elseif scheme == "Both"
+%     plot(x,phi(:,1),'r',x,phi(:,2),'g',x,phi_analytic,'k');
+%     legend('Upwind','Central','Analytic')
+% end
+phi_val=[A,b];
 sp = sp +1;
 
 
