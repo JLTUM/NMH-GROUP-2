@@ -21,8 +21,10 @@
 %
 % Author: Yoshiyuki Sakai
 % Email: yoshiyuki.sakai@tum.de
-%%
-function [phi_val]=A_D_eq_cells(U0,Gamma,cells)
+
+%% 
+
+function A_D_FV(U0,Gamma,cells)
 
 global sp; % sp: subplot number 
 
@@ -37,7 +39,6 @@ dx_analytic = xend/(1000); % dx for analytic
 % Array of grid cell centre locations:
 x = dx/2:dx:xend-(dx/2);
 x_analytic = dx_analytic/2:dx_analytic:xend-(dx_analytic/2);
-
 % Initialization of cell-averaged field
 phi = zeros(cells,1);
 % Initialization of matrix A
@@ -85,45 +86,40 @@ phi = [phi_0; phi; phi_end]; % include boundary conditions
 x = [0 x xend]; % include boundary conditions 
 
 % Compute analytical solution
-phi_analytic = (exp((U0.*x_analytic/Gamma))-1)/(exp((2*pi*U0)/Gamma)-1); %%correct?
-phi_analytic = [phi_0 phi_analytic phi_end]; % include boundary conditions 
 x_analytic = [0 x_analytic xend]; % include boundary conditions 
+phi_analytic = (exp((U0.*x_analytic/Gamma))-1)/(exp((2*pi*U0)/Gamma)-1);
+phi_ex = (exp((U0.*x/Gamma))-1)/(exp((2*pi*U0)/Gamma)-1);
 
-% % Compute relative error
-% nn = ceil(cells / 2);
-% err_rel = ???
-% 
-% % Compute mean error
-% err_mean = ???
-
-% Plot the numerical and analytical solutions
+% Compute relative error
+ nn = ceil(cells / 2)+1; % value at pi
+ err_rel = (phi_analytic(nn) - phi(nn)) / phi_analytic(nn);
+ err_mean = sqrt(mean((phi_ex' - phi).^2))/mean(phi_ex);
 
 %h=figure
 subplot(3,2,sp)
 hold on
-plot(x, phi, 'r', x_analytic, phi_analytic, 'k');
+plot(x, phi, '-.r', x_analytic, phi_analytic, '--k');
 legend('Numerical','Analytic')
 if sp == 1
-title('U: 1 cells: 51');
+title('U: 1 / cells: 51');
 elseif sp == 2
-title('U: -1 cells: 51');
+title('U: -1 / cells: 51');
 elseif sp == 3
-title('U: 10 cells: 5');
+title('U: 10 / cells: 5');
 elseif sp ==4
-title('U: -10 cells: 5');
+title('U: -10 / cells: 5');
 elseif sp == 5
-title('U: 10 cells: 51');
+title('U: 10 / cells: 51');
 elseif sp == 6
-title('U: -10 cells: 51');
+title('U: -10 / cells: 51');
 end
+
 %saveas(h,sprintf('FIG%d.png',sp));
 %hold on 
-
 
 % if sp == 1
 %     fig_A_D_eq = figure('units','normalized','outerposition',[0 0 1 1]);
 % end
-
 
 %set(0,'CurrentFigure',fig_A_D_eq)
 % subplot(3,3,sp)
@@ -137,22 +133,10 @@ end
 % elseif sp == 4
 % title('U: -10 Points: 51');
 % end
-% 
-% if scheme == "Upwind"
-%     plot(x,phi,'r', x,phi_analytic, 'k');
-%     legend('Upwind','Analytic')
-% elseif scheme == "Central"
-%     plot(x,phi,'g', x,phi_analytic, 'k');
-%     legend('Central','Analytic')
-% elseif scheme == "Both"
-%     plot(x,phi(:,1),'r',x,phi(:,2),'g',x,phi_analytic,'k');
-%     legend('Upwind','Central','Analytic')
-% end
-phi_val=[A,b]
+
 sp = sp +1;
 
-
 % Plot the error as function of dx in log-log scale
-%???
+% ???
 
 end
