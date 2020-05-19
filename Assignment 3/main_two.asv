@@ -52,31 +52,37 @@ end
 %% Plot - task 2
 
 fig_AD_FV_task2 = figure('units','normalized','outerposition',[0 0 1 1]);
-for i = 1:2
+for i = 1:4
     
-    %U: +10
-    subplot(2,2,i+(i-1))
+    %U: +1
+    subplot(4,2,i+(i-1))
     hold on
-    plot(X_3{i,:}, PHI_3{i,:}, '-.r', x_analytic_3(1,:), phi_analytic_3(1,:), '--k');
+    plot(X_1{i,:}, PHI_1{i,:}, '-.r', x_analytic_1(1,:), phi_analytic_1(1,:), '--k');
     legend('Numerical','Analytic') 
     xlabel('x')
     xlabel('y')
     if i == 1
-    title('U: 10 cells: 5');
+    title('U: 1 cells: 25');
     elseif i == 2
-    title('U: 10 cells: 51');
+    title('U: 1 cells: 51');
+    elseif i == 3
+    title('U: 1 cells: 101');
+    elseif i == 3
+    title('U: 10 cells: 101');
     end
    
-    %U: -10
-    subplot(2,2,i+i)
-    plot(X_4{i,:}, PHI_4{i,:}, '-.r', x_analytic_4(1,:), phi_analytic_4(1,:), '--k');
+    %U: -1
+    subplot(3,2,i+i)
+    plot(X_2{i,:}, PHI_2{i,:}, '-.r', x_analytic_2(1,:), phi_analytic_2(1,:), '--k');
     legend('Numerical','Analytic') 
     xlabel('x')
     xlabel('y')
     if i == 1
-    title('U: -10 cells: 5');
+    title('U: -1 cells: 25');
     elseif i == 2
-    title('U: -10 cells: 51');
+    title('U: -1 cells: 51');
+    elseif i == 3
+    title('U: -1 cells: 101');
     end
 
 end
@@ -125,7 +131,6 @@ fig_error = figure('units','normalized','outerposition',[0 0 1 1]);
     xlabel('dx')
     ylabel('RMS / Relative Error')
 
-mkdir Plots_three
-print(fig_error,'-dpng',"Plots_three/Error_task3.png",'-r150');
-print(fig_AD_FV,'-dpng',"Plots_three/Advection_diffusion_FV_task3.png",'-r150');
-print(fig_AD_FV_task2,'-dpng',"Plots_three/Advection_diffusion_FV_task2.png",'-r150');
+% mkdir Plots_three
+% print(fig_error,'-dpng',"Plots_three/Error.png",'-r150');
+% print(fig_AD_FV,'-dpng',"Plots_three/Advection_diffusion_FV.png",'-r150');
