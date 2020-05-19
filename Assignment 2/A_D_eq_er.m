@@ -16,10 +16,9 @@
 % u=0
 % 0 <= x <= 2pi
 
-function [er] = A_D_eq(U0,Gamma,points,nn,scheme)
+function [er] = A_D_eq_er(U0,Gamma,points,nn,scheme)
 
 global sp; % sp: subplot number 
-global fig_A_D_eq;
 
 % Clear all variables and plots.
 format long;
@@ -112,38 +111,14 @@ if scheme == "Both"
 else
     phi = A\b;
 end
+z
+% calculate error
 
-% Plot the solution
-
-if sp == 1
-    fig_A_D_eq = figure('units','normalized','outerposition',[0 0 1 1]);
-end
-
-set(0,'CurrentFigure',fig_A_D_eq)
-subplot(2,2,sp)
-hold on
-if sp == 1
-title('U: 10 Points: 5');
-elseif sp == 2
-title('U: -10 Points: 5');
-elseif sp == 3
-title('U: 10 Points: 51');
-elseif sp == 4
-title('U: -10 Points: 51');
-end
-
-if scheme == "Upwind"
-    plot(x,phi,'r', x,phi_analytic, 'k');
-    legend('Upwind','Analytic')
-elseif scheme == "Central"
-    plot(x,phi,'g', x,phi_analytic, 'k');
-    legend('Central','Analytic')
-elseif scheme == "Both"
-    plot(x,phi(:,1),'r',x,phi(:,2),'g',x,phi_analytic,'k');
-    legend('Upwind','Central','Analytic')
+if scheme == "Central" || scheme == "Upwind"
+    er = abs((phi_analytic(nn) - phi(nn)) / phi_analytic(nn));
+else
+    er(1) = abs((phi_analytic(nn) - phi(nn,1)) / phi_analytic(nn)); % Upwind 
+    er(2) = abs((phi_analytic(nn) - phi(nn,2)) / phi_analytic(nn)); % Central 
 end
 
 sp = sp +1;
-
-end
-
