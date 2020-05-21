@@ -1,91 +1,30 @@
-% Course: CFD Lab
-% TU Muenchen, Summer term 2020
-%
-%Group 2
-%Assignment 4 - Main code
-%Andreas Mirlach, Julian Lenz, Faro Schäfer, Nick Pfeiffer
-%
-% This is the Matlab script for the unsteady 1D convection equation
-%--------------------------------------------------------------------------
-%
-% time integration of
-%
-%   d phi            d phi
-%  ------- =  -U0 * -------
-%    dt               dx
-%
-% 0 <= x <= 2pi
-%
-% periodic boundary condition
-% phi(0) = phi(2pi)
-%
-% initial condition
-% t = 0  ==>  phi = sin(x)
-%
-% Central difference scheme (CDS) for spatial discretization
-% Implicit Euler scheme for time advancement
-%
-%--------------------------------------------------------------------------
-%
-% t = 0  ==>  phi = sin(x)
-%
-% Central difference scheme (CDS) for spatial discretization
-% Implicit Euler scheme for time advancement
-%
-%--------------------------------------------------------------------------
-%
-clear ,clc, close all;
-% function [matrix]=conv_ee(U0,xend,points,tsteps,
-% Set convection velocity
-U0 = 1.0;
+function [phi_out, phi_a_out, err_mean, CFL]=conv_ee(U0,xend,points,tsteps,dt)
 
-% Discrete spacing in space
-xend   = 2.0 * pi;
-points = 40; 
-dx     = xend / ( points - 1 );
-% Grid with x locations:
+% Variable allocation
+dx = xend / ( points - 1 );
 x = 0.0 : dx : xend;
-CFL = U0*dt/dx;
-
-clear ,clc, close all;
-% function [matrix]=conv_ee(U0,xend,points,tsteps,
-% Set convection velocity
-U0 = 1.0;
-
-% Discrete spacing in space
-xend   = 2.0 * pi;
-points = 40; 
-dx     = xend / ( points - 1 );
-% Grid with x locations:
-x = 0.0 : dx : xend;
-
-% Discrete spacing in time
-% tstep = number of discrete timesteps
-tsteps = 1000;
-dt     = 0.1;
 tend   = dt * tsteps;
-
-% Initialise coefficient matrix A, constant vector b
-% and solution vector phi
+CFL = (U0*dt)/dx;
+phi_out(1,:) = x; % x values for plotting
+phi_out_a(1,:) = x; % x values for plotting
+k = 2;
 A   = zeros(points,points);
 b   = zeros(points,1);
 phi = zeros(points,1);
 
-% Initialise the solution (initial condition)
-% Loop over grid points in space:
+% Initial Condition
 phi = sin(x)';
 
 % Check initial field:
 plot(x, phi, 'r');
 hold on;
-pause(3);
+
+%% Implicit Euler
 
 % Compute coefficients of matrix A
 a_w = -(U0*dt)/(2*dx);
 a_p = 1;
 a_e = (U0*dt)/(2*dx);
-
-%% Implicit Euler:
 
 for i = 1 : tsteps
 
@@ -111,17 +50,29 @@ for i = 1 : tsteps
     
   % Solve the linear system of equations
   phi = (A\b);
+  
   % Analytical solution
-  for j = 1 : points
-          phi_a(j)=sin(x(j)-U0*(i*dt));
-  end
+%   for j = 1 : points
+%           phi_a(j)=sin(x(j)-U0*(i*dt));
+%   end
+  
+  phi_a = sin(x - U0*(i*dt));
+
+    if i == 1 || i == tsteps/10 || i == tsteps/2 || i == tsteps
+      phi_out(k,:) = phi;
+      phi_a_out(k,:) = phi_a;
+      k = k+1;
+    end
+      err_mean(i,1) = i;
+      err_mean(i,2) = sqrt(mean((phi_a+999 - phi+999).^2))/mean(phi_a+999);
 
   % Plot transported wave for each timestep
-  plot(x, phi, 'r', x, phi_a, 'g');
+  plot(x, phi, 'r', x, phi_a, 'k');
   hold off;
   pause(0.003);
 
 end
 toc
-disp(toc)
+
+end
 
