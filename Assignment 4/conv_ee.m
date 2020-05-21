@@ -74,7 +74,7 @@ for i = 1 : tsteps
   % Loop over grid points in space:
   for j = 2 : points - 1
 
-  phinew(j) = phi(j) - U0*((phi(j+1)-phi(j-1))/(2*dx))
+  phinew(j) = phi(j) - U0*((phi(j+1)-phi(j-1))/(2*dx))*dt;
 
   end
 
@@ -92,8 +92,8 @@ for i = 1 : tsteps
   end
 
   % Plot transported wave for each timestep
-  %plot(x, phi, 'r', x, phi_a, 'g');
-  plot(x, phi_a, 'g')
+  plot(x, phi, 'r', x, phi_a, 'g');
+  %plot(x, phi_a, 'g')
   hold off;
   pause(0.003);
 
