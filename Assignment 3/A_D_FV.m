@@ -45,7 +45,7 @@ for i = 2 : cells-1
 
 %     assign values to RHS vector b
      b(i) = 0;
-     
+
 end
 
 % Boundary conditions (Dirichlet at boundary cell faces)
