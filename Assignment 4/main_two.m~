@@ -1,0 +1,69 @@
+%% Course: CFD Lab
+% TU Muenchen, Summer term 2020
+% Group 2
+% Assignment 4 - Main code
+% Members: Andreas Mirlach, Julian Lenz, Faro Schäfer, Nick Pfeiffer
+%--------------------------------------------------------------------------
+%
+% time integration of
+%
+%   d phi            d phi
+%  ------- =  -U0 * -------
+%    dt               dx
+%
+% 0 <= x <= 2pi
+%
+% periodic boundary condition
+% phi(0) = phi(2pi)
+%
+% initial condition
+% t = 0  ==>  phi = sin(x)
+%
+% Central difference scheme (CDS) for spatial discretization
+% Explicit Euler scheme for time advancement
+
+clear ,clc, close all;
+
+%% Task 1: explicit Euler time stepping
+
+U0 = 1.0;
+xend   = 2.0 * pi;
+points = 40;
+tsteps = 1000;
+dt     = 0.01;
+
+[Phi_ee, Phi_a1_ee, error_ee, CFL] = conv_ee(U0,xend,points,tsteps,dt);
+error
+figure 
+plot (error_ee(:,1), error_ee(:,2))
+xlabel("timestep")
+ylabel("RMS")
+
+figure
+title(sprintf('U0: %d ', U))
+subplot(2,2,1)
+    plot(Phi_ee(1,:), Phi_ee(2,:), Phi_ee(1,:), Phi_a_ee(2,:))
+    legend('Numerical','Analytic') 
+    xlabel('x')
+    xlabel('y')
+    title('
+subplot(2,2,2)
+    plot(Phi_ee(1,:), Phi_ee(3,:), Phi_ee(1,:), Phi_a_ee(3,:))
+    legend('Numerical','Analytic') 
+    xlabel('x')
+    xlabel('y')
+subplot(2,2,3)
+    plot(Phi_ee(1,:), Phi_ee(4,:), Phi_ee(1,:), Phi_a_ee(4,:))
+    legend('Numerical','Analytic') 
+    xlabel('x')
+    xlabel('y')
+subplot(2,2,4)
+    plot(Phi_ee(1,:), Phi_ee(5,:), Phi_ee(1,:), Phi_a_ee(5,:))
+    legend('Numerical','Analytic') 
+    xlabel('x')
+    xlabel('y')
+    
+
+% mkdir Plots_four
+% print(fig_error,'-dpng',"Plots_three/Error.png",'-r150');
+% print(fig_AD_FV,'-dpng',"Plots_three/Advection_diffusion_FV.png",'-r150');
