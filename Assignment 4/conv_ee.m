@@ -30,31 +30,28 @@
 %
 %--------------------------------------------------------------------------
 %
-% Clear all variables and plots.
-format long;
-clear;
-hold off;
+
+% function [matrix]=conv_ee(U0,xend,points,tsteps,dt)
 
 % Set convection velocity
 U0 = 1.0;
-
 % Discrete spacing in space
 xend   = 2.0 * pi;
-points = 40; 
-dx     = xend / ( points - 1 );
-% Grid with x locations:
-x = 0.0 : dx : xend;
-
+points = 40;
 % Discrete spacing in time
 % tstep = number of discrete timesteps
 tsteps = 1000;
 dt     = 0.1;
+
+dx     = xend / ( points - 1 );
+% Grid with x locations:
+x = 0.0 : dx : xend;
 tend   = dt * tsteps;
 
 % Initialise the solution (initial condition)
 % Loop over grid points in space:
 for j = 1 : points
-   % phi(j) = some function of x(j) ???;
+    phi(j) = sin(x(j));
 end
 
 % Check initial field:
@@ -72,31 +69,37 @@ pause(3);
 for i = 1 : tsteps
 
   % Periodic boundary conditions at x=0:
-  % phinew(1) = some function of phi ???
+  phinew(1) = phi(points-1);
 
   % Loop over grid points in space:
   for j = 2 : points - 1
 
-    % phinew(j) = some function of phi ??? 
+  phinew(j) = phi(j) - U0*((phi(j+1)-phi(j-1))/(2*dx))
 
   end
 
   % Periodic boundary conditions at x=2*pi:
-  % phinew(points) = some function of phi ???
+  phinew(points) = phi(2);
 
   % Write new field back to old field:
   phi = phinew;
 
   % Analytical solution
   for j = 1 : points
-    % phi_a(j) = some function of x(j) & t(i) ???
+      phi_a(j)=sin(x(j)-U0*(i*dt))
+     %phi_a(j) = some function of x(j) & t(i) ???
     % hint: t(i) = i * dt
   end
 
   % Plot transported wave for each timestep
-  plot(x, phi, 'r', x, phi_a, 'g');
+  %plot(x, phi, 'r', x, phi_a, 'g');
+  plot(x, phi_a, 'g')
   hold off;
   pause(0.003);
 
 end
+
+
+%end 
+
 
