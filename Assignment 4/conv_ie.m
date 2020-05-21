@@ -1,14 +1,11 @@
 % Course: CFD Lab
 % TU Muenchen, Summer term 2020
 %
+%Group 2
+%Assignment 4 - Main code
+%Andreas Mirlach, Julian Lenz, Faro Schäfer, Nick Pfeiffer
+%
 % This is the Matlab script for the unsteady 1D convection equation
-%
-% You must fill in the missing parts by yourself!
-% Missing parts are marked by ???
-%
-% Author: Tianshi Sun, tianshi.sun@tum.de
-% 
-%
 %--------------------------------------------------------------------------
 %
 % time integration of
@@ -30,11 +27,8 @@
 %
 %--------------------------------------------------------------------------
 %
-% Clear all variables and plots.
-format long;
-clear;
-hold off;
-
+clear ,clc, close all;
+% function [matrix]=conv_ee(U0,xend,points,tsteps,
 % Set convection velocity
 U0 = 1.0;
 

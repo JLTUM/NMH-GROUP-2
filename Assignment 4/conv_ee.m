@@ -6,7 +6,9 @@
 % You must fill in the missing parts by yourself!
 % Missing parts are marked by ???
 %
-% Author: Tianshi Sun, tianshi.sun@tum.de
+%%Group 2
+%Assignment 4 - Main code
+%Andreas Mirlach, Julian Lenz, Faro Schäfer, Nick Pfeiffer
 % 
 %
 %--------------------------------------------------------------------------
@@ -30,7 +32,7 @@
 %
 %--------------------------------------------------------------------------
 %
-
+clear ,clc, close all;
 % function [matrix]=conv_ee(U0,xend,points,tsteps,dt)
 
 % Set convection velocity
@@ -41,7 +43,7 @@ points = 40;
 % Discrete spacing in time
 % tstep = number of discrete timesteps
 tsteps = 1000;
-dt     = 0.1;
+dt     = 0.01;
 
 dx     = xend / ( points - 1 );
 % Grid with x locations:
@@ -55,6 +57,7 @@ for j = 1 : points
 end
 
 % Check initial field:
+figure(1)
 plot(x, phi, 'r');
 hold on;
 pause(3);
@@ -92,6 +95,7 @@ for i = 1 : tsteps
   end
 
   % Plot transported wave for each timestep
+  figure(2)
   plot(x, phi, 'r', x, phi_a, 'g');
   %plot(x, phi_a, 'g')
   hold off;
