@@ -1,14 +1,26 @@
-% Course: CFD Lab
-% TU Muenchen, Summer term 2020
-%Group 2
-%Assignment 4 - Main code
-%Andreas Mirlach, Julian Lenz, Faro Schäfer, Nick Pfeiffer
-
 %% Course: CFD Lab
 % TU Muenchen, Summer term 2020
 % Group 2
 % Assignment 4 - Main code
 % Members: Andreas Mirlach, Julian Lenz, Faro Schäfer, Nick Pfeiffer
+%--------------------------------------------------------------------------
+%
+% time integration of
+%
+%   d phi            d phi
+%  ------- =  -U0 * -------
+%    dt               dx
+%
+% 0 <= x <= 2pi
+%
+% periodic boundary condition
+% phi(0) = phi(2pi)
+%
+% initial condition
+% t = 0  ==>  phi = sin(x)
+%
+% Central difference scheme (CDS) for spatial discretization
+% Explicit Euler scheme for time advancement
 
 clear ,clc, close all;
 
@@ -20,19 +32,21 @@ points = 40;
 tsteps = 1000;
 dt     = 0.01;
 
-[Phi_ee, Phi_a_ee, error_ee, CFL] = conv_ee(U0,xend,points,tsteps,dt);
+[Phi_ee, Phi_a1_ee, error_ee, CFL] = conv_ee(U0,xend,points,tsteps,dt);
+error
 figure 
 plot (error_ee(:,1), error_ee(:,2))
 xlabel("timestep")
 ylabel("RMS")
 
 figure
-hold on
+title(sprintf('U0: %d ', U))
 subplot(2,2,1)
     plot(Phi_ee(1,:), Phi_ee(2,:), Phi_ee(1,:), Phi_a_ee(2,:))
     legend('Numerical','Analytic') 
     xlabel('x')
     xlabel('y')
+    title('
 subplot(2,2,2)
     plot(Phi_ee(1,:), Phi_ee(3,:), Phi_ee(1,:), Phi_a_ee(3,:))
     legend('Numerical','Analytic') 
@@ -48,7 +62,7 @@ subplot(2,2,4)
     legend('Numerical','Analytic') 
     xlabel('x')
     xlabel('y')
-sgtitle(['U0: ',num2str(U0),', points:',num2str(points)])
+    
 
 % mkdir Plots_four
 % print(fig_error,'-dpng',"Plots_three/Error.png",'-r150');
