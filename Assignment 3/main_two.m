@@ -18,7 +18,7 @@ end
 % U = 10
 U0 = 10;
 Gamma = 1;
-cells = [25 51 101]; 
+cells = [5 51]; 
 for i = 1:length(cells)
 [x, phi, x_analytic_2(1,:), phi_analytic_2(1,:), err_rel_2(i), err_mean_2(i)] = A_D_FV (U0,Gamma,cells(i));
 X_2{i,:} = x;
@@ -29,7 +29,7 @@ end
 % U = -10
 U0 = -10;
 Gamma = 1;
-cells = [25 51 101]; 
+cells = [5 51]; 
 for i = 1:length(cells)
 [x, phi, x_analytic_3(1,:), phi_analytic_3(1,:), err_rel_3(i), err_mean_3(i)] = A_D_FV (U0,Gamma,cells(i));
 X_3{i,:} = x;
@@ -40,10 +40,10 @@ end
 %% Plot
 
 fig_AD_FV = figure('units','normalized','outerposition',[0 0 1 1]);
-for i = 1:3
+for i = 1:length(CELLS_3)
     
     %U: +10
-    subplot(3,2,i+(i-1))
+    subplot(2,2,i+(i-1))
     hold on
     plot(X_2{i,:}, PHI_2{i,:}, '-.r', x_analytic_2(1,:), phi_analytic_2(1,:), '--k');
     legend('Numerical','Analytic') 
@@ -58,7 +58,7 @@ for i = 1:3
     end
    
     %U: -10
-    subplot(3,2,i+i)
+    subplot(2,2,i+i)
     plot(X_3{i,:}, PHI_3{i,:}, '-.r', x_analytic_3(1,:), phi_analytic_3(1,:), '--k');
     legend('Numerical','Analytic') 
     xlabel('x')
@@ -70,7 +70,6 @@ for i = 1:3
     elseif i == 3
     title('U: -10 cells: 101');
     end
-
 end
 
 fig_error = figure('units','normalized','outerposition',[0 0 1 1]);
