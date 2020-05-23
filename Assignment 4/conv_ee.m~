@@ -31,7 +31,7 @@ phi_a_out(1,:) = x; % x values for plotting
         end
 
         % Periodic boundary conditions at x=2*pi:
-        phinew(points) = phi(2);
+        phinew(points) = phi(1);
 
         % Write new field back to old field:
         phi = phinew;

@@ -36,11 +36,13 @@ Phi_a_ie = cell(0);
 %% Task 1: explicit Euler time stepping
 
 % Case 1
-U0 = 1;         points = 1000;      dt = 0.01;
+U0 = 1;         points = 40;      dt = 0.01;
 
 disp('Calculating Case 1...')
 [Phi_ee{end+1}, Phi_a_ee{end+1}, CFL_ee(end+1)] = conv_ee(U0,points,dt);
+disp(['CFL Explicit Euler:',CFL_ee(end)])
 [Phi_ie{end+1}, Phi_a_ie{end+1}, CFL_ie(end+1)] = conv_ie(U0,points,dt);
+disp(['CFL Implicit Euler:',CFL_ee(end)])
 
 % Case 2
 U0 = 10;        points = 1000;     dt = 0.01;
@@ -119,16 +121,13 @@ for i = 2:size(Phi_ee{1},1)-1
 
 end
 % keine ahung wieso die  muttergefickten titles nich in den Subplots sind ich versuchs seit 2 stunden
+% animations nur für uns damit wir besser vergleichen können
 
 %% Plot
 
 fig_EE_IE = figure('units','normalized','outerposition',[0 0 1 1]); 
 
-    subplot(3,2,1)
-        plot(Phi_ie{1}(1,:), Phi_ie{1}(i,:),...
-            Phi_ie{2}(1,:), Phi_ie{2}(i,:),...
-            Phi_a_ie{1}(1,:), Phi_a_ie{1}(i,:))
-        plot(Phi_ie{1}(1,:), Phi_ie{1}(i,:), Phi_a_ie{1}(1,:), Phi_a_ie{1}(i,:))    
+% hier kommen die plots hin die wir dann ausprinten
 
 %% Print results
 

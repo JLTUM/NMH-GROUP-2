@@ -36,25 +36,28 @@ Phi_a_ie = cell(0);
 %% Task 1: explicit Euler time stepping
 
 % Case 1
-U0 = 1;         points = 1000;      dt = 0.01;
+U0 = 0.1;         points = 40;      dt = 0.01;
 
 disp('Calculating Case 1...')
 [Phi_ee{end+1}, Phi_a_ee{end+1}, CFL_ee(end+1)] = conv_ee(U0,points,dt);
 [Phi_ie{end+1}, Phi_a_ie{end+1}, CFL_ie(end+1)] = conv_ie(U0,points,dt);
+disp([' CFL:  ',num2str(CFL_ie(end))])
 
 % Case 2
-U0 = 10;        points = 1000;     dt = 0.01;
+U0 = 1;        points = 100;     dt = 0.01;
 
 disp('Calculating Case 2...')
 [Phi_ee{end+1}, Phi_a_ee{end+1}, CFL_ee(end+1)] = conv_ee(U0,points,dt);
 [Phi_ie{end+1}, Phi_a_ie{end+1}, CFL_ie(end+1)] = conv_ie(U0,points,dt);
+disp([' CFL:  ',num2str(CFL_ie(end))])
 
 % Case 3
-U0 = 1;        points = 2000;     dt = 0.01;
+U0 = 1;        points = 1000;     dt = 0.01;
 
 disp('Calculating Case 3...')
 [Phi_ee{end+1}, Phi_a_ee{end+1}, CFL_ee(end+1)] = conv_ee(U0,points,dt);
 [Phi_ie{end+1}, Phi_a_ie{end+1}, CFL_ie(end+1)] = conv_ie(U0,points,dt);
+disp([' CFL:  ',num2str(CFL_ie(end))])
  
 % % Case 4
 % U0 = 1;        points = 1000;      dt = 0.01;
@@ -62,6 +65,7 @@ disp('Calculating Case 3...')
 % disp('Calculating Case 4...')
 % [Phi_ee{end+1}, Phi_a_ee{end+1}, CFL_ee(end+1)] = conv_ee(U0,points,dt);
 % [Phi_ie{end+1}, Phi_a_ie{end+1}, CFL_ie(end+1)] = conv_ie(U0,points,dt);
+% disp([' CFL:  ',num2str(CFL_ie(end))])
 
 
 %% Animation
@@ -123,7 +127,7 @@ end
 
 %% Plot
 
-fig_EE_IE = figure('units','normalized','outerposition',[0 0 1 1]); 
+% fig_EE_IE = figure('units','normalized','outerposition',[0 0 1 1]); 
 
 % hier kommen die plots hin die wir dann ausprinten
 
