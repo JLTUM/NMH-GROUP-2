@@ -1,35 +1,17 @@
-function [phi_out, phi_a_out, CFL]=conv_ee(U0,points,dt)
+function [phi_out, phi_a_out, CFL]=conv_cn(Gamma,U0,points,dt)
 
-close all
-format long;
-clear;
-hold off;
-
-% Set convection velocity
-U0 = 1;
-
-% Set diffusion coefficient
-Gamma = 1.0;
-
-% Discrete spacing in space
+% Variable allocation
 xend   = 2.0 * pi;
-points = 40; 
-dx     = xend / ( points - 1 );
-% Grid with x locations:
+dx = xend / ( points - 1 );
 x = 0.0 : dx : xend;
-
-% Discrete spacing in time
-% tstep = number of discrete timesteps
 tsteps = 1000;
-dt     = 0.1;
-tend   = dt * tsteps;
+CFL = (U0*dt)/dx;
+phi_out(1,:) = x; % x values for plotting
+phi_a_out(1,:) = x; % x values for plotting
 
-% Initialise coefficient matrix A, constant vector b
-% and solution vector phi
-A   = zeros(points,points);
+% Preallocation
+A       = zeros(points,points);
 A_bar   = zeros(points,points);
-b   = zeros(points,1);
-phi = zeros(points,1);
 
 % Initial Solution
 phi = sin(x)';
@@ -86,10 +68,16 @@ for i = 1 : tsteps
   % Analytical solution 
     phi_a = exp(-Gamma*(i)*dt) * sin(x - U0*((i)*dt));
 
-  % Plot transported wave for each timestep
-    plot(x, phi, 'r', x, phi_a, 'g');
-    hold off;
-    pause(0.03);
+  % write solution to matrix for plot
+    if ~mod(i,2) == 1
+        phi_out(end+1,:) = phi;
+        phi_a_out(end+1,:) = phi_a;
+    end
+    
+%   % Plot transported wave for each timestep
+%     plot(x, phi, 'r', x, phi_a, 'g');
+%     hold off;
+%     pause(0.03);
 
 end
 
