@@ -96,33 +96,23 @@ for i = 2:size(Phi_cn{1},1)-1
 end
 
 %% Plot
-% 
-% fig_Damping_Explosion = figure('units','normalized','outerposition',[0 0 1 1]); 
-%     subplot(211)
-%     plot(Phi_ee{1}(1,:), Phi_ee{1}(20,:), Phi_a_ee{1}(1,:), Phi_a_ee{1}(20,:))
-%     legend('Explicit Euler','Analytical')
-%     xlabel('x')
-%     ylabel('y')
-%     subplot(212)
-%     plot(Phi_ie{1}(1,:), Phi_ie{1}(20,:), Phi_a_ie{1}(1,:), Phi_a_ie{1}(20,:))
-%     legend('Implicit Euler','Analytical')
-%     xlabel('x')
-%     ylabel('y')
-%     
-% fig_Dispersive_Error = figure('units','normalized','outerposition',[0 0 1 1]);    
-%     subplot(211)
-%     plot(Phi_ee{2}(1,:), Phi_ee{2}(500,:), Phi_a_ee{2}(1,:), Phi_a_ee{2}(500,:))
-%     legend('Explicit Euler','Analytical')
-%     xlabel('x')
-%     ylabel('y')
-%     subplot(212)
-%     plot(Phi_ie{2}(1,:), Phi_ie{2}(500,:), Phi_a_ie{2}(1,:), Phi_a_ie{2}(500,:))
-%     legend('Implicit Euler','Analytical')
-%     xlabel('x')
-%     ylabel('y')
-% 
+
+fig_CN = figure('units','normalized','outerposition',[0 0 1 1]); 
+    subplot(211)
+    plot(Phi_cn{2}(1,:), Phi_cn{2}(500,:), Phi_a_cn{2}(1,:), Phi_a_cn{2}(500,:))
+    legend('Crank Nicolson','Analytical')
+    xlabel('x')
+    ylabel('y')
+    title('Dispersive Error')
+    
+    subplot(212)
+    plot(Phi_cn{1}(1,:), Phi_cn{1}(400,:), Phi_a_cn{1}(1,:), Phi_a_cn{1}(400,:))
+    legend('Crank Nicolson','Analytical')
+    xlabel('x')
+    ylabel('y')
+    title('unknown error')
+    
 % %% Print results
 % 
-% mkdir Plots_four
-% print(fig_Damping_Explosion,'-dpng',"Plots_four/Damping_Explosion.png",'-r150');
-% print(fig_Dispersive_Error,'-dpng',"Plots_four/Dispersive_error.png",'-r150');
+% mkdir Plots_five
+% print(fig_CN,'-dpng',"Plots_four/Damping_Explosion.png",'-r150');

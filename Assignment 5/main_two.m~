@@ -32,30 +32,30 @@ Phi_a_cn = cell(0);
 %% Input
 
 % Case 1
-U0 = 1;        points = 40;     dt = 0.1;    Gamma = 1;
+U0 = 0;        points = 40;     dt = 0.1;    Gamma = 1;
 
 disp('Calculating Case 1...')
 [Phi_cn{end+1}, Phi_a_cn{end+1}, CFL_cn(end+1)] = conv_cn(Gamma,U0,points,dt);
 disp([' CFL:  ',num2str(CFL_cn(end))])
 
 % Case 2
-U0 = 1;        points = 40;     dt = 0.1;    Gamma = 2;
+U0 = 1;        points = 40;     dt = 0.1;    Gamma = 0;
 
-disp('Calculating Case 1...')
+disp('Calculating Case 2...')
 [Phi_cn{end+1}, Phi_a_cn{end+1}, CFL_cn(end+1)] = conv_cn(Gamma,U0,points,dt);
 disp([' CFL:  ',num2str(CFL_cn(end))])
 
 % Case 3
-U0 = 1;        points = 40;     dt = 0.1;    Gamma = 0.01;
+U0 = 1;        points = 100;     dt = 0.1;    Gamma = 1;
 
-disp('Calculating Case 1...')
+disp('Calculating Case 3...')
 [Phi_cn{end+1}, Phi_a_cn{end+1}, CFL_cn(end+1)] = conv_cn(Gamma,U0,points,dt);
 disp([' CFL:  ',num2str(CFL_cn(end))])
 
 % Case 4
-U0 = 1;        points = 40;     dt = 0.1;    Gamma = 1;
+U0 = 1;        points = 4;     dt = 0.1;    Gamma = 1;
 
-disp('Calculating Case 1...')
+disp('Calculating Case 4...')
 [Phi_cn{end+1}, Phi_a_cn{end+1}, CFL_cn(end+1)] = conv_cn(Gamma,U0,points,dt);
 disp([' CFL:  ',num2str(CFL_cn(end))])
 
@@ -71,7 +71,6 @@ sp1 = subplot(221);
 sp2 = subplot(222);
 sp3 = subplot(223);
 sp4 = subplot(224);
-
 
 for i = 2:size(Phi_cn{1},1)-1
 
@@ -97,33 +96,23 @@ for i = 2:size(Phi_cn{1},1)-1
 end
 
 %% Plot
-% 
-% fig_Damping_Explosion = figure('units','normalized','outerposition',[0 0 1 1]); 
-%     subplot(211)
-%     plot(Phi_ee{1}(1,:), Phi_ee{1}(20,:), Phi_a_ee{1}(1,:), Phi_a_ee{1}(20,:))
-%     legend('Explicit Euler','Analytical')
-%     xlabel('x')
-%     ylabel('y')
-%     subplot(212)
-%     plot(Phi_ie{1}(1,:), Phi_ie{1}(20,:), Phi_a_ie{1}(1,:), Phi_a_ie{1}(20,:))
-%     legend('Implicit Euler','Analytical')
-%     xlabel('x')
-%     ylabel('y')
-%     
-% fig_Dispersive_Error = figure('units','normalized','outerposition',[0 0 1 1]);    
-%     subplot(211)
-%     plot(Phi_ee{2}(1,:), Phi_ee{2}(500,:), Phi_a_ee{2}(1,:), Phi_a_ee{2}(500,:))
-%     legend('Explicit Euler','Analytical')
-%     xlabel('x')
-%     ylabel('y')
-%     subplot(212)
-%     plot(Phi_ie{2}(1,:), Phi_ie{2}(500,:), Phi_a_ie{2}(1,:), Phi_a_ie{2}(500,:))
-%     legend('Implicit Euler','Analytical')
-%     xlabel('x')
-%     ylabel('y')
-% 
+
+fig_CN = figure('units','normalized','outerposition',[0 0 1 1]); 
+    subplot(211)
+    plot(Phi_cn{2}(1,:), Phi_cn{2}(500,:), Phi_a_cn{2}(1,:), Phi_a_cn{2}(500,:))
+    legend('Crank Nicolson','Analytical')
+    xlabel('x')
+    ylabel('y')
+    title('Dispersive Error')
+    
+    subplot(212)
+    plot(Phi_cn{1}(1,:), Phi_cn{1}(500,:), Phi_a_cn{1}(1,:), Phi_a_cn{1}(500,:))
+    legend('Crank Nicolson','Analytical')
+    xlabel('x')
+    ylabel('y')
+    title('un')
+    
 % %% Print results
 % 
-% mkdir Plots_four
-% print(fig_Damping_Explosion,'-dpng',"Plots_four/Damping_Explosion.png",'-r150');
-% print(fig_Dispersive_Error,'-dpng',"Plots_four/Dispersive_error.png",'-r150');
+% mkdir Plots_five
+% print(fig_CN,'-dpng',"Plots_four/Damping_Explosion.png",'-r150');
