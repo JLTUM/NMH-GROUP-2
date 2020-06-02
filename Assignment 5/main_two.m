@@ -26,38 +26,43 @@ clear, clc, close all;
 
 % Preallocation of cells
 CFL_cn = [];
+Pe_cell_cn = [];
 Phi_cn = cell(0);
 Phi_a_cn = cell(0);
 
 %% Input
 
 % Case 1
-U0 = 0;        points = 40;     dt = 0.1;    Gamma = 1;
+U0 = 1;        points = 100;     dt = 0.1;    Gamma = 0;
 
 disp('Calculating Case 1...')
-[Phi_cn{end+1}, Phi_a_cn{end+1}, CFL_cn(end+1)] = conv_cn(Gamma,U0,points,dt);
+[Phi_cn{end+1}, Phi_a_cn{end+1}, CFL_cn(end+1), Pe_cell_cn(end+1)] = conv_cn(Gamma,U0,points,dt);
 disp([' CFL:  ',num2str(CFL_cn(end))])
+disp([' Pe_cell:  ',num2str(Pe_cell_cn(end))])
 
 % Case 2
 U0 = 1;        points = 40;     dt = 0.1;    Gamma = 0;
 
 disp('Calculating Case 2...')
-[Phi_cn{end+1}, Phi_a_cn{end+1}, CFL_cn(end+1)] = conv_cn(Gamma,U0,points,dt);
+[Phi_cn{end+1}, Phi_a_cn{end+1}, CFL_cn(end+1), Pe_cell_cn(end+1)] = conv_cn(Gamma,U0,points,dt);
 disp([' CFL:  ',num2str(CFL_cn(end))])
+disp([' Pe_cell:  ',num2str(Pe_cell_cn(end))])
 
 % Case 3
-U0 = 1;        points = 100;     dt = 0.1;    Gamma = 1;
+U0 = 1;        points = 400;     dt = 1;    Gamma = 1;
 
 disp('Calculating Case 3...')
-[Phi_cn{end+1}, Phi_a_cn{end+1}, CFL_cn(end+1)] = conv_cn(Gamma,U0,points,dt);
+[Phi_cn{end+1}, Phi_a_cn{end+1}, CFL_cn(end+1), Pe_cell_cn(end+1)] = conv_cn(Gamma,U0,points,dt);
 disp([' CFL:  ',num2str(CFL_cn(end))])
+disp([' Pe_cell:  ',num2str(Pe_cell_cn(end))])
 
 % Case 4
-U0 = 1;        points = 4;     dt = 0.1;    Gamma = 1;
+U0 = 1;        points = 100;     dt = 0.1;    Gamma = 1;
 
 disp('Calculating Case 4...')
-[Phi_cn{end+1}, Phi_a_cn{end+1}, CFL_cn(end+1)] = conv_cn(Gamma,U0,points,dt);
+[Phi_cn{end+1}, Phi_a_cn{end+1}, CFL_cn(end+1), Pe_cell_cn(end+1)] = conv_cn(Gamma,U0,points,dt);
 disp([' CFL:  ',num2str(CFL_cn(end))])
+disp([' Pe_cell:  ',num2str(Pe_cell_cn(end))])
 
 %% Animation
 
@@ -97,22 +102,28 @@ end
 
 %% Plot
 
-fig_CN = figure('units','normalized','outerposition',[0 0 1 1]); 
-    subplot(211)
+fig_FP = figure('units','normalized','outerposition',[0 0 1 1]); 
+    plot(Phi_cn{1}(1,:), Phi_cn{1}(400,:), Phi_a_cn{1}(1,:), Phi_a_cn{1}(400,:))
+    legend('Crank Nicolson','Analytical')
+    xlabel('x')
+    ylabel('y')
+    title('Floating Point Error')
+
+fig_DispError = figure('units','normalized','outerposition',[0 0 1 1]); 
     plot(Phi_cn{2}(1,:), Phi_cn{2}(500,:), Phi_a_cn{2}(1,:), Phi_a_cn{2}(500,:))
     legend('Crank Nicolson','Analytical')
     xlabel('x')
     ylabel('y')
     title('Dispersive Error')
     
-    subplot(212)
-    plot(Phi_cn{1}(1,:), Phi_cn{1}(400,:), Phi_a_cn{1}(1,:), Phi_a_cn{1}(400,:))
+fig_Wiggles = figure('units','normalized','outerposition',[0 0 1 1]); 
+    plot(Phi_cn{3}(1,:), Phi_cn{3}(400,:), Phi_a_cn{3}(1,:), Phi_a_cn{3}(400,:))
     legend('Crank Nicolson','Analytical')
     xlabel('x')
     ylabel('y')
-    title('unknown error')
+    title('Wiggles')
     
 % %% Print results
 % 
 % mkdir Plots_five
-% print(fig_CN,'-dpng',"Plots_four/Damping_Explosion.png",'-r150');
+% print(fig_FP,'-dpng',"Plots_four/Damping_Explosion.png",'-r150');

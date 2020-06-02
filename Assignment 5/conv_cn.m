@@ -1,4 +1,4 @@
-function [phi_out, phi_a_out, CFL]=conv_cn(Gamma,U0,points,dt)
+function [phi_out, phi_a_out, CFL, Pe_cell]=conv_cn(Gamma,U0,points,dt)
 
 % Variable allocation
 xend   = 2.0 * pi;
@@ -6,6 +6,7 @@ dx = xend / ( points - 1 );
 x = 0.0 : dx : xend;
 tsteps = 1000;
 CFL = (U0*dt)/dx;
+Pe_cell = (U0*dx)/Gamma;
 phi_out(1,:) = x; % x values for plotting
 phi_a_out(1,:) = x; % x values for plotting
 
