@@ -1,73 +1,53 @@
-function [phi_out, phi_a_out, err_mean, CFL]=conv_ee(U0,xend,points,tsteps,dt)
+function [phi_out, phi_a_out, CFL]=conv_ee(U0,points,dt)
 
+% Variable allocation
+xend   = 2.0 * pi;
 dx = xend / ( points - 1 );
 x = 0.0 : dx : xend;
-tend   = dt * tsteps;
+tsteps = 1000;
 CFL = (U0*dt)/dx;
 phi_out(1,:) = x; % x values for plotting
-phi_out_a(1,:) = x; % x values for plotting
-k = 2;
+phi_a_out(1,:) = x; % x values for plotting
 
-% Initialise the solution (initial condition)
-% Loop over grid points in space:
-
-phi = sin(x);
-
+% Initial condition
+ phi = sin(x);
 
 % % Check initial field:
-% figure(1)
 % plot(x, phi, 'r');
 % title("initial field")
-% pause(3);
-
     
-%% Explicit Euler:
-% phinew is phi at new time level
-% phinew must be written back to phi for new timestep
-%
-% Loop over timesteps:
+%% Explicit Euler
 
     for i = 1 : tsteps
 
-      % Periodic boundary conditions at x=0:
-      phinew(1) = phi(points-1);
+        % Periodic boundary conditions at x=0:
+        phinew(1) = phi(points-1);
 
-      % Loop over grid points in space:
-      for j = 2 : points - 1
+        % Loop over grid points in space:
+        for j = 2 : points - 1
 
-        phinew(j) = phi(j) - U0*((phi(j+1)-phi(j-1))/(2*dx))*dt;
+            phinew(j) = phi(j) - U0*((phi(j+1)-phi(j-1))/(2*dx))*dt;
 
-      end
+        end
 
-      % Periodic boundary conditions at x=2*pi:
-      phinew(points) = phi(2);
+        % Periodic boundary conditions at x=2*pi:
+        phinew(points) = phi(2);
 
-      % Write new field back to old field:
-      phi = phinew;
+        % Write new field back to old field:
+        phi = phinew;
 
-      % Analytical solution
-      for j = 1 : points
-          phi_a(j)=sin(x(j)-U0*(i*dt));
-      end
-    
-%       if ~mod(i,10) == 1
-%           % Plot transported wave for each timestep
-%           figure(2)
-%           plot(x, phi, 'r', x, phi_a, 'g');
-%           %plot(x, phi_a, 'g')          
-%           pause(0.003);
-%       end
-      title("animation")
+        % Analytical solution
+        phi_a = sin(x-U0*(i*dt));
 
-      if i == 1 || i == tsteps/10 || i == tsteps/2 || i == tsteps
-          phi_out(k,:) = phi;
-          phi_a_out(k,:) = phi_a;
-          k = k+1;
-      end
-      err_mean(i,1) = i;
-      err_mean(i,2) = sqrt(mean((phi_a+999 - phi+999).^2))/mean(phi_a+999);
+        % write solution to matrix for plot every second time step
+        if ~mod(i,2) == 1
+            phi_out(end+1,:) = phi;
+            phi_a_out(end+1,:) = phi_a;
+            
+        end
+        
     end
-
+    
 end 
 
 
