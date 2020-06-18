@@ -34,8 +34,8 @@ function [flow] = rk_2d_condiff_var(grid, flow)
     for i = 1 : grid.nx
         for j = 1 : grid.ny
             
-            %flow.u(i,j) = ???  
-            %flow.v(i,j) = ???
+            flow.u(i,j) =  
+            flow.v(i,j) = ???
             
         end
     end
