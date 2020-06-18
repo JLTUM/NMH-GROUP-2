@@ -70,11 +70,11 @@ function [flow] = rk_2d_condiff_var(grid, flow)
             %flow.rhsu(i,j) = flow.rhsu(i,j) + ???
             %flow.rhsv(i,j) = flow.rhsv(i,j) + ???
             
-            S3_u(i,j) = grid.dt * flow.rhsu(i,j) - 153/128 * S2_u(i,j);
-            S3_v(i,j) = grid.dt * flow.rhsv(i,j) - 153/128 * S2_v(i,j);
-            flow.u(i,j) = flow.u(i,j) + 8/15 * S3_u(i,j);
-            flow.v(i,j) = flow.v(i,j) + 8/15 * S3_u(i,j);
+            S2_u(i,j) = grid.dt * flow.secrhsu(i,j) - 5/9 * S1_u(i,j);
+            S2_v(i,j) = grid.dt * flow.secrhsv(i,j) - 5/9 * S1_v(i,j);
             
+            %flow.u(i,j) = flow.u(i,j) + ???
+            %flow.v(i,j) = flow.v(i,j) + ??? 
         end
     end
 
