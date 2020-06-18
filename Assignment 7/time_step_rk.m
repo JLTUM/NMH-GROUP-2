@@ -11,11 +11,11 @@ function [flow] = time_step_rk(grid, flow)
         % right hand side
         [flow.rhsu, flow.rhsv] = rhs_2d_condiff_var(grid, flow);
 		
-		% left hand side = Explicit Euler (note: reference only)
-        % [flow] = euler_2d_condiff_var(grid, flow);
-
-        % left hand side = Runge-Kutta (3rd order)
-        [flow] = rk_2d_condiff_var(grid, flow);
+% 		left hand side = Explicit Euler (note: reference only)
+       [flow] = euler_2d_condiff_var(grid, flow);
+% 
+%         left hand side = Runge-Kutta (3rd order)
+   %     [flow] = rk_2d_condiff_var(grid, flow);
  
     end
 end

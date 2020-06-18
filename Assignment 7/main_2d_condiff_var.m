@@ -43,4 +43,21 @@ fprintf('flow field initialised\n')
 
 %% Time integration
 [flow] = time_step_rk(grid, flow);
-
+grid.nx
+x=1:grid.nx;
+y=1:grid.ny;
+figure(1)
+surf(x,y,flow.u);
+figure(2)
+surf(x,y,flow.v);
+figure(3)
+feather(flow.u,flow.v)
+figure(4)
+feather(flow.v,flow.u)
+figure(5)
+quiver(x,y,flow.u,flow.v)
+starty = 44:60:2;
+startx = zeros(size(starty));
+streamline(x,y,flow.u,flow.v,startx,starty)
+figure(6)
+surf(x,y,flow.u,flow.v);
