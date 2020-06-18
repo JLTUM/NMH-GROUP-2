@@ -43,3 +43,7 @@ fprintf('flow field initialised\n')
 
 %% Time integration
 [flow] = time_step_rk(grid, flow);
+
+
+%% Plot 
+surface(grid.x, grid.y
