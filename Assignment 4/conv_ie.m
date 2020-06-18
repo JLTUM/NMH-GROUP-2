@@ -13,10 +13,6 @@ A = zeros(points,points);
 % Initial Condition
 phi = sin(x)';
 
-% Check initial field:
-% plot(x, phi, 'r');
-% hold on;
-
 %% Implicit Euler
 
 % Compute coefficients of matrix A
