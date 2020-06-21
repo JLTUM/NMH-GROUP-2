@@ -28,19 +28,32 @@ fprintf('infilename is: %s\n', infilename)
 
 % build structures 'grid' and 'flow'
 [grid, flow] = build_structs;
+[grid_e, flow_e] = build_structs;
 fprintf('struct built\n')
 
 % fill some fields of 'grid' and 'flow' with data from infile
 [grid, flow] = set_params(grid, flow, infilename);
+[grid_e, flow_e] = set_params(grid, flow, infilename);
 fprintf('parameters set\n')
 
 % ---- Generate an equidistant grid -----------------------------------
 [grid] = generate_grid(grid);
+[grid_e] = generate_grid(grid);
     
 % initialisation of flow field
 [flow] = set_initial_condition(grid, flow);
+[flow_e] = set_initial_condition(grid, flow);
 fprintf('flow field initialised\n')
 
 %% Time integration
-[flow] = time_step_rk(grid, flow);
+%%1 = euler 0 = Runge
+[flow] = time_step_rk(grid, flow,0);
+[flow_e] = time_step_rk(grid, flow,1);
+hold on
+%plot(grid_e.x(1:100),flow_e.u(1,:))
+plot(grid.x(1:100),flow.u(1,:))
+hold off
+hold on
+surface(grid.x(1:100),grid.y(1:100),flow.u)
+surface(grid.x(1:100),grid.y(1:100),flow_e.u)
 

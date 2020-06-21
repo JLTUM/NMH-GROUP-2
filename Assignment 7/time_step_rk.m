@@ -1,4 +1,4 @@
-function [flow] = time_step_rk(grid, flow)
+function [flow] = time_step_rk(grid, flow,choice)
 
     % timintegration follows here
     % be aware of the two methods, use commenting to choose
@@ -10,12 +10,14 @@ function [flow] = time_step_rk(grid, flow)
 
         % right hand side
         [flow.rhsu, flow.rhsv] = rhs_2d_condiff_var(grid, flow);
-		
+        if choice == 1
 		% left hand side = Explicit Euler (note: reference only)
-        % [flow] = euler_2d_condiff_var(grid, flow);
+            [flow] = euler_2d_condiff_var(grid, flow);
+        else
 
         % left hand side = Runge-Kutta (3rd order)
-        [flow] = rk_2d_condiff_var(grid, flow);
+            [flow] = rk_2d_condiff_var(grid, flow);
+        end
  
     end
 end
@@ -96,3 +98,4 @@ function [flow] = euler_2d_condiff_var(grid, flow)
     end
        
 end
+
