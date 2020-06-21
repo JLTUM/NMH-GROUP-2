@@ -32,7 +32,7 @@ end
 
 
 % additional functions
-%**************************************************************************
+% **************************************************************************
 
 function [adv_u] = advection_u_lin2_var(grid, flow, i, j)
 
@@ -49,7 +49,6 @@ function [adv_u] = advection_u_lin2_var(grid, flow, i, j)
     
     adv_u = (flow.tr_u(i,j) * (flow.u(ip, j) - flow.u(im, j))/(2*dx)) + ...
             (flow.tr_v(i,j) * (flow.u(i, jp) - flow.u(i, jm))/(2*dy));
-    
 
 end
 
