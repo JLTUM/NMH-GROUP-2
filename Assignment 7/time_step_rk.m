@@ -1,22 +1,17 @@
-function [flow,flow_e] = time_step_rk(grid, flow)
+function [flow,flow_e,error] = time_step_rk(grid, flow)
 
     % timintegration follows here
     % be aware of the two methods, use commenting to choose
-    
+    error = zeros(grid.ntst,1);
     % loop over timesteps 
     for itst = 1 : grid.ntst
 
         %disp(['time step ', num2str(itst)]);
-
-        % right hand side
         [flow.rhsu, flow.rhsv] = rhs_2d_condiff_var(grid, flow);
-        %if choice == 1
+        
 		% left hand side = Explicit Euler (note: reference only)
+        
         [flow_e] = euler_2d_condiff_var(grid, flow);
-
-        %else
-
-        % left hand side = Runge-Kutta (3rd order)
         [flow] = rk_2d_condiff_var(grid, flow);
         figure(1)
         subplot(2,1,1);
@@ -30,7 +25,9 @@ function [flow,flow_e] = time_step_rk(grid, flow)
         plot(grid.x(1:100),flow_e.v(51,:),"g")
         hold off
         %end
- 
+        temp = flow.u - flow_e.u;
+        average = mean(mean(temp));
+        error(itst,1) = mean(average);
     end
 end
 

@@ -46,10 +46,10 @@ fprintf('flow field initialised\n')
 
 %% Time integration
 %%1 = euler 0 = Runge
-[flow,flow_e] = time_step_rk(grid, flow);
+[flow,flow_e,error] = time_step_rk(grid, flow);
 
-error = flow.u - flow_e.u;
+
 hold off
 figure(2)
-surface(grid.x(1:100),grid.y(1:100),error)
+plot(error)
 
