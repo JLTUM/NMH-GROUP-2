@@ -18,19 +18,46 @@ function [flow,flow_e] = time_step_rk(grid, flow)
 
         % left hand side = Runge-Kutta (3rd order)
         [flow] = rk_2d_condiff_var(grid, flow);
-        figure(1)
-        subplot(2,1,1);
-        hold on
-        plot(grid.x(1:100),flow.u(51,:),"b")
-        plot(grid.x(1:100),flow_e.u(51,:),"g")
-        hold off
-        subplot(2,1,2);
-        hold on 
-        plot(grid.x(1:100),flow.v(51,:),"b")
-        plot(grid.x(1:100),flow_e.v(51,:),"g")
-        hold off
+        
+        
+%         figure(1)
+%      subplot(2,2,1);
+%         hold on
+%         plot(grid.x(1:100),flow.u(51,:),"b")
+%         title('u, RK');
+%         hold off
+%      subplot(2,2,2);
+%         hold on 
+%         plot(grid.x(1:100),flow.v(51,:),"b")
+%         title('v, RK');
+%         hold off
+%      subplot(2,2,3);
+%         hold on
+%         plot(grid.x(1:100),flow_e.u(51,:),"g")
+%         title('u, Euler');
+%         hold off
+%      subplot(2,2,4);
+%         hold on
+%         plot(grid.x(1:100),flow_e.v(51,:),"g")
+%         title('v, Euler');
+%         hold off 
+%      sgtitle(num2str(itst))
         %end
  
+         figure(1)
+     subplot(2,1,1);
+        hold on
+        quiver(x,y,flow.u,flow.v)
+        title('u, RK');
+        hold off
+     subplot(2,1,2);
+        hold on 
+        quiver(x,y,flow_e.u,flow_e.v)
+        title('v, RK');
+        hold off
+     
+     sgtitle(num2str(itst))
+        
     end
 end
 
