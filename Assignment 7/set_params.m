@@ -19,7 +19,7 @@ function [grid, flow] = set_params(grid, flow, infilename)
     % and reset params:
     %
     % grid.dt = ...
-    grid.ntst = 10;
+    grid.ntst = 50;
     %
     %**********************************************************************
     
