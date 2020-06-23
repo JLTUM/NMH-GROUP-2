@@ -13,21 +13,7 @@ function [flow,flow_e,error] = time_step_rk(grid, flow)
         
         [flow_e] = euler_2d_condiff_var(grid, flow);
         [flow] = rk_2d_condiff_var(grid, flow);
-        figure(1)
-        subplot(2,1,1);
-        hold on
-        plot(grid.x(1:100),flow.u(51,:),"b")
-        plot(grid.x(1:100),flow_e.u(51,:),"g")
-        hold off
-        subplot(2,1,2);
-        hold on 
-        plot(grid.x(1:100),flow.v(51,:),"b")
-        plot(grid.x(1:100),flow_e.v(51,:),"g")
-        hold off
-        %end
-        temp = flow.u - flow_e.u;
-        average = mean(mean(temp));
-        error(itst,1) = mean(average);
+        Plot_data
     end
 end
 
@@ -84,7 +70,7 @@ function [flow] = rk_2d_condiff_var(grid, flow)
             S3_u(i,j) = grid.dt * flow.rhsu(i,j) - 153/128 * S2_u(i,j);
             S3_v(i,j) = grid.dt * flow.rhsv(i,j) - 153/128 * S2_v(i,j);
             flow.u(i,j) = flow.u(i,j) + 8/15 * S3_u(i,j);
-            flow.v(i,j) = flow.v(i,j) + 8/15 * S3_u(i,j);
+            flow.v(i,j) = flow.v(i,j) + 8/15 * S3_v(i,j);
             
         end
     end
