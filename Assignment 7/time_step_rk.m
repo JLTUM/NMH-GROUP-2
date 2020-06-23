@@ -2,13 +2,6 @@ function [flow,flow_e,error] = time_step_rk(grid, flow)
 
     % timintegration follows here
     % be aware of the two methods, use commenting to choose
-<<<<<<< HEAD
-    error = zeros(grid.ntst,1);
-=======
-     grid.nx
-x=1:grid.nx;
-y=1:grid.ny;
->>>>>>> 0783bacf0732da73059c2687ff1a3a6f735975c6
     % loop over timesteps 
     for itst = 1 : grid.ntst
 
@@ -19,9 +12,7 @@ y=1:grid.ny;
         
         [flow_e] = euler_2d_condiff_var(grid, flow);
         [flow] = rk_2d_condiff_var(grid, flow);
-<<<<<<< HEAD
         Plot_data
-=======
         
         
 %         figure(1)
@@ -46,23 +37,22 @@ y=1:grid.ny;
 %         title('v, Euler');
 %         hold off 
 %      sgtitle(num2str(itst))
-        %end
-
-         figure(1)
-     subplot(2,1,1);
-        hold on
-        quiver(x,y,flow.u,flow.v)
-        title('RK');
-        hold off
-     subplot(2,1,2);
-        hold on 
-        quiver(x,y,flow_e.u,flow_e.v)
-        title('Euler');
-        hold off
-     
-     sgtitle(num2str(itst))
-        
->>>>>>> 0783bacf0732da73059c2687ff1a3a6f735975c6
+%         %end
+% 
+%          figure(1)
+%      subplot(2,1,1);
+%         hold on
+%         quiver(x,y,flow.u,flow.v)
+%         title('RK');
+%         hold off
+%      subplot(2,1,2);
+%         hold on 
+%         quiver(x,y,flow_e.u,flow_e.v)
+%         title('Euler');
+%         hold off
+%      
+%      sgtitle(num2str(itst))
+%      
     end
 end
 
