@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 function [flow,flow_e,error] = time_step_rk(grid, flow)
 
     % timintegration follows here
@@ -9,10 +10,31 @@ function [flow,flow_e,error] = time_step_rk(grid, flow)
         [flow.rhsu, flow.rhsv] = rhs_2d_condiff_var(grid, flow);
         
 		% left hand side = Explicit Euler (note: reference only)
+=======
+function [flow,flow_e] = time_step_rk(grid, flow)
+
+    % timintegration follows here
+    % be aware of the two methods, use commenting to choose
+    flow_e = flow;
+    % loop over timesteps 
+    for itst = 1 : grid.ntst
+
+        disp(['time step ', num2str(itst)]);
+
+        % right hand side
+        %[flow_e.rhsu, flow_e.rhsv] = rhs_2d_condiff_var(grid, flow_e);
+		[flow.rhsu, flow.rhsv] = rhs_2d_condiff_var(grid, flow);
+		% left hand side = Explicit Euler (note: reference only)
+        %[flow_e] = euler_2d_condiff_var(grid, flow_e);
+
+        % left hand side = Runge-Kutta (3rd order)
+        [flow] = rk_2d_condiff_var(grid, flow);
+>>>>>>> Stashed changes
         
         [flow_e] = euler_2d_condiff_var(grid, flow);
         [flow] = rk_2d_condiff_var(grid, flow);
         Plot_data
+<<<<<<< Updated upstream
         
         
 %         figure(1)
@@ -53,7 +75,12 @@ function [flow,flow_e,error] = time_step_rk(grid, flow)
 %      
 %      sgtitle(num2str(itst))
 %      
+=======
+        %pause(0.05)
+ 
+>>>>>>> Stashed changes
     end
+    set(0,'DefaultFigureVisible','on');
 end
 
 
