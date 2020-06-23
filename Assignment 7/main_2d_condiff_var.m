@@ -42,4 +42,4 @@ fprintf('parameters set\n')
 fprintf('flow field initialised\n')
 
 %% Time integration
-[flow,flow_e] = time_step_rk(grid, flow);
+[flow] = time_step_rk(grid, flow,0); %0 for Runge Kutta and 1 for Euler
