@@ -1,62 +1,25 @@
-function [flow,flow_e] = time_step_rk(grid, flow)
-
+function [flow] = time_step_rk(grid, flow,type)
+    %type 0 is runge kutta and type 1 is euler
     % timintegration follows here
     % be aware of the two methods, use commenting to choose
-    flow_e = flow;
     % loop over timesteps 
     for itst = 1 : grid.ntst
-
+        [flow.rhsu, flow.rhsv] = rhs_2d_condiff_var(grid, flow);
         disp(['time step ', num2str(itst)]);
-
-        % right hand side
-        %[flow_e.rhsu, flow_e.rhsv] = rhs_2d_condiff_var(grid, flow_e);
-		[flow.rhsu, flow.rhsv] = rhs_2d_condiff_var(grid, flow);
-		% left hand side = Explicit Euler (note: reference only)
-        %[flow_e] = euler_2d_condiff_var(grid, flow_e);
-
-        % left hand side = Runge-Kutta (3rd order)
+        if type == 1
+        
+        [flow] = euler_2d_condiff_var(grid, flow);
+        
+        end
+        
+        if type == 0
+            
         [flow] = rk_2d_condiff_var(grid, flow);
-        Plot_data 
-%         figure(1)
-%      subplot(2,2,1);
-%         hold on
-%         plot(grid.x(1:100),flow.u(51,:),"b")
-%         title('u, RK');
-%         hold off
-%      subplot(2,2,2);
-%         hold on 
-%         plot(grid.x(1:100),flow.v(51,:),"b")
-%         title('v, RK');
-%         hold off
-%      subplot(2,2,3);
-%         hold on
-%         plot(grid.x(1:100),flow_e.u(51,:),"g")
-%         title('u, Euler');
-%         hold off
-%      subplot(2,2,4);
-%         hold on
-%         plot(grid.x(1:100),flow_e.v(51,:),"g")
-%         title('v, Euler');
-%         hold off 
-%      sgtitle(num2str(itst))
-%         %end
-% 
-%          figure(1)
-%      subplot(2,1,1);
-%         hold on
-%         quiver(x,y,flow.u,flow.v)
-%         title('RK');
-%         hold off
-%      subplot(2,1,2);
-%         hold on 
-%         quiver(x,y,flow_e.u,flow_e.v)
-%         title('Euler');
-%         hold off
-%      
-%      sgtitle(num2str(itst))
-%      
-
-        %pause(0.05)
+        
+        end
+        
+        Plot_data
+        
     end
 end
 
