@@ -1,7 +1,5 @@
-close all
-clear all
+% close all
 global sp;
-global fig_A_D_eq;
 sp = 1;
 
 %% task 2 3 4 5
@@ -36,36 +34,46 @@ A_D_eq(U0,Gamma,points,nn,scheme);
 
 %% task 7 
 
-points = [51, 71, 101, 151, 201, 501, 1001];
+points = [5, 51, 71, 101, 151, 201];
 
-% U10
 for k = 1 : length(points)
     point = points(k);
     nn = ceil(point/2);
     U0 = 10;
     scheme = "Both";
-    [er_10(k,:)] = A_D_eq_er(U0,Gamma,point,nn,scheme);
+    [phi_U10{:,:,k}, er_10(k,:)] = A_D_eq(U0,Gamma,point,nn,scheme);
 end
 
-% U-10
 for k = 1 : length(points)
     point = points(k);
     nn = ceil(point/2);
     U0 = -10;
     scheme = "Both";
-    [er_neg10(k,:)] = A_D_eq_er(U0,Gamma,point,nn,scheme);
+    [phi_Uneg10{:,:,k}, er_Uneg10(k,:)] = A_D_eq_er(U0,Gamma,point,nn,scheme);
 end
 
-% Plot
-fig_error = figure('units','normalized','outerposition',[0 0 1 1]);
-    loglog(points, er_10(:,1), points, er_10(:,2))
-    hold on 
-    loglog(points, er_neg10(:,1), points, er_neg10(:,2))
-    xlabel("number of points")
-    ylabel("rel error")
-    legend('U10 Upwind','U10 Central','-U10 Upwind','-U10 Central')
 
-mkdir Plots_two
-print(fig_error,'-dpng',"Plots_two/Error10.png",'-r150');
-print(fig_A_D_eq,'-dpng',"Plots_two/Advection_diffusion.png",'-r150');
-    
+
+%% Plot task 2,3,4
+
+
+subplot(2,2,sp)
+if scheme == "Upwind"
+    plot(x,phi,'r', x,phi_analytic, 'k');
+%     hold on
+elseif scheme == "Central"
+    plot(x,phi,'g', x,phi_analytic, 'k');
+%     hold on
+elseif scheme == "Both"
+    plot(x,phi(:,1),'r',x,phi(:,2),'g',x,phi_analytic,'k');
+%     hold on
+end
+
+
+
+figure
+plot(points, er_10(:,1), points, er_10(:,2))
+hold on 
+plot(points, er_neg10(:,1), points, er_neg10(:,2))
+legend('U10 Upwind','U10 Central','-U10 Upwind','-U10 Central')
+
