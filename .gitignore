@@ -1,9 +1,5 @@
-<<<<<<< Updated upstream
 *.asv
-*~
-=======
-.asv
-.m~
-Assignment 7/Plot_data.asv
->>>>>>> Stashed changes
+*.m~
 *.fig
+
+

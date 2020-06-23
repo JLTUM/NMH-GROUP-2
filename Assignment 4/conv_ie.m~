@@ -1,16 +1,15 @@
-function [phi_out, phi_a_out, err_mean, CFL]=conv_ee(U0,xend,points,tsteps,dt)
+function [phi_out, phi_a_out, CFL]=conv_ie(U0,points,tsteps,dt)
 
 % Variable allocation
+xend   = 2.0 * pi;
 dx = xend / ( points - 1 );
 x = 0.0 : dx : xend;
 tend   = dt * tsteps;
 CFL = (U0*dt)/dx;
 phi_out(1,:) = x; % x values for plotting
-phi_out_a(1,:) = x; % x values for plotting
+phi_a_out(1,:) = x; % x values for plotting
 k = 2;
-A   = zeros(points,points);
-b   = zeros(points,1);
-phi = zeros(points,1);
+A  = zeros(points,points);
 
 % Initial Condition
 phi = sin(x)';
@@ -50,13 +49,22 @@ for i = 1 : tsteps
     
   % Solve the linear system of equations
   phi = (A\b);
+  
   % Analytical solution
-  for j = 1 : points
-          phi_a(j)=sin(x(j)-U0*(i*dt));
-  end
+%   for j = 1 : points
+%           phi_a(j)=sin(x(j)-U0*(i*dt));
+%   end
+  
+  phi_a = sin(x - U0*(i*dt));
+
+    if i == 1 || i == tsteps/10 || i == tsteps/2 || i == tsteps
+      phi_out(k,:) = phi;
+      phi_a_out(k,:) = phi_a;
+      k = k+1;
+    end
 
   % Plot transported wave for each timestep
-  plot(x, phi, 'r', x, phi_a, 'g');
+  plot(x, phi, 'r', x, phi_a, 'k');
   hold off;
   pause(0.003);
 

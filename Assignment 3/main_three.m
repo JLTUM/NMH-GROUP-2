@@ -1,3 +1,4 @@
+
 clear,clc, close all;
 global sp;
 sp = 1;
@@ -71,4 +72,3 @@ fig_error = figure('units','normalized','outerposition',[0 0 1 1]);
 % mkdir Plots_two
 % print(fig_error,'-dpng',"Plots_two/Error10.png",'-r150');
 % print(fig_A_D_eq,'-dpng',"Plots_two/Advection_diffusion.png",'-r150');
-    
