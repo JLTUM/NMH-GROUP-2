@@ -43,4 +43,3 @@ fprintf('flow field initialised\n')
 
 %% Time integration
 [flow,flow_e] = time_step_rk(grid, flow);
->>>>>>> Stashed changes
