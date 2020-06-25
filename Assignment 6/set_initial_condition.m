@@ -18,7 +18,6 @@ function [flow] = set_initial_condition( grid, flow)
         end
     end
 
-        quiver
     for i = 1 : grid.nx
         for j = 1 : grid.ny
 

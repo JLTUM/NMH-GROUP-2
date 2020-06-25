@@ -20,7 +20,6 @@
 
 clear all
 close all
-
 %% Initialize simulation
 % read infile 
 infilename = 'infile_2D_condiff_var.mat';
