@@ -24,6 +24,7 @@ fprintf('parameters set\n')
 
 % Generate an equidistant grid 
 [grid] = generate_grid(grid);    
+fprintf('grid set\n')
 
 % Set initial conditions 
 run.t = 0;
@@ -35,6 +36,9 @@ bconds.beast = {'WALL'};
 bconds.bsouth = {'WALL'};
 bconds.bnorth = {'WALL'};
 
+% Compute and print diffusion number
+ %   D = k_f*dt/(S_0*min(dx,dy)^2);
+%fprintf('Diffusion number: %d\n',D);
 
 %% Time integration
 for itstep = 1:run.ntst
@@ -42,7 +46,21 @@ for itstep = 1:run.ntst
         flow, bconds );
     
 %% Plot results
-% TODO TODO TODO TODO TODO TODO TODO
+%  figure(1)
+% %clf
+%  surf(grid.x,grid.y,flow.h)
+%pcolor(x,y,Phi(:,:,end)')
+%hold on
+% %quiver3(X,Y,Phi(:,:,end)',qx,qy,zeros(size(qx)))
+% quiver(X,Y,qx,qy)
+% hold off
+% xlabel('x [m]')
+% ylabel('y [m]')
+% colorbar
+% title({'Girinskij potential \Phi',strcat('\rm{t = }',num2str(t(n)),' [s]')})
 
 end
 
+ figure(1)
+% %clf
+ surf(grid.x,grid.y,flow.zb,grid.x,grid.y,flow.h)
