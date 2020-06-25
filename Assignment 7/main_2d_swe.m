@@ -42,7 +42,8 @@ for itstep = 1:run.ntst
         flow, bconds );
     
 %% Plot results
-% TODO TODO TODO TODO TODO TODO TODO
+
+plot( grid.x, grid.y, flow.h )
 
 end
 

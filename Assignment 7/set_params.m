@@ -1,4 +1,4 @@
-function [grid, run, constants] = set_params(infilename)
+ function [grid, run, constants] = set_params(infilename)
 
     % Gravity [m/s^2]
     constants.g = 9.81;
