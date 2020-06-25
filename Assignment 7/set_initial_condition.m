@@ -1,34 +1,50 @@
-function [flow] = set_initial_condition( grid, flow)
+function [ flow ] = set_initial_condition( grid, flow )
 %SET_INITIAL_CONDITION Set initial fields
 
-    ii = 0 : grid.nx-1;
-    jj = 0 : grid.ny/2-1;
+% ---- Create fields for shallow water equations ----------------------
+% Flow depth (cell-centred)
+flow.h = zeros( length(grid.x), length(grid.y) );
 
-    xsq = ((ii - grid.nx/2)*30/grid.nx).*((ii - grid.nx/2)*30/grid.nx); 
-    ysq = ((jj - grid.ny/4)*30/grid.ny).*((jj - grid.ny/4)*30/grid.ny);
+% Specific discharge in x-direction (cell-centred)
+flow.hu = zeros( length(grid.x), length(grid.y) );
 
-    for i = 1 : grid.nx
+% Specific discharge in y-direction (cell-centred)
+flow.hv = zeros( length(grid.x), length(grid.y) );
 
-        for j = 1 : floor(grid.ny/2)
-            flow.u(i,j) = exp(-xsq(i))*exp(-ysq(j));
-        end
+% Strickler value (cell-centred)
+flow.kst = zeros( length(grid.x) - 2 * grid.NGHOST, length(grid.y) - 2 * grid.NGHOST );
 
-        for j = ceil(grid.ny/2) : grid.ny
-            flow.u(i,j) = 0;
-        end
-    end
+% Bottom elevation (cell-centred)
+flow.zb = zeros( length(grid.x) , length(grid.y) );
 
-    for i = 1 : grid.nx
-        for j = 1 : grid.ny
+% ---- Fields initialization ----------------------
+% Bottom elevation
+% TODO TODO TODO TODO TODO TODO TODO (try with different bottom elevation)
+flow.zb = -0.1 * grid.x' * grid.y;
 
-            ii = i-1;
-            jj = j-1;
+% keep this part -> "WALL" boundary condition
+flow.zb(1,:) = flow.zb(2,:);
+flow.zb(end,:) = flow.zb(end-1,:);
+flow.zb(:,1) = flow.zb(:,2);
+flow.zb(:,end) = flow.zb(:,end-1);
 
-            flow.v(i,j) = 0;
-            flow.tr_u(i,j) = -(jj-grid.ny/2)*(grid.dy * grid.ny)/grid.ny*100;
-            flow.tr_v(i,j) =  (ii-grid.nx/2)*(grid.dx * grid.nx)/grid.nx*100;
-        end
-    end
+% Water level is drawn from a lognormal distribution (must be positive)
+h0 = 1;
+dh0 = 0.2;
+
+flow.h = lognrnd( log(h0^2/sqrt(h0^2+dh0^2)), sqrt(log(1+dh0^2/h0^2)), grid.nx+2, grid.ny+2 );
+flow.h = h0 - flow.zb;
+
+% Constant Strickler
+kst = 20;
+flow.kst = kst *ones( grid.nx, grid.ny );
+
+% ---- Create boundary conditions -----------------------------------------
+bconds.bwest = {'WALL'};
+bconds.beast = {'WALL'};
+bconds.bsouth = {'WALL'};
+bconds.bnorth = {'WALL'};
+
 
 end
 
