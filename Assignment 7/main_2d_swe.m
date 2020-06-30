@@ -6,6 +6,7 @@
 % author: H. Zeng & L. Unglehrt
 % June, 2020
 %**************************************************************************
+
 clear;
 close all
 
@@ -24,7 +25,9 @@ fprintf('parameters set\n')
 
 % Generate an equidistant grid 
 [grid] = generate_grid(grid);    
+
 fprintf('grid set\n')
+
 
 % Set initial conditions 
 run.t = 0;
@@ -36,22 +39,32 @@ bconds.beast = {'WALL'};
 bconds.bsouth = {'WALL'};
 bconds.bnorth = {'WALL'};
 
-% Compute and print diffusion number
-%     D = k_f*dt/(S_0*min(dx,dy)^2);
-% fprintf('Diffusion number: %d\n',D);
-
 %% Time integration
 for itstep = 1:run.ntst
     [ run, flow ] = time_step_rk( itstep==1, constants, grid, run, ...
-        flow, bconds );
+        flow, bconds );  
     
-%% Plot results
-  
-  
-%   if itstep == 1|10|100|500|1000
-% disp(itstep);
-if itstep == 1
-    fig_ntst_1 = figure('units','normalized','outerposition',[0 0 1 1]); 
+    if itstep == 1
+        fig_Surf = figure('units','normalized','outerposition',[0 0 1 1]);
+        fig_Quiver = figure('units','normalized','outerposition',[0 0 1 1]);
+        fig_ntst_1 = figure('units','normalized','outerposition',[0 0 1 1]); 
+        surf(grid.x,grid.y,flow.h+flow.zb,'FaceAlpha',0.5)
+        hold on 
+        surf(grid.x,grid.y,flow.zb,'FaceColor','b')
+        xlabel('x','Fontsize',15)
+        ylabel('y','Fontsize',15)
+        zlabel('h','Fontsize',15)
+        a = get(gca,'XTickLabel');
+        set(gca,'XTickLabel',a,'fontsize',15,'FontWeight','bold')
+        set(gca,'YTickLabel',a,'fontsize',15,'FontWeight','bold')
+        set(gca,'ZTickLabel',a,'fontsize',15,'FontWeight','bold')
+        zlim([-1 2])
+        title(['n=',num2str(itstep)])
+        pause(0.05)
+        hold off  
+    end
+    if itstep == 10
+         fig_ntst_10 = figure('units','normalized','outerposition',[0 0 1 1]); 
     surf(grid.x,grid.y,flow.h+flow.zb,'FaceAlpha',0.5)
     hold on 
     surf(grid.x,grid.y,flow.zb,'FaceColor','b')
@@ -59,24 +72,19 @@ if itstep == 1
     ylabel('y','Fontsize',15)
     zlabel('h','Fontsize',15)
     a = get(gca,'XTickLabel');
-    set(gca,'XTickLabel',a,'fontsize',15,'FontWeight','bold')
-    set(gca,'YTickLabel',a,'fontsize',15,'FontWeight','bold')
-    set(gca,'ZTickLabel',a,'fontsize',15,'FontWeight','bold')
-    zlim([-1 2])
-    title(['n=',num2str(itstep)])
-    pause(0.05)
-    hold off    
+    end
 
-end
-if itstep == 10
-     fig_ntst_10 = figure('units','normalized','outerposition',[0 0 1 1]); 
-    surf(grid.x,grid.y,flow.h+flow.zb,'FaceAlpha',0.5)
+%% Plot results
+
+    set(0, 'CurrentFigure', fig_Surf)
+    surf(grid.x, grid.y, flow.h+flow.zb,'FaceAlpha',0.5)
     hold on 
-    surf(grid.x,grid.y,flow.zb,'FaceColor','b')
+    surf(grid.x, grid.y, flow.zb,'FaceColor','b')
     xlabel('x','Fontsize',15)
     ylabel('y','Fontsize',15)
     zlabel('h','Fontsize',15)
-    a = get(gca,'XTickLabel');
+    a = get(gca,'XTickLabel'); 
+
     set(gca,'XTickLabel',a,'fontsize',15,'FontWeight','bold')
     set(gca,'YTickLabel',a,'fontsize',15,'FontWeight','bold')
     set(gca,'ZTickLabel',a,'fontsize',15,'FontWeight','bold')
@@ -84,9 +92,18 @@ if itstep == 10
     title(['n=',num2str(itstep)])
     pause(0.05)
     hold off
-end
 
-if itstep == 100
+
+    set(0, 'CurrentFigure', fig_Quiver)
+    quiver(grid.x,grid.y,flow.hu,flow.hv,'b')
+    xlabel('x','Fontsize',15)
+    ylabel('y','Fontsize',15)
+    a = get(gca,'XTickLabel'); 
+    set(gca,'XTickLabel',a,'fontsize',15,'FontWeight','bold')
+    set(gca,'YTickLabel',a,'fontsize',15,'FontWeight','bold')
+    pause(0.05)
+    
+    if itstep == 100
      fig_ntst_100 = figure('units','normalized','outerposition',[0 0 1 1]); 
     surf(grid.x,grid.y,flow.h+flow.zb,'FaceAlpha',0.5)
     hold on 
@@ -103,58 +120,14 @@ if itstep == 100
     pause(0.05)
     hold off
 end
-%  figure(2)
-%    surf(grid.x,grid.y,flow.hu)
-%     ylim([0,1])
-%      title(['hu', num2str(itstep)])
-%  figure(3)
-%     glyph(grid.x,grid.y,flow.hu,flow.hv)
-%   hold on 
-%    surf(grid.x,grid.y,flow.hu)
-   
-%pcolor(x,y,Phi(:,:,end)')
-%hold on
-% %quiver3(X,Y,Phi(:,:,end)',qx,qy,zeros(size(qx)))
-% quiver(X,Y,qx,qy)
-% hold off
-% xlabel('x [m]')
-% ylabel('y [m]')
-% colorbar
-% title({'Girinskij potential \Phi',strcat('\rm{t = }',num2str(t(n)),' [s]')})
-%   end
+
+    if mod(itstep,10) == 0 || itstep == 1
+        mkdir Plots_seven
+        print(fig_Surf,'-dpng',sprintf("Plots_seven/Surf at n=%d.png", itstep),'-r150');
+        print(fig_Quiver,'-dpng',sprintf("Plots_seven/Quiver at n=%d.png", itstep),'-r150');
+        print(fig_ntst_1,'-dpng',"Plots_seven/ntst_1.png",'-r150');
+        print(fig_ntst_10,'-dpng',"Plots_seven/ntst_10.png",'-r150');
+        print(fig_ntst_100,'-dpng',"Plots_seven/ntst_100.png",'-r150');
+    end
+
 end
-
-%   figure(2)
-%   surf(grid.x,grid.y,flow.zb)
-%     hold on
-%   surf(grid.x,grid.y,flow.zb+flow.h)
-  
-  
-  
-%   fig_DispError = figure('units','normalized','outerposition',[0 0 1 1]); 
-%     plot(Phi_cn{1}(1,:), Phi_cn{1}(400,:), Phi_a_cn{1}(1,:), Phi_a_cn{1}(400,:))
-%     legend('Crank Nicolson','Analytical')
-%     xlabel('x')
-%     ylabel('y')
-%     title('Dispersive Error')
-% 
-% fig_FP = figure('units','normalized','outerposition',[0 0 1 1]); 
-%     plot(Phi_cn{2}(1,:), Phi_cn{2}(500,:), Phi_a_cn{2}(1,:), Phi_a_cn{2}(500,:))
-%     legend('Crank Nicolson','Analytical')
-%     xlabel('x')
-%     ylabel('y')
-%     title('Floating Point Error')
-%     
-% fig_Wiggles = figure('units','normalized','outerposition',[0 0 1 1]); 
-%     plot(Phi_cn{3}(1,:), Phi_cn{3}(400,:), Phi_a_cn{3}(1,:), Phi_a_cn{3}(400,:))
-%     legend('Crank Nicolson','Analytical')
-%     xlabel('x')
-%     ylabel('y')
-%     title('Wiggles')
-    
-%% Print results
-
-mkdir Plots_seven
-print(fig_ntst_1,'-dpng',"Plots_seven/ntst_1.png",'-r150');
-print(fig_ntst_10,'-dpng',"Plots_seven/ntst_10.png",'-r150');
-print(fig_ntst_100,'-dpng',"Plots_seven/ntst_100.png",'-r150');
