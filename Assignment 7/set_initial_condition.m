@@ -22,9 +22,9 @@ flow.zb = zeros( length(grid.x) , length(grid.y) );
 % Bottom elevation
 
 
-%flow.zb = 0.5 * grid.x' * grid.y;
- flow.zb = 0.0 * grid.x' * grid.y;
- flow.zb(:,1:1:12) = 0.4;
+flow.zb = 0.5 * grid.x' * grid.y;
+ %flow.zb = 0.0 * grid.x' * grid.y;
+ %flow.zb(:,1:1:12) = 0.4;
 
 
 % keep this part -> "WALL" boundary condition
@@ -38,10 +38,11 @@ h0 = 1;
 dh0 = 0.2;
 
 
-% random log initial condition
+%% random log initial condition
      flow.h = lognrnd( log(h0^2/sqrt(h0^2+dh0^2)), sqrt(log(1+dh0^2/h0^2)), grid.nx+2, grid.ny+2 );
 
-% % exp initial condition
+%% exp initial condition Droplet
+
 %     ii = 0 : grid.nx+2;
 %     jj = 0 : grid.ny+2;
 %     f = 7;
@@ -53,10 +54,11 @@ dh0 = 0.2;
 %         end
 %     end
 
+%% Constant Initial Condition
 % flow.h = ones(grid.nx+2,grid.ny+2);
 
 
-% Constant Strickler
+%% Constant Strickler
 kst = 20;
 flow.kst = kst *ones( grid.nx, grid.ny );
 
