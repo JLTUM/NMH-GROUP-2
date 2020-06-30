@@ -46,12 +46,7 @@ for itstep = 1:run.ntst
     
 
 %% Plot results
-surf(grid.x, grid.y, flow.h+flow.zb,'FaceAlpha',0.5)
-hold on 
-surf(grid.x, grid.y, flow.zb,'FaceColor','b')
-zlim([-1 2])
-title(itstep)
-pause(0.11)
+
 hold off
 
 
