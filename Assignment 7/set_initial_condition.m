@@ -20,7 +20,7 @@ flow.zb = zeros( length(grid.x) , length(grid.y) );
 % ---- Fields initialization ----------------------
 % Bottom elevation
 % TODO TODO TODO TODO TODO TODO TODO (try with different bottom elevation)
-flow.zb = 0.5 * grid.x' * grid.y;
+flow.zb = 0.05 * grid.x' * grid.y;
 
 % keep this part -> "WALL" boundary condition
 flow.zb(1,:) = flow.zb(2,:);
@@ -31,7 +31,7 @@ flow.zb(:,end) = flow.zb(:,end-1);
 % Water level is drawn from a lognormal distribution (must be positive)
 h0 = 1;
 dh0 = 0.2;
- 
+
 % random log initial condition
      flow.h = lognrnd( log(h0^2/sqrt(h0^2+dh0^2)), sqrt(log(1+dh0^2/h0^2)), grid.nx+2, grid.ny+2 );
 
@@ -47,6 +47,8 @@ dh0 = 0.2;
 %         end
 %     end
 
+% flow.h = ones(grid.nx+2,grid.ny+2);
+
 % Constant Strickler
 kst = 20;
 flow.kst = kst *ones( grid.nx, grid.ny );
@@ -56,7 +58,6 @@ bconds.bwest = {'WALL'};
 bconds.beast = {'WALL'};
 bconds.bsouth = {'WALL'};
 bconds.bnorth = {'WALL'};
-
 
 end
 

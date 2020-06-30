@@ -19,10 +19,11 @@
     
     run.dt = dt;       
     run.ntst = ntst;
-    
-    grid.nx = 15;
-    grid.ny = 15;
-     
+%     
+%     grid.nx = 15;
+%     grid.ny = 15;
+%     run.dt = 0.0004;
+%      
 end
 
 
