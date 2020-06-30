@@ -111,7 +111,6 @@ if scheme == "Both"
 else
     phi = A\b;
 end
-z
 % calculate error
 
 if scheme == "Central" || scheme == "Upwind"

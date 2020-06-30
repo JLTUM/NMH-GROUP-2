@@ -11,11 +11,14 @@ function [flow] = time_step_rk(grid, flow)
         % right hand side
         [flow.rhsu, flow.rhsv] = rhs_2d_condiff_var(grid, flow);
 		
-% 		left hand side = Explicit Euler (note: reference only)
-       [flow] = euler_2d_condiff_var(grid, flow);
-% 
-%         left hand side = Runge-Kutta (3rd order)
-   %     [flow] = rk_2d_condiff_var(grid, flow);
+		% left hand side = Explicit Euler (note: reference only)
+%         [flow] = euler_2d_condiff_var(grid, flow);
+
+        % left hand side = Runge-Kutta (3rd order)
+        [flow] = rk_2d_condiff_var(grid, flow);
+        
+        Plot_data
+        pause(0.05)
  
     end
 end
@@ -73,7 +76,7 @@ function [flow] = rk_2d_condiff_var(grid, flow)
             S3_u(i,j) = grid.dt * flow.rhsu(i,j) - 153/128 * S2_u(i,j);
             S3_v(i,j) = grid.dt * flow.rhsv(i,j) - 153/128 * S2_v(i,j);
             flow.u(i,j) = flow.u(i,j) + 8/15 * S3_u(i,j);
-            flow.v(i,j) = flow.v(i,j) + 8/15 * S3_u(i,j);
+            flow.v(i,j) = flow.v(i,j) + 8/15 * S3_v(i,j);
             
         end
     end

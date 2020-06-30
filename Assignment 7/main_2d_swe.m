@@ -52,42 +52,56 @@ for itstep = 1:run.ntst
 % disp(itstep);
 if itstep == 1
     fig_ntst_1 = figure('units','normalized','outerposition',[0 0 1 1]); 
-    surf(grid.x,grid.y,flow.h+flow.zb)
-    ylim([0,1])
-    zlim([0,1.5])
-    title(['ntst ', num2str(itstep)])
+    surf(grid.x,grid.y,flow.h+flow.zb,'FaceAlpha',0.5)
     hold on 
-    surf(grid.x,grid.y,flow.zb)
-     hold off
-      xlabel('x')
-    ylabel('y')
-    
+    surf(grid.x,grid.y,flow.zb,'FaceColor','b')
+    xlabel('x','Fontsize',15)
+    ylabel('y','Fontsize',15)
+    zlabel('h','Fontsize',15)
+    a = get(gca,'XTickLabel');
+    set(gca,'XTickLabel',a,'fontsize',15,'FontWeight','bold')
+    set(gca,'YTickLabel',a,'fontsize',15,'FontWeight','bold')
+    set(gca,'ZTickLabel',a,'fontsize',15,'FontWeight','bold')
+    zlim([-1 2])
+    title(['n=',num2str(itstep)])
+    pause(0.05)
+    hold off    
 
 end
 if itstep == 10
-      fig_ntst_10 = figure('units','normalized','outerposition',[0 0 1 1]); 
-    surf(grid.x,grid.y,flow.h+flow.zb)
-    ylim([0,1])
-    zlim([0,1.5])
-    title(['ntst ', num2str(itstep)])
+     fig_ntst_10 = figure('units','normalized','outerposition',[0 0 1 1]); 
+    surf(grid.x,grid.y,flow.h+flow.zb,'FaceAlpha',0.5)
     hold on 
-    surf(grid.x,grid.y,flow.zb)
-     hold off
-      xlabel('x')
-    ylabel('y')
+    surf(grid.x,grid.y,flow.zb,'FaceColor','b')
+    xlabel('x','Fontsize',15)
+    ylabel('y','Fontsize',15)
+    zlabel('h','Fontsize',15)
+    a = get(gca,'XTickLabel');
+    set(gca,'XTickLabel',a,'fontsize',15,'FontWeight','bold')
+    set(gca,'YTickLabel',a,'fontsize',15,'FontWeight','bold')
+    set(gca,'ZTickLabel',a,'fontsize',15,'FontWeight','bold')
+    zlim([-1 2])
+    title(['n=',num2str(itstep)])
+    pause(0.05)
+    hold off
 end
 
 if itstep == 100
      fig_ntst_100 = figure('units','normalized','outerposition',[0 0 1 1]); 
-    surf(grid.x,grid.y,flow.h+flow.zb)
-    ylim([0,1])
-    zlim([0,1.5])
-    title(['ntst ', num2str(itstep)])
+    surf(grid.x,grid.y,flow.h+flow.zb,'FaceAlpha',0.5)
     hold on 
-    surf(grid.x,grid.y,flow.zb)
-     hold off
-      xlabel('x')
-    ylabel('y')
+    surf(grid.x,grid.y,flow.zb,'FaceColor','b')
+    xlabel('x','Fontsize',15)
+    ylabel('y','Fontsize',15)
+    zlabel('h','Fontsize',15)
+    a = get(gca,'XTickLabel');
+    set(gca,'XTickLabel',a,'fontsize',15,'FontWeight','bold')
+    set(gca,'YTickLabel',a,'fontsize',15,'FontWeight','bold')
+    set(gca,'ZTickLabel',a,'fontsize',15,'FontWeight','bold')
+    zlim([-1 2])
+    title(['n=',num2str(itstep)])
+    pause(0.05)
+    hold off
 end
 %  figure(2)
 %    surf(grid.x,grid.y,flow.hu)

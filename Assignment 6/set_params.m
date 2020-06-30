@@ -18,8 +18,11 @@ function [grid, flow] = set_params(grid, flow, infilename)
     % to manually override automatic input, uncomment below
     % and reset params:
     %
-    % grid.dt = ...
-    grid.ntst = 10;
+    grid.dt = 1e-4;
+%     grid.ntst = 10000;
+    grid.nx = 50;         
+    grid.ny = 50;
+    grid.nu = 0;
     %
     %**********************************************************************
     
