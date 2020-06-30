@@ -1,3 +1,4 @@
+
 function [ flow ] = set_initial_condition( grid, flow )
 %SET_INITIAL_CONDITION Set initial fields
 
@@ -56,7 +57,6 @@ bconds.bwest = {'WALL'};
 bconds.beast = {'WALL'};
 bconds.bsouth = {'WALL'};
 bconds.bnorth = {'WALL'};
-
 
 end
 
