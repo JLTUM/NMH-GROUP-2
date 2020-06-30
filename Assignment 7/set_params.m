@@ -1,3 +1,4 @@
+
  function [grid, run, constants] = set_params(infilename)
 
     % Gravity [m/s^2]
@@ -25,6 +26,7 @@
 %     run.dt = 0.0004;
 %      
 end
+
 
 
 

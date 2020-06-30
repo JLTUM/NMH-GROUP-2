@@ -1,3 +1,4 @@
+
 function [grid, run, constants, flow, bconds] =  build_structs()
 
     grid = struct('nx', [], 'ny', [], ...

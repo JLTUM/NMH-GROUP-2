@@ -1,3 +1,4 @@
+
 function [ flow ] = set_initial_condition( grid, flow )
 %SET_INITIAL_CONDITION Set initial fields
 
