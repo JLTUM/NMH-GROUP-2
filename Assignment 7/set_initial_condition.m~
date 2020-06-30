@@ -31,8 +31,8 @@ flow.zb(:,end) = flow.zb(:,end-1);
 % Water level is drawn from a lognormal distribution (must be positive)
 h0 = 1;
 dh0 = 0.2;
- 
-% % random log initial condition
+
+% random log initial condition
 %      flow.h = lognrnd( log(h0^2/sqrt(h0^2+dh0^2)), sqrt(log(1+dh0^2/h0^2)), grid.nx+2, grid.ny+2 );
 
 % exp initial condition
@@ -46,9 +46,8 @@ dh0 = 0.2;
             flow.h(i,j) = h0 + 1*exp(-xsq(i))*exp(-ysq(j));
         end
     end
-    
-    
-% flow.h = h0 - flow.zb;
+
+% flow.h = ones(grid.nx+2,grid.ny+2);
 
 % Constant Strickler
 kst = 20;

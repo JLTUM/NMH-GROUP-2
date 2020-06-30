@@ -6,6 +6,7 @@
 % author: H. Zeng & L. Unglehrt
 % June, 2020
 %**************************************************************************
+
 clear;
 close all
 
@@ -38,23 +39,50 @@ bconds.bnorth = {'WALL'};
 %% Time integration
 for itstep = 1:run.ntst
     [ run, flow ] = time_step_rk( itstep==1, constants, grid, run, ...
-        flow, bconds );
+        flow, bconds );  
     
-    
-% if itstep == 1
-%     
-    
+    if itstep == 1
+        fig_Surf = figure('units','normalized','outerposition',[0 0 1 1]);
+        fig_Quiver = figure('units','normalized','outerposition',[0 0 1 1]);
+        
+        
+        
+        
+        
+    end
 
 %% Plot results
-surf(grid.x, grid.y, flow.h+flow.zb,'FaceAlpha',0.5)
-hold on 
-surf(grid.x, grid.y, flow.zb,'FaceColor','b')
-zlim([-1 2])
-title(itstep)
-pause(0.11)
-hold off
 
+    set(0, 'CurrentFigure', fig_Surf)
+    surf(grid.x, grid.y, flow.h+flow.zb,'FaceAlpha',0.5)
+    hold on 
+    surf(grid.x, grid.y, flow.zb,'FaceColor','b')
+    xlabel('x','Fontsize',15)
+    ylabel('y','Fontsize',15)
+    zlabel('h','Fontsize',15)
+    a = get(gca,'XTickLabel'); 
+    set(gca,'XTickLabel',a,'fontsize',15,'FontWeight','bold')
+    set(gca,'YTickLabel',a,'fontsize',15,'FontWeight','bold')
+    set(gca,'ZTickLabel',a,'fontsize',15,'FontWeight','bold')
+    zlim([-1 2])
+    title(['n=',num2str(itstep)])
+    pause(0.05)
+    hold off
 
+    set(0, 'CurrentFigure', fig_Quiver)
+    quiver(grid.x,grid.y,flow.hu,flow.hv,'b')
+    xlabel('x','Fontsize',15)
+    ylabel('y','Fontsize',15)
+    a = get(gca,'XTickLabel'); 
+    set(gca,'XTickLabel',a,'fontsize',15,'FontWeight','bold')
+    set(gca,'YTickLabel',a,'fontsize',15,'FontWeight','bold')
+    pause(0.05)
+
+    if mod(itstep,10) == 0 || itstep == 1
+        mkdir Plots_seven
+        print(fig_Surf,'-dpng',sprintf("Plots_seven/Surf at n=%d.png", itstep),'-r150');
+        print(fig_Quiver,'-dpng',sprintf("Plots_seven/Quiver at n=%d.png", itstep),'-r150');
+    end
 
 end
 
