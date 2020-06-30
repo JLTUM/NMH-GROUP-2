@@ -41,7 +41,8 @@ for itstep = 1:run.ntst
         flow, bconds );
     
     
-if itstep == 1
+% if itstep == 1
+%     
     
 
 %% Plot results
