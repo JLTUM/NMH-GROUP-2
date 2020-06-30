@@ -19,7 +19,6 @@ end
 % plot(grid.x(col),grid.y(row),'+r')
 % hold on
 % hold off
-% hold on
 % xlim([0,10]);
 % ylim([0,10]);
 
