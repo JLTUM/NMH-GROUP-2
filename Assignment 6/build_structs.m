@@ -1,3 +1,4 @@
+
 function [grid, flow] =  build_structs()
 
     grid = struct('nu', [], ...
@@ -16,4 +17,5 @@ function [grid, flow] =  build_structs()
                   'secrhsu', [], 'secrhsv', [] ... 
                   );
               
+
 end

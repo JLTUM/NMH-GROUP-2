@@ -1,3 +1,4 @@
+
 %**************************************************************************
 % NMH Lab Summer Semester 2020, Assignment 6
 %
@@ -42,4 +43,3 @@ fprintf('flow field initialised\n')
 
 %% Time integration
 [flow] = time_step_rk(grid, flow);
-

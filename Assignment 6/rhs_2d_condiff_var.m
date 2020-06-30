@@ -1,3 +1,4 @@
+
 function [rhsu, rhsv] = rhs_2d_condiff_var( grid, flow )
 %CONVECTION2D_EQUATIONS Evaluate the time derivatives in the 2D convection
 %equations
@@ -105,7 +106,5 @@ function [diff_v] = diffusion_v(grid, flow, i, j)
                  (flow.v(i,jm) - 2*flow.v(i,j) + flow.v(i,jp))/dy^2);
              
 end
-
-
 
 

@@ -26,6 +26,9 @@ fprintf('parameters set\n')
 % Generate an equidistant grid 
 [grid] = generate_grid(grid);    
 
+fprintf('grid set\n')
+
+
 % Set initial conditions 
 run.t = 0;
 [ flow ] = set_initial_condition( grid, flow );
@@ -44,11 +47,31 @@ for itstep = 1:run.ntst
     if itstep == 1
         fig_Surf = figure('units','normalized','outerposition',[0 0 1 1]);
         fig_Quiver = figure('units','normalized','outerposition',[0 0 1 1]);
-        
-        
-        
-        
-        
+        fig_ntst_1 = figure('units','normalized','outerposition',[0 0 1 1]); 
+        surf(grid.x,grid.y,flow.h+flow.zb,'FaceAlpha',0.5)
+        hold on 
+        surf(grid.x,grid.y,flow.zb,'FaceColor','b')
+        xlabel('x','Fontsize',15)
+        ylabel('y','Fontsize',15)
+        zlabel('h','Fontsize',15)
+        a = get(gca,'XTickLabel');
+        set(gca,'XTickLabel',a,'fontsize',15,'FontWeight','bold')
+        set(gca,'YTickLabel',a,'fontsize',15,'FontWeight','bold')
+        set(gca,'ZTickLabel',a,'fontsize',15,'FontWeight','bold')
+        zlim([-1 2])
+        title(['n=',num2str(itstep)])
+        pause(0.05)
+        hold off  
+    end
+    if itstep == 10
+         fig_ntst_10 = figure('units','normalized','outerposition',[0 0 1 1]); 
+    surf(grid.x,grid.y,flow.h+flow.zb,'FaceAlpha',0.5)
+    hold on 
+    surf(grid.x,grid.y,flow.zb,'FaceColor','b')
+    xlabel('x','Fontsize',15)
+    ylabel('y','Fontsize',15)
+    zlabel('h','Fontsize',15)
+    a = get(gca,'XTickLabel');
     end
 
 %% Plot results
@@ -61,6 +84,7 @@ for itstep = 1:run.ntst
     ylabel('y','Fontsize',15)
     zlabel('h','Fontsize',15)
     a = get(gca,'XTickLabel'); 
+
     set(gca,'XTickLabel',a,'fontsize',15,'FontWeight','bold')
     set(gca,'YTickLabel',a,'fontsize',15,'FontWeight','bold')
     set(gca,'ZTickLabel',a,'fontsize',15,'FontWeight','bold')
@@ -68,6 +92,7 @@ for itstep = 1:run.ntst
     title(['n=',num2str(itstep)])
     pause(0.05)
     hold off
+
 
     set(0, 'CurrentFigure', fig_Quiver)
     quiver(grid.x,grid.y,flow.hu,flow.hv,'b')
@@ -77,12 +102,32 @@ for itstep = 1:run.ntst
     set(gca,'XTickLabel',a,'fontsize',15,'FontWeight','bold')
     set(gca,'YTickLabel',a,'fontsize',15,'FontWeight','bold')
     pause(0.05)
+    
+    if itstep == 100
+     fig_ntst_100 = figure('units','normalized','outerposition',[0 0 1 1]); 
+    surf(grid.x,grid.y,flow.h+flow.zb,'FaceAlpha',0.5)
+    hold on 
+    surf(grid.x,grid.y,flow.zb,'FaceColor','b')
+    xlabel('x','Fontsize',15)
+    ylabel('y','Fontsize',15)
+    zlabel('h','Fontsize',15)
+    a = get(gca,'XTickLabel');
+    set(gca,'XTickLabel',a,'fontsize',15,'FontWeight','bold')
+    set(gca,'YTickLabel',a,'fontsize',15,'FontWeight','bold')
+    set(gca,'ZTickLabel',a,'fontsize',15,'FontWeight','bold')
+    zlim([-1 2])
+    title(['n=',num2str(itstep)])
+    pause(0.05)
+    hold off
+end
 
     if mod(itstep,10) == 0 || itstep == 1
         mkdir Plots_seven
         print(fig_Surf,'-dpng',sprintf("Plots_seven/Surf at n=%d.png", itstep),'-r150');
         print(fig_Quiver,'-dpng',sprintf("Plots_seven/Quiver at n=%d.png", itstep),'-r150');
+        print(fig_ntst_1,'-dpng',"Plots_seven/ntst_1.png",'-r150');
+        print(fig_ntst_10,'-dpng',"Plots_seven/ntst_10.png",'-r150');
+        print(fig_ntst_100,'-dpng',"Plots_seven/ntst_100.png",'-r150');
     end
 
 end
-

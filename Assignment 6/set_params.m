@@ -1,3 +1,4 @@
+
 function [grid, flow] = set_params(grid, flow, infilename)
 
     % reading parameters from input file and parsing to strucs
@@ -27,7 +28,5 @@ function [grid, flow] = set_params(grid, flow, infilename)
     %**********************************************************************
     
 end
-
-
 
 
