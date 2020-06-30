@@ -51,18 +51,15 @@ for itstep = 1:run.ntst
 %   if itstep == 1|10|100|500|1000
 % disp(itstep);
   figure(1)
-   surf(grid.x,grid.y,flow.h+flow.zb)
-   ylim([0,1])
-   title(['h+zb ', num2str(itstep)])
+   surf(grid.x,grid.y,flow.h)
+   ylim([0,2])
  figure(2)
    surf(grid.x,grid.y,flow.hu)
-    ylim([0,1])
-     title(['hu', num2str(itstep)])
-%  figure(3)
-%     glyph(grid.x,grid.y,flow.hu,flow.hv)
+ figure(3)
+    glyph(grid.x,grid.y,flow.hu,flow.hv)
 %   hold on 
 %    surf(grid.x,grid.y,flow.hu)
-   
+   title(num2str(itstep))
 %pcolor(x,y,Phi(:,:,end)')
 %hold on
 % %quiver3(X,Y,Phi(:,:,end)',qx,qy,zeros(size(qx)))
