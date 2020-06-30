@@ -1,29 +1,29 @@
-function [grid, flow] = set_params(grid, flow, infilename)
+
+ function [grid, run, constants] = set_params(infilename)
+
+    % Gravity [m/s^2]
+    constants.g = 9.81;
+    
+    % number of ghost cell
+    grid.NGHOST = 1;
 
     % reading parameters from input file and parsing to strucs
 
     load(infilename);
     
-    grid.dt = dt;       
-    grid.ntst = ntst;
     grid.nx = nx;         
     grid.ny = ny;
-    grid.nu = nu;
     grid.xmax = xmax;       
     grid.xmin = xmin;
     grid.ymax = ymax;       
     grid.ymin = ymin;         
     
-    %**********************************************************************
-    % to manually override automatic input, uncomment below
-    % and reset params:
-    %
-    %grid.dt = 2e-2;
-    %grid.ntst = 100;
-    %grid.nu = 10;
-    %
-    %**********************************************************************
+    run.dt = dt;       
+    run.ntst = ntst;
     
+    grid.nx = 15;
+    grid.ny = 15;
+     
 end
 
 
