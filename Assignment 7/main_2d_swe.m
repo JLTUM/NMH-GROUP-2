@@ -50,14 +50,49 @@ for itstep = 1:run.ntst
   
 %   if itstep == 1|10|100|500|1000
 % disp(itstep);
-  figure(1)
-   surf(grid.x,grid.y,flow.h+flow.zb)
-   ylim([0,1])
-   title(['h+zb ', num2str(itstep)])
- figure(2)
-   surf(grid.x,grid.y,flow.hu)
+if itstep == 1
+    fig_ntst_1 = figure('units','normalized','outerposition',[0 0 1 1]); 
+    surf(grid.x,grid.y,flow.h+flow.zb)
     ylim([0,1])
-     title(['hu', num2str(itstep)])
+    zlim([0,1.5])
+    title(['ntst ', num2str(itstep)])
+    hold on 
+    surf(grid.x,grid.y,flow.zb)
+     hold off
+      xlabel('x')
+    ylabel('y')
+    
+
+end
+if itstep == 10
+      fig_ntst_10 = figure('units','normalized','outerposition',[0 0 1 1]); 
+    surf(grid.x,grid.y,flow.h+flow.zb)
+    ylim([0,1])
+    zlim([0,1.5])
+    title(['ntst ', num2str(itstep)])
+    hold on 
+    surf(grid.x,grid.y,flow.zb)
+     hold off
+      xlabel('x')
+    ylabel('y')
+end
+
+if itstep == 100
+     fig_ntst_100 = figure('units','normalized','outerposition',[0 0 1 1]); 
+    surf(grid.x,grid.y,flow.h+flow.zb)
+    ylim([0,1])
+    zlim([0,1.5])
+    title(['ntst ', num2str(itstep)])
+    hold on 
+    surf(grid.x,grid.y,flow.zb)
+     hold off
+      xlabel('x')
+    ylabel('y')
+end
+%  figure(2)
+%    surf(grid.x,grid.y,flow.hu)
+%     ylim([0,1])
+%      title(['hu', num2str(itstep)])
 %  figure(3)
 %     glyph(grid.x,grid.y,flow.hu,flow.hv)
 %   hold on 
@@ -75,7 +110,37 @@ for itstep = 1:run.ntst
 %   end
 end
 
-  figure(2)
-  surf(grid.x,grid.y,flow.zb)
-    hold on
-  surf(grid.x,grid.y,flow.zb+flow.h)
+%   figure(2)
+%   surf(grid.x,grid.y,flow.zb)
+%     hold on
+%   surf(grid.x,grid.y,flow.zb+flow.h)
+  
+  
+  
+%   fig_DispError = figure('units','normalized','outerposition',[0 0 1 1]); 
+%     plot(Phi_cn{1}(1,:), Phi_cn{1}(400,:), Phi_a_cn{1}(1,:), Phi_a_cn{1}(400,:))
+%     legend('Crank Nicolson','Analytical')
+%     xlabel('x')
+%     ylabel('y')
+%     title('Dispersive Error')
+% 
+% fig_FP = figure('units','normalized','outerposition',[0 0 1 1]); 
+%     plot(Phi_cn{2}(1,:), Phi_cn{2}(500,:), Phi_a_cn{2}(1,:), Phi_a_cn{2}(500,:))
+%     legend('Crank Nicolson','Analytical')
+%     xlabel('x')
+%     ylabel('y')
+%     title('Floating Point Error')
+%     
+% fig_Wiggles = figure('units','normalized','outerposition',[0 0 1 1]); 
+%     plot(Phi_cn{3}(1,:), Phi_cn{3}(400,:), Phi_a_cn{3}(1,:), Phi_a_cn{3}(400,:))
+%     legend('Crank Nicolson','Analytical')
+%     xlabel('x')
+%     ylabel('y')
+%     title('Wiggles')
+    
+%% Print results
+
+mkdir Plots_seven
+print(fig_ntst_1,'-dpng',"Plots_seven/ntst_1.png",'-r150');
+print(fig_ntst_10,'-dpng',"Plots_seven/ntst_10.png",'-r150');
+print(fig_ntst_100,'-dpng',"Plots_seven/ntst_100.png",'-r150');

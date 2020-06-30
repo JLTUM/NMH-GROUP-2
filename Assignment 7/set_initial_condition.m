@@ -21,7 +21,9 @@ flow.zb = zeros( length(grid.x) , length(grid.y) );
 % Bottom elevation
 
 %flow.zb = 0.5 * grid.x' * grid.y;
-flow.zb = 
+ flow.zb = 0.0 * grid.x' * grid.y;
+ flow.zb(:,1:1:12) = 0.2;
+
 
 % keep this part -> "WALL" boundary condition
 flow.zb(1,:) = flow.zb(2,:);
