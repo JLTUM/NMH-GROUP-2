@@ -35,15 +35,25 @@ bconds.beast = {'WALL'};
 bconds.bsouth = {'WALL'};
 bconds.bnorth = {'WALL'};
 
-
 %% Time integration
 for itstep = 1:run.ntst
     [ run, flow ] = time_step_rk( itstep==1, constants, grid, run, ...
         flow, bconds );
     
-%% Plot results
+    
+if itstep == 1
+    
 
-plot( grid.x, grid.y, flow.h )
+%% Plot results
+surf(grid.x, grid.y, flow.h+flow.zb,'FaceAlpha',0.5)
+hold on 
+surf(grid.x, grid.y, flow.zb,'FaceColor','b')
+zlim([-1 2])
+title(itstep)
+pause(0.11)
+hold off
+
+
 
 end
 

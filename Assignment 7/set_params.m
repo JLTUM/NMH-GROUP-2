@@ -19,6 +19,9 @@
     
     run.dt = dt;       
     run.ntst = ntst;
+    
+    grid.nx = 15;
+    grid.ny = 15;
      
 end
 
