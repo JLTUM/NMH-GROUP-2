@@ -92,7 +92,6 @@ for itstep = 1:run.ntst
     pause(0.05)
 
     if mod(itstep,10) == 0 || itstep == 1
-        mkdir Plots_seven
         print(fig_Surf,'-dpng',sprintf("Plots_seven/Surf at n=%d.png", itstep),'-r150');
         print(fig_Quiver,'-dpng',sprintf("Plots_seven/Quiver at n=%d.png", itstep),'-r150');
     end
