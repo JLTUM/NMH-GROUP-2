@@ -1,4 +1,6 @@
-function [grid, run, constants] = set_params(infilename)
+
+
+ function [grid, run, constants] = set_params(infilename)
 
     % Gravity [m/s^2]
     constants.g = 9.81;
@@ -10,20 +12,18 @@ function [grid, run, constants] = set_params(infilename)
 
     load(infilename);
     
-%     grid.nx = nx;         
-%     grid.ny = ny;
-    grid.nx = nx;   %50;         
-    grid.ny = ny;   %50;
+    grid.nx = nx;         
+    grid.ny = ny;
     grid.xmax = xmax;       
     grid.xmin = xmin;
     grid.ymax = ymax;       
     grid.ymin = ymin;         
     
-    run.dt = dt;    %0.0001;       
+    run.dt = dt;       
     run.ntst = ntst;
-     
+%     
+%     grid.nx = 15;
+%     grid.ny = 15;
+%     run.dt = 0.0004;
+%      
 end
-
-
-
-

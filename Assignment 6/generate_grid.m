@@ -1,3 +1,4 @@
+
 function [ grid ] = generate_grid(grid)
 %GENERATE_GRID Creates a struct containing all grid information.
 
