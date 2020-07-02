@@ -22,7 +22,7 @@ flow.zb = zeros( length(grid.x) , length(grid.y) );
 
 %flow.zb = 0.5 * grid.x' * grid.y;
  flow.zb = 0.0 * grid.x' * grid.y;
- flow.zb(:,1:1:12) = 0.4;
+ flow.zb(:,1:1:12) = 0.1;
 
 
 % keep this part -> "WALL" boundary condition

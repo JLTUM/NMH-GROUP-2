@@ -85,7 +85,57 @@ if itstep == 10
     pause(0.05)
     hold off
 end
-
+if itstep == 20
+     fig_ntst_20 = figure('units','normalized','outerposition',[0 0 1 1]); 
+    surf(grid.x,grid.y,flow.h+flow.zb,'FaceAlpha',0.5)
+    hold on 
+    surf(grid.x,grid.y,flow.zb,'FaceColor','b')
+    xlabel('x','Fontsize',15)
+    ylabel('y','Fontsize',15)
+    zlabel('h','Fontsize',15)
+    a = get(gca,'XTickLabel');
+    set(gca,'XTickLabel',a,'fontsize',15,'FontWeight','bold')
+    set(gca,'YTickLabel',a,'fontsize',15,'FontWeight','bold')
+    set(gca,'ZTickLabel',a,'fontsize',15,'FontWeight','bold')
+    zlim([-1 2])
+    title(['n=',num2str(itstep)])
+    pause(0.05)
+    hold off
+end
+if itstep == 30
+     fig_ntst_30 = figure('units','normalized','outerposition',[0 0 1 1]); 
+    surf(grid.x,grid.y,flow.h+flow.zb,'FaceAlpha',0.5)
+    hold on 
+    surf(grid.x,grid.y,flow.zb,'FaceColor','b')
+    xlabel('x','Fontsize',15)
+    ylabel('y','Fontsize',15)
+    zlabel('h','Fontsize',15)
+    a = get(gca,'XTickLabel');
+    set(gca,'XTickLabel',a,'fontsize',15,'FontWeight','bold')
+    set(gca,'YTickLabel',a,'fontsize',15,'FontWeight','bold')
+    set(gca,'ZTickLabel',a,'fontsize',15,'FontWeight','bold')
+    zlim([-1 2])
+    title(['n=',num2str(itstep)])
+    pause(0.05)
+    hold off
+end
+if itstep == 40
+     fig_ntst_40 = figure('units','normalized','outerposition',[0 0 1 1]); 
+    surf(grid.x,grid.y,flow.h+flow.zb,'FaceAlpha',0.5)
+    hold on 
+    surf(grid.x,grid.y,flow.zb,'FaceColor','b')
+    xlabel('x','Fontsize',15)
+    ylabel('y','Fontsize',15)
+    zlabel('h','Fontsize',15)
+    a = get(gca,'XTickLabel');
+    set(gca,'XTickLabel',a,'fontsize',15,'FontWeight','bold')
+    set(gca,'YTickLabel',a,'fontsize',15,'FontWeight','bold')
+    set(gca,'ZTickLabel',a,'fontsize',15,'FontWeight','bold')
+    zlim([-1 2])
+    title(['n=',num2str(itstep)])
+    pause(0.05)
+    hold off
+end
 if itstep == 100
      fig_ntst_100 = figure('units','normalized','outerposition',[0 0 1 1]); 
     surf(grid.x,grid.y,flow.h+flow.zb,'FaceAlpha',0.5)
@@ -157,4 +207,7 @@ end
 mkdir Plots_seven
 print(fig_ntst_1,'-dpng',"Plots_seven/ntst_1.png",'-r150');
 print(fig_ntst_10,'-dpng',"Plots_seven/ntst_10.png",'-r150');
+print(fig_ntst_20,'-dpng',"Plots_seven/ntst_10.png",'-r150');
+print(fig_ntst_30,'-dpng',"Plots_seven/ntst_10.png",'-r150');
+print(fig_ntst_40,'-dpng',"Plots_seven/ntst_10.png",'-r150');
 print(fig_ntst_100,'-dpng',"Plots_seven/ntst_100.png",'-r150');
