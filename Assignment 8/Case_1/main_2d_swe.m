@@ -96,8 +96,11 @@ if itstep == 1
 %         print(fig_Quiver,'-dpng',sprintf("Plots_eight_Case2/Quiver at n=%d.png", itstep),'-r150');
 %     end    
 %% Result treatments
-% TODO TODO TODO TODO TODO TODO TODO
 
+Fr = flow.hu(end-1,:) ./ sqrt( constants.g * flow.h(end-1,:).^3 );
+disp(Fr)
+disp(flow.h(end-1,:))
+disp(flow.hu(end-1,:))
     % Diagonostic output
 %% Plot results
 % TODO TODO TODO TODO TODO TODO TODO

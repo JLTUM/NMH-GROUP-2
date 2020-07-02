@@ -25,10 +25,10 @@ flow.zb = zeros( length(grid.x) , length(grid.y) );
 %%% add zb via function or files 
 
 % zb Slope
-%  flow.zb = 0.5 * grid.x' * grid.y;
+%  flow.zb = 0 * grid.x' * grid.y;
 
- flow.zb = repmat(0.01 .* grid.x',1,length(grid.y));
-
+ flow.zb = repmat(-0.001 .* grid.x',1,length(grid.y));
+%  flow.zb(1,:)=-flow.zb(1,:)
  
 
  % zb Sharp edge
@@ -39,7 +39,17 @@ flow.zb = zeros( length(grid.x) , length(grid.y) );
 
 %% Water level 
 % give a proper intial flow depth
- flow.h(:) = 1.3;
+ %flow.h(:) = 1;
+ %NWabfluss
+  flow.h = repmat(-0.01 .* grid.x'+1.3,1,length(grid.y));
+ % Water level is drawn from a lognormal distribution (must be positive)
+h0 = 1;
+dh0 = 0.2;
+
+ %% random log initial condition
+  %  flow.h = lognrnd( log(h0^2/sqrt(h0^2+dh0^2)), sqrt(log(1+dh0^2/h0^2)), grid.nx+2, grid.ny+2 );
+
+ 
 % Constant Initial Condition
 % flow.h = ones(grid.nx+2,grid.ny+2);
 
