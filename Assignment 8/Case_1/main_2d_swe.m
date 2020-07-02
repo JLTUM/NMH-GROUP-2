@@ -47,9 +47,9 @@ for itstep = 1:run.ntst
 if itstep == 1
         fig_Surf = figure('units','normalized','outerposition',[0 0 1 1]);
         fig_Quiver = figure('units','normalized','outerposition',[0 0 1 1]);
-        surf(grid.y,grid.x,flow.h+flow.zb,'FaceAlpha',0.5)
+        surf(grid.x,grid.y,(flow.h+flow.zb)','FaceAlpha',0.5)
         hold on
-        surf(grid.y,grid.x,flow.zb,'FaceColor','b')
+        surf(grid.x,grid.y,flow.zb','FaceColor','b')
         xlabel('x','Fontsize',15)
         ylabel('y','Fontsize',15)
         zlabel('h','Fontsize',15)
@@ -57,7 +57,7 @@ if itstep == 1
         set(gca,'XTickLabel',a,'fontsize',15,'FontWeight','bold')
         set(gca,'YTickLabel',a,'fontsize',15,'FontWeight','bold')
         set(gca,'ZTickLabel',a,'fontsize',15,'FontWeight','bold')
-        zlim([-1 2])
+        %zlim([-1 2])
         title(['n=',num2str(itstep)])
         pause(0.05)
         hold off  
@@ -67,9 +67,9 @@ if itstep == 1
 %% Plot results
 
    set(0, 'CurrentFigure', fig_Surf) %Surf Definition
-    surf(grid.y, grid.x, flow.h+flow.zb,'FaceAlpha',0.5)
+    surf(grid.x, grid.y, (flow.h+flow.zb)','FaceAlpha',0.5)
     hold on 
-    surf(grid.y, grid.x, flow.zb,'FaceColor','b')
+    surf(grid.x, grid.y, flow.zb','FaceColor','b')
     xlabel('x','Fontsize',15)
     ylabel('y','Fontsize',15)
     zlabel('h','Fontsize',15)
@@ -77,7 +77,7 @@ if itstep == 1
     set(gca,'XTickLabel',a,'fontsize',15,'FontWeight','bold')
     set(gca,'YTickLabel',a,'fontsize',15,'FontWeight','bold')
     set(gca,'ZTickLabel',a,'fontsize',15,'FontWeight','bold')
-    zlim([-1 2])
+    %zlim([-1 2])
     title(['n=',num2str(itstep)])
     pause(0.05)
     hold off
