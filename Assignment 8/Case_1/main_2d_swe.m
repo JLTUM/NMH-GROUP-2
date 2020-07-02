@@ -47,9 +47,9 @@ for itstep = 1:run.ntst
 if itstep == 1
         fig_Surf = figure('units','normalized','outerposition',[0 0 1 1]);
         fig_Quiver = figure('units','normalized','outerposition',[0 0 1 1]);
-        surf(grid.x,grid.y,flow.h+flow.zb,'FaceAlpha',0.5)
+        surf(grid.y,grid.x,flow.h+flow.zb,'FaceAlpha',0.5)
         hold on
-        surf(grid.x,grid.y,flow.zb,'FaceColor','b')
+        surf(grid.y,grid.x,flow.zb,'FaceColor','b')
         xlabel('x','Fontsize',15)
         ylabel('y','Fontsize',15)
         zlabel('h','Fontsize',15)
@@ -66,10 +66,10 @@ if itstep == 1
 
 %% Plot results
 
-    set(0, 'CurrentFigure', fig_Surf) %Surf Definition
-    surf(grid.x, grid.y, flow.h+flow.zb,'FaceAlpha',0.5)
+   set(0, 'CurrentFigure', fig_Surf) %Surf Definition
+    surf(grid.y, grid.x, flow.h+flow.zb,'FaceAlpha',0.5)
     hold on 
-    surf(grid.x, grid.y, flow.zb,'FaceColor','b')
+    surf(grid.y, grid.x, flow.zb,'FaceColor','b')
     xlabel('x','Fontsize',15)
     ylabel('y','Fontsize',15)
     zlabel('h','Fontsize',15)
@@ -82,19 +82,19 @@ if itstep == 1
     pause(0.05)
     hold off
 
-    set(0, 'CurrentFigure', fig_Quiver)%Quiver Definition
-    quiver(grid.x,grid.y,flow.hu,flow.hv,'b')
-    xlabel('x','Fontsize',15)
-    ylabel('y','Fontsize',15)
-    a = get(gca,'XTickLabel'); 
-    set(gca,'XTickLabel',a,'fontsize',15,'FontWeight','bold')
-    set(gca,'YTickLabel',a,'fontsize',15,'FontWeight','bold')
-    pause(0.05)
+%     set(0, 'CurrentFigure', fig_Quiver)%Quiver Definition
+%     quiver(grid.y,grid.x,flow.hu,flow.hv,'b')
+%     xlabel('x','Fontsize',15)
+%     ylabel('y','Fontsize',15)
+%     a = get(gca,'XTickLabel'); 
+%     set(gca,'XTickLabel',a,'fontsize',15,'FontWeight','bold')
+%     set(gca,'YTickLabel',a,'fontsize',15,'FontWeight','bold')
+%     pause(0.05)
 
-    if mod(itstep,10) == 0 || itstep == 1
-        print(fig_Surf,'-dpng',sprintf("Plots_seven/Surf at n=%d.png", itstep),'-r150');
-        print(fig_Quiver,'-dpng',sprintf("Plots_seven/Quiver at n=%d.png", itstep),'-r150');
-    end    
+%     if mod(itstep,10) == 0 || itstep == 1
+%         print(fig_Surf,'-dpng',sprintf("Plots_eight_Case1/Surf at n=%d.png", itstep),'-r150');
+%         print(fig_Quiver,'-dpng',sprintf("Plots_eight_Case2/Quiver at n=%d.png", itstep),'-r150');
+%     end    
 %% Result treatments
 % TODO TODO TODO TODO TODO TODO TODO
 

@@ -26,19 +26,19 @@ flow.kst = ones( grid.nx, grid.ny );
 
 % zb Slope
  %flow.zb = 0.5 * grid.x' * grid.y;
- %flow.zb = 0.0 * grid.x' * grid.y;
+ flow.zb = 0.01 * grid.x' * grid.y;
  
  % zb Sharp edge
  %flow.zb(:,1:1:12) = 0.4;
 
  % zb Constant
-flow.zb = 0.0 * grid.x' * grid.y;
+%flow.zb = 0.0 * grid.x' * grid.y;
 
 %% Water level 
 % give a proper intial flow depth
-% flow.h(:) = ???;
+ flow.h(:) = 1.2;
 % Constant Initial Condition
- flow.h = ones(grid.nx+2,grid.ny+2);
+% flow.h = ones(grid.nx+2,grid.ny+2);
 
 %% Strickler
 % Constant Strickler
