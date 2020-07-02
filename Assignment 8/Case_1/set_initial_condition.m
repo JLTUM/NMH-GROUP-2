@@ -6,8 +6,8 @@ function [ flow ] = set_initial_condition( grid, flow )
 flow.h = zeros( length(grid.x), length(grid.y) );
 
 % Specific discharge in x-direction (cell-centred)
-flow.hu = zeros( length(grid.x), length(grid.y) );
-
+flow.hu = ones( length(grid.x), length(grid.y) );
+% flow.hu = 
 % Specific discharge in y-direction (cell-centred)
 flow.hv = zeros( length(grid.x), length(grid.y) );
 
@@ -41,7 +41,7 @@ flow.zb = zeros( length(grid.x) , length(grid.y) );
 % give a proper intial flow depth
  %flow.h(:) = 1;
  %NWabfluss
-  flow.h = repmat(-0.01 .* grid.x'+1.3,1,length(grid.y));
+  flow.h = repmat(-0.001 .* grid.x'+1.2,1,length(grid.y));
  % Water level is drawn from a lognormal distribution (must be positive)
 h0 = 1;
 dh0 = 0.2;

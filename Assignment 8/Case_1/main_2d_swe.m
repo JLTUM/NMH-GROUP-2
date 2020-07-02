@@ -79,7 +79,7 @@ if itstep == 1
     set(gca,'ZTickLabel',a,'fontsize',15,'FontWeight','bold')
     %zlim([-1 2])
     title(['n=',num2str(itstep)])
-    pause(0.05)
+    pause(0.005)
     hold off
 
 %     set(0, 'CurrentFigure', fig_Quiver)%Quiver Definition
