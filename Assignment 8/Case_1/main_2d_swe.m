@@ -36,72 +36,62 @@ run.t = 0;
 % Frequency of diagnostic output
 itdiag = 100;
 
+%% Preallocation of variables
+
+R_hyd = [];
+v_st = [];
+I_WSP = [];
+I_S = [];
+v_n = [];
+% TODO: Froude number
+% TODO: u_mean
+b = grid.ymax;
+Q = bconds.hwest*bconds.huwest*b;
+
+
 %% Time integration
 fprintf('start time integration\n')
 for itstep = 1:run.ntst
     [ run, flow ] = time_step_rk( itstep==1, constants, grid, run, ...
         flow, bconds );
+    %% Normal Wasser
+    I = -flow.I_s;
+    k_st = flow.kst(1,1);
+    N_M = NWV_muster(Q,b,0,I,k_st);
+    %% Result treatments
+    R_hyd(end+1) = (grid.ymax * nanmean(nanmean(flow.hu))) / (grid.ymax + (2 * nanmean(nanmean(flow.h))));
+    v_st(end+1) = min(min(flow.kst)) * sqrt(abs(flow.I_s)) *  R_hyd(end)^(2/3);
+    I_WSP(end+1) = abs((min(min(flow.h(2:end,:)))-max(max((flow.h(2:end,:))))))/grid.xmax;
+    I_S(end+1) = abs((min(min(flow.zb))-max(max(flow.zb))))/grid.xmax;
 
-    
-    
-if itstep == 1
-        fig_Surf = figure('units','normalized','outerposition',[0 0 1 1]);
-        fig_Quiver = figure('units','normalized','outerposition',[0 0 1 1]);
-        surf(grid.x,grid.y,(flow.h+flow.zb)','FaceAlpha',0.5)
-        hold on
-        surf(grid.x,grid.y,flow.zb','FaceColor','b')
-        xlabel('x','Fontsize',15)
-        ylabel('y','Fontsize',15)
-        zlabel('h','Fontsize',15)
-        a = get(gca,'XTickLabel');
-        set(gca,'XTickLabel',a,'fontsize',15,'FontWeight','bold')
-        set(gca,'YTickLabel',a,'fontsize',15,'FontWeight','bold')
-        set(gca,'ZTickLabel',a,'fontsize',15,'FontWeight','bold')
-        %zlim([-1 2])
-        title(['n=',num2str(itstep)])
-        pause(0.05)
-        hold off  
+%% Plot Results
+    if itstep == 1
+        fig_WSP = figure;
+        fig_D = figure;
+        fig_hu = figure;
     end
+    v_n(end+1)=N_M(3);
+    % Channel Diagnosis
+    set(0, 'CurrentFigure', fig_D)
+    plot(1:itstep,I_S,'-b', 1:itstep,I_WSP,'-r', 1:itstep, v_st,'-g')
+    legend('I_S','I_{WSP}','v_{st}','Location','northwest')
+    pause(0.1)
     
+    % Water level 
+    set(0, 'CurrentFigure', fig_WSP)
+    plot(grid.x,flow.h(:,2)+flow.zb(:,2))
+    title('Channel diagnosis')
+    
+        set(0, 'CurrentFigure', fig_hu)
+    plot(grid.x,flow.hu(:,2))
+    yline(N_M(3))
+    title('Channel Velocity Test')
+    
+    energy = flow.hu.^2/9.81+flow.h;
+    set(0, 'CurrentFigure', fig_hu)
+    plot(grid.x,energy)
+    yline(N_M(2))
+    title('Channel Energy Test')
 
-%% Plot results
-
-   set(0, 'CurrentFigure', fig_Surf) %Surf Definition
-    surf(grid.x, grid.y, (flow.h+flow.zb)','FaceAlpha',0.5)
-    hold on 
-    surf(grid.x, grid.y, flow.zb','FaceColor','b')
-    xlabel('x','Fontsize',15)
-    ylabel('y','Fontsize',15)
-    zlabel('h','Fontsize',15)
-    a = get(gca,'XTickLabel'); 
-    set(gca,'XTickLabel',a,'fontsize',15,'FontWeight','bold')
-    set(gca,'YTickLabel',a,'fontsize',15,'FontWeight','bold')
-    set(gca,'ZTickLabel',a,'fontsize',15,'FontWeight','bold')
-    %zlim([-1 2])
-    title(['n=',num2str(itstep)])
-    pause(0.005)
-    hold off
-
-%     set(0, 'CurrentFigure', fig_Quiver)%Quiver Definition
-%     quiver(grid.y,grid.x,flow.hu,flow.hv,'b')
-%     xlabel('x','Fontsize',15)
-%     ylabel('y','Fontsize',15)
-%     a = get(gca,'XTickLabel'); 
-%     set(gca,'XTickLabel',a,'fontsize',15,'FontWeight','bold')
-%     set(gca,'YTickLabel',a,'fontsize',15,'FontWeight','bold')
-%     pause(0.05)
-
-%     if mod(itstep,10) == 0 || itstep == 1
-%         print(fig_Surf,'-dpng',sprintf("Plots_eight_Case1/Surf at n=%d.png", itstep),'-r150');
-%         print(fig_Quiver,'-dpng',sprintf("Plots_eight_Case2/Quiver at n=%d.png", itstep),'-r150');
-%     end    
-%% Result treatments
-
-Fr = flow.hu(end-1,:) ./ sqrt( constants.g * flow.h(end-1,:).^3 );
-disp(Fr)
-disp(flow.h(end-1,:))
-disp(flow.hu(end-1,:))
-    % Diagonostic output
-%% Plot results
-% TODO TODO TODO TODO TODO TODO TODO
 end
+
