@@ -21,16 +21,29 @@ flow.zb = zeros( length(grid.x) , length(grid.y) );
 flow.kst = ones( grid.nx, grid.ny );
 
 % ---- Fields initialization ----------------------
-% Bottom elevation
+%% Bottom elevation
 %%% add zb via function or files 
-% TODO TODO TODO TODO TODO TODO TODO
 
-% Water level 
+% zb Slope
+ %flow.zb = 0.5 * grid.x' * grid.y;
+ %flow.zb = 0.0 * grid.x' * grid.y;
+ 
+ % zb Sharp edge
+ %flow.zb(:,1:1:12) = 0.4;
+
+ % zb Constant
+flow.zb = 0.0 * grid.x' * grid.y;
+
+%% Water level 
 % give a proper intial flow depth
 % flow.h(:) = ???;
+% Constant Initial Condition
+ flow.h = ones(grid.nx+2,grid.ny+2);
 
-% Strickler
-% TODO TODO TODO TODO TODO TODO TODO
+%% Strickler
+% Constant Strickler
+kst = 30;
+flow.kst = kst *ones( grid.nx, grid.ny );
 
 
 
