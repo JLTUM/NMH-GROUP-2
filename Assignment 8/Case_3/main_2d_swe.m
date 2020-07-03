@@ -76,8 +76,8 @@ for itstep = 1:run.ntst
     % Water level 
     %set(0, 'CurrentFigure', fig_WSP)
     figure(3)
-    plot(grid.x,flow.h(:,2),'b',grid.x,flow.hu(:,2),'g') %%plot(grid.x,flow.h(:,2)+flow.zb(:,2))
-    legend('Waterdepth','Specific Discharge')
+    plot(grid.x,flow.h(:,2),'b',grid.x,flow.hu(:,2),'r',grid.x,flow.zb(:,2),'g') %%plot(grid.x,flow.h(:,2)+flow.zb(:,2))
+    legend('Waterdepth','Specific Discharge','bottom elevation')
     title('Channel diagnosis')
     
     

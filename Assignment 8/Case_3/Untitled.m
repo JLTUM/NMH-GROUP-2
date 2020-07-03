@@ -1,0 +1,1 @@
+k=readmatrix ('zb3.txt')

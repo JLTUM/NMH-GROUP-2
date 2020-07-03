@@ -26,10 +26,14 @@ flow.zb = zeros( length(grid.x) , length(grid.y) );
 %% Bottom elevation
 %%% add zb via function or files 
 
+% read bottom elevation from txt
+
+flow.zb = readmatrix('zb3.txt')';
+
 % zb Slope
 %  flow.zb = 0 * grid.x' * grid.y;
 
- flow.zb = repmat(-0.001 .* grid.x',1,length(grid.y));
+% flow.zb = repmat(-0.001 .* grid.x',1,length(grid.y));
 %  flow.zb(1,:)=-flow.zb(1,:)
  
 
@@ -59,6 +63,9 @@ dh0 = 0.2;
 % Constant Strickler
 kst = 30;
 flow.kst = kst *ones( grid.nx, grid.ny );
+
+% read Strickler from txt
+flow.kst = readmatrix('kst3.txt')';
 
 
 
