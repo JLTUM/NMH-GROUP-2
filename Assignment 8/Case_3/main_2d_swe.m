@@ -11,7 +11,7 @@ close all
 
 %% Initialize simulation
 % read infile 
-infilename = 'infile_2D_swe_channelFlow1.mat'; %% 1,2,3,4,5
+infilename = 'infile_2D_swe_channelFlow3.mat'; %% 1,2,3,4,5
 fprintf('infilename is: %s\n', infilename)
 
 % build structures 
