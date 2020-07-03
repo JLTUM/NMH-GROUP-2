@@ -47,13 +47,17 @@ flow.zb = readmatrix('zb3.txt')';
 % give a proper intial flow depth
  %flow.h(:) = 1;
  %NWabfluss
-  flow.h = repmat(-0.001 .* grid.x'+1.2,1,length(grid.y));
+ 
+ h=1.3;
+ flow.h = h *ones( grid.nx+2, grid.ny+2);
+ 
+ 
+ % flow.h = repmat(-0.001 .* grid.x'+1.2,1,length(grid.y));
+  
  % Water level is drawn from a lognormal distribution (must be positive)
-h0 = 1;
-dh0 = 0.2;
-
- %% random log initial condition
-  %  flow.h = lognrnd( log(h0^2/sqrt(h0^2+dh0^2)), sqrt(log(1+dh0^2/h0^2)), grid.nx+2, grid.ny+2 );
+  % h0 = 1;
+%     dh0 = 0.2;
+% flow.h = lognrnd( log(h0^2/sqrt(h0^2+dh0^2)), sqrt(log(1+dh0^2/h0^2)), grid.nx+2, grid.ny+2 );
 
  
 % Constant Initial Condition
