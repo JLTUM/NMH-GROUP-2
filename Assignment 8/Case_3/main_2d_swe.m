@@ -52,6 +52,17 @@ fprintf('start time integration\n')
 for itstep = 1:run.ntst
     [ run, flow ] = time_step_rk( itstep==1, constants, grid, run, ...
         flow, bconds );
+    
+%% PreProcessing 
+%plot kst change over slope
+% figure(999)
+%     plot(grid.x,flow.zb(:,2),'m',grid.x(2:end-1),flow.kst(:,2),'r')
+%     legend('bottom elevation','Strickler value (kst)','Location','northwest')
+%     xlabel('x','Fontsize',15)
+%     ylabel('y','Fontsize',15)
+%     title('PreProcessing')
+    
+    
 
  %% Result treatments
 
@@ -69,8 +80,13 @@ for itstep = 1:run.ntst
     
     
     figure(2)
-    plot(1:itstep,I_S,'-b', 1:itstep,I_WSP,'-r', 1:itstep, v_st,'-g', 1:itstep, Fr,'-y')
-    legend('I_S','I_{WSP}','v_{st}','Fr','Location','northwest')
+    plot(1:itstep, v_st,'-g', 1:itstep, Fr,'-y')
+    legend('v_{st}','Fr','Location','northwest')
+    pause(0.01)
+    
+    figure(6)
+    plot(1:itstep,I_S,'-b', 1:itstep,I_WSP,'-r')
+    legend('I_S','I_{WSP}','Location','northwest')
     pause(0.01)
     
     % Water level 
@@ -79,6 +95,8 @@ for itstep = 1:run.ntst
     plot(grid.x,flow.h(:,2),'b',grid.x,flow.hu(:,2),'r',grid.x,flow.zb(:,2),'g') %%plot(grid.x,flow.h(:,2)+flow.zb(:,2))
     legend('Waterdepth','Specific Discharge','bottom elevation')
     title('Channel diagnosis')
+    
+    
     
     
     
