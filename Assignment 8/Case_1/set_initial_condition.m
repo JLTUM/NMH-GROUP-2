@@ -22,13 +22,11 @@ flow.kst = ones( grid.nx, grid.ny );
 
 % ---- Fields initialization ----------------------
 
-flow.I_s = -0.001;
+flow.I_s = -0.01;
 
 % Bottom elevation
 flow.zb = repmat(flow.I_s .* grid.x',1,length(grid.y));
 
-% give a proper intial flow depth
-flow.h(:) = 1.3;
 
 % Strickler
 kst = 30;

@@ -27,30 +27,29 @@ fprintf('parameters set\n')
 
 % Set initial conditions 
 run.t = 0;
-[ flow ] = set_initial_condition( grid, flow );
-
 % ---- Create boundary conditions -----------------------------------------
 [ bconds ] = set_boundary_conditions();
 
+[ flow ] = set_initial_condition( grid, flow);
+
+
+
 % ---- Setup of for time integration --------------------------------------
 % Frequency of diagnostic output
-itdiag = 100;
+%itdiag = 100;
 
 %% Preallocation of variables
-
-R_hyd = [];
-v_st = [];
-I_WSP = [];
-I_S = [];
-v_n = [];
-% TODO: Froude number
-% TODO: u_mean
 b = grid.ymax;
-Q = bconds.hwest*bconds.huwest*b;
-
+Q = bconds.huwest*b;
+I = 0.001;
+k_st = 30;
 
 %% Time integration
-fprintf('start time integration\n')
+
+N_M = NWV_muster(Q,b,0,I,k_st);
+
+flow.h(:) = 10;
+%flow.hu(:) = N_M(3);
 
 for itstep = 1:run.ntst
     [ run, flow ] = time_step_rk( itstep==1, constants, grid, run, ...
@@ -66,24 +65,38 @@ for itstep = 1:run.ntst
     A = flow.h(:,2) .* grid.ymax;
     U = 2 .* flow.h(:,2) + grid.ymax;
     R = A ./ U;
-    v_st = k_st*sqrt(abs(flow.I_s))*R.^(2/3);
+    v_st = k_st*sqrt(I)*R.^(2/3);
+    Fr = v_h./(flow.h(:,2).*9.81).^(0.5);
+    %% Calculate NWV
     
-    I_WSP = mean(mean(v_h))/ k_st / mean(mean(R))^(4/3);
+    for i = 1:length(grid.x)-1
+    I_WSP(i) = ( (v_h(i)+v_h(i+1)) /2 )/ k_st / ( (R(i)+R(i+1))/2 )^(4/3);
+    end
+    
+    energy = v_h.^(2)/9.81/2+flow.h(:,2)+flow.zb(:,2);
     
     figure(1)
-    hold on
+    
+    subplot(2,2,1)
     plot(grid.x,v_st,grid.x,v_h);
-    
-    yline(N_M(3));
-    
     title('Channel Velocity')
-    hold off
+ 
+    subplot(2,2,2)
+    plot(grid.x,-I*grid.x,grid.x(2:end),I_WSP)
+    title('Channel I_WSP')
+    
+    subplot(2,2,3)
+    plot(grid.x,flow.h(:,2),grid.x,energy);
+    title('Channel Waterdepth / Energy')
+    legend('Depth','Energy','Location','northwest')
+    
+    subplot(2,2,4)
+    plot(grid.x,Fr);
+    title('Channel Waterdepth / Energy')
+    legend('Fr','Location','northwest')
     
     
-    
-    %v_st(end+1) = min(min(flow.kst)) * sqrt(abs(flow.I_s)) *  R_hyd(end)^(2/3);
-    %I_WSP(end+1) = abs((min(min(flow.h(2:end,:)))-max(max((flow.h(2:end,:))))))/grid.xmax;
-    %I_S(end+1) = abs((min(min(flow.zb))-max(max(flow.zb))))/grid.xmax;
+ 
 
 %% Plot Results
 
