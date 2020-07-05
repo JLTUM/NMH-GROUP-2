@@ -22,7 +22,7 @@ flow.kst = ones( grid.nx, grid.ny );
 
 % ---- Fields initialization ----------------------
 
-flow.I_s = -0.1;
+flow.I_s = -0.001;
 
 % Bottom elevation
 flow.zb = repmat(flow.I_s .* grid.x',1,length(grid.y));

@@ -10,7 +10,7 @@ function [grid, run, constants] = set_params(infilename)
 
     load(infilename);
     
-    grid.nx =40; %nx;         
+    grid.nx =10; %nx;         
     grid.ny = 1;
     grid.xmax = xmax;       
     grid.xmin = xmin;
