@@ -41,25 +41,24 @@ run.t = 0;
 %% Preallocation of variables
 b = grid.ymax;
 Q = bconds.huwest*b;
-
+I = 0.001;
+k_st = 30;
 
 %% Time integration
 
-N_M = NWV_muster(Q,b,0,-flow.I_s,30);
+N_M = NWV_muster(Q,b,0,I,k_st);
 
-flow.h(:) = N_M(1);
-flow.hu(:) = N_M(3)*N_M(1);
+%flow.h(:) = 4;
+%flow.hu(:) = N_M(3);
 
 for itstep = 1:run.ntst
     [ run, flow ] = time_step_rk( itstep==1, constants, grid, run, ...
         flow, bconds );
     
-    I = -flow.I_s;
-    k_st = 30;
     
     v_h = flow.hu(:,2) ./ flow.h(:,2);
 
-    
+    I = -flow.I_s;
     k_st = flow.kst(1,1);
     N_M = NWV_muster(Q,b,0,I,k_st);
 
