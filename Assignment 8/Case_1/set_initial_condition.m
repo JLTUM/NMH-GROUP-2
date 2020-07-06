@@ -24,7 +24,7 @@ flow.kst = ones( grid.nx, grid.ny );
 % ---- Fields initialization ----------------------
 
 global infilename
-flow.I_S = -0.001;
+
 
 % Case 1
 if strcmp(infilename,'infile_2D_swe_channelFlow1.mat')
@@ -39,6 +39,7 @@ if strcmp(infilename,'infile_2D_swe_channelFlow1.mat')
 elseif strcmp(infilename,'infile_2D_swe_channelFlow2.mat')
     flow.zb = readmatrix('zb2.txt')';
     flow.kst = readmatrix('kst2.txt')';
+    flow.I_S = -0.015125;
     flow.h(:,:) = 1.35;
     flow.hu(:,:) = 1.5;
     disp('Reading Case 2')
