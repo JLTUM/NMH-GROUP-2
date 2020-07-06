@@ -47,8 +47,8 @@ Q = bconds.huwest*b;
 
 N_M = NWV_muster(Q,b,0,-flow.I_s,30);
 
-flow.h(:) = N_M(1);
-flow.hu(:) = N_M(3)*N_M(1);
+flow.h(:) = 0.351%N_M(1);
+flow.hu(:) = 1.5%N_M(3)*N_M(1);
 
 for itstep = 1:run.ntst
     [ run, flow ] = time_step_rk( itstep==1, constants, grid, run, ...
@@ -70,31 +70,49 @@ for itstep = 1:run.ntst
     Fr = v_h./(flow.h(:,2).*9.81).^(0.5);
     %% Calculate NWV
     
-    for i = 1:length(grid.x)-1
-    I_WSP(i) = ( (v_h(i)+v_h(i+1)) /2 )/ k_st / ( (R(i)+R(i+1))/2 )^(4/3);
-    end
+%     for i = 1:length(grid.x)-1
+%     I_WSP(i) = ( (v_h(i)+v_h(i+1)) /2 )/ k_st / ( (R(i)+R(i+1))/2 )^(4/3);
+%     end
     
     energy = v_h.^(2)/9.81/2+flow.h(:,2)+flow.zb(:,2);
     
     figure(1)
     
-    subplot(2,2,1)
-    plot(grid.x(2:end),v_st(2:end),grid.x(2:end),v_h(2:end));
-    title('Channel Velocity')
- 
-    subplot(2,2,2)
-    plot(grid.x,-I*grid.x,grid.x(2:end),I_WSP)
-    title('Channel I_WSP')
-    
-    subplot(2,2,3)
-    plot(grid.x,flow.h(:,2)+flow.zb(:,2),grid.x,energy,grid.x,flow.hu,grid.x,flow.zb,'b');
-    title('Channel Waterdepth / Energy / Discharge')
+%     subplot(2,2,1)
+%     plot(grid.x(2:end),v_st(2:end),grid.x(2:end),v_h(2:end));
+%     title('Channel Velocity')
+%  
+%     subplot(2,2,2)
+%     plot(grid.x,-I*grid.x,grid.x(2:end),I_WSP)
+%     title('Channel I_WSP')
+%     
+%     subplot(2,2,3)
+%     plot(grid.x,flow.h(:,2)+flow.zb(:,2),grid.x,energy,grid.x,flow.hu,grid.x,flow.zb,'b');
+%     title('Channel Waterdepth / Energy / Discharge')
     %legend('Depth','Energy','Location','northwest')
     
+%     subplot(2,2,4)
+%     plot(grid.x,Fr);
+%     title('Channel Froude')
+%     legend('Fr','Location','northwest')
+    
     subplot(2,2,4)
-    plot(grid.x,Fr);
-    title('Channel Froude')
-    legend('Fr','Location','northwest')
+    title('H-y Diagram')
+    y = 0:0.01:5;
+    %H = zeros(1,91);
+    hold on
+    H = y + ( Q )^2 ./ (b * y ).^2 ./ 2 ./ 9.81;
+    plot(H,y);
+    H = y;
+    y_c = (((Q/b)^2)/09.81)^(1/3);
+    yline(y_c);
+    plot(H,y);
+    xlim([0 5])
+    xlabel('H') 
+    ylabel('y')
+    scatter(flow.h(:,2),energy)
+    scatter(N_M(1),N_M(2),'b')
+    hold off
     
     
  
@@ -123,7 +141,7 @@ for itstep = 1:run.ntst
 %     yline(N_M(2))
 %     title('Channel Energy Test')
 %     
-    pause(0.01)
+    pause(0.000001)
     
 
 
