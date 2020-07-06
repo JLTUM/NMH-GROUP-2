@@ -41,8 +41,6 @@ I_WSP = [];
 I_S = [];
 I_E = [];
 
-N_M = NWV_muster(Q,b,0,-flow.I_S,30);
-
 I = -flow.I_S;
 k_st = flow.kst(1,1);
 N_M = NWV_muster(Q,b,0,I,k_st);
@@ -50,10 +48,9 @@ N_M = NWV_muster(Q,b,0,I,k_st);
 %% Preallocation of Plots
 
     fig_Hy = figure;
-    fig_Channeld = figure;
+        hold on
         title('H-y Diagram')
         y = 0:0.01:5;
-        hold on
         H = y + ( Q )^2 ./ (b * y ).^2 ./ 2 ./ 9.81;
         plot(H,y);
         H = y;
@@ -63,6 +60,7 @@ N_M = NWV_muster(Q,b,0,I,k_st);
         xlim([0 5])
         xlabel('H') 
         ylabel('y')
+    fig_Channeld = figure;
 
 %% Time integration
 
@@ -90,24 +88,20 @@ for itstep = 1:run.ntst
     
     % Plot Channel Diagnosis
     set(0, 'CurrentFigure', fig_Channeld)
-    subplot(2,2,1)
-    plot(grid.x(2:end),v_st(2:end),grid.x(2:end),u(2:end));
+    subplot(131)
+    plot(grid.x(2:end), v_st(2:end), grid.x(2:end), u(2:end), grid.x(2:end), flow.hu(2:end,2));
+    legend('v_{st}','u','hu')
     title('Channel Velocity')
- 
-    subplot(2,2,2)
-    hold on
-    plot(1:itstep,I_WSP,1:itstep,I_S,1:itstep,I_E)
-    hold off
-    title('Channel I_WSP')
     
-    subplot(2,2,3)
-    plot(grid.x,flow.h(:,2)+flow.zb(:,2),grid.x,H,grid.x,flow.hu,grid.x,flow.zb,'b');
+    subplot(132)
+    plot(grid.x(2:end), H(2:end), grid.x(2:end), flow.h(2:end,2)+flow.zb(2:end,2),...
+        grid.x(2:end), flow.h(2:end,2), grid.x(2:end),flow.zb (2:end,2));
     title('Channel Waterdepth / Energy / Discharge')
-    legend('h','H','q','zb','Location','southwest')
+    legend('H','h+zb','h','zb','Location','southwest')
     
     hold off
-    subplot(2,2,4)
-    plot(grid.x,Fr);
+    subplot(133)
+    plot(grid.x(2:end),Fr(2:end));
     title('Channel Froude')
     legend('Fr','Location','northwest')
 
@@ -115,9 +109,9 @@ for itstep = 1:run.ntst
     % Plot Hy-Diagramm
     set(0, 'CurrentFigure', fig_Hy)
     hold on
-    scatter(flow.h(90,2),H(90),'b')
-    scatter(flow.h(20,2),H(20),'r')
-    scatter(N_M(1),N_M(2),'y')
+    scatter(flow.h(90,2),H(90),'b.')
+    scatter(flow.h(20,2),H(20),'r.')
+    scatter(N_M(1),N_M(2),'yx')
     hold off
       
     pause(0.0001)
