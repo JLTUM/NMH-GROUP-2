@@ -11,7 +11,7 @@ close all
 
 %% Initialize simulation
 % read infile 
-infilename = 'infile_2D_swe_channelFlow2.mat'; %% 1,2,3,4,5
+infilename = 'infile_2D_swe_channelFlow1.mat'; %% 1,2,3,4,5
 fprintf('infilename is: %s\n', infilename)
 
 % build structures 
@@ -47,7 +47,7 @@ Q = bconds.huwest*b;
 
 N_M = NWV_muster(Q,b,0,-flow.I_s,30);
 
-flow.h(:) = 0.351%N_M(1);
+flow.h(:) = 0.2%N_M(1);
 flow.hu(:) = 1.5%N_M(3)*N_M(1);
 
 for itstep = 1:run.ntst
@@ -78,25 +78,25 @@ for itstep = 1:run.ntst
     
     figure(1)
     
-%     subplot(2,2,1)
-%     plot(grid.x(2:end),v_st(2:end),grid.x(2:end),v_h(2:end));
-%     title('Channel Velocity')
-%  
+    subplot(3,1,1)
+    plot(grid.x(2:end),v_st(2:end),grid.x(2:end),v_h(2:end));
+    title('Channel Velocity')
+ 
 %     subplot(2,2,2)
 %     plot(grid.x,-I*grid.x,grid.x(2:end),I_WSP)
 %     title('Channel I_WSP')
-%     
-%     subplot(2,2,3)
-%     plot(grid.x,flow.h(:,2)+flow.zb(:,2),grid.x,energy,grid.x,flow.hu,grid.x,flow.zb,'b');
-%     title('Channel Waterdepth / Energy / Discharge')
-    %legend('Depth','Energy','Location','northwest')
+    
+    subplot(3,1,2)
+    plot(grid.x,flow.h(:,2)+flow.zb(:,2),grid.x,energy,grid.x,flow.hu,grid.x,flow.zb,'b');
+    title('Channel Waterdepth / Energy / Discharge')
+    legend('Depth','Energy','Location','northwest')
     
 %     subplot(2,2,4)
 %     plot(grid.x,Fr);
 %     title('Channel Froude')
 %     legend('Fr','Location','northwest')
-    
-    subplot(2,2,4)
+%     
+    subplot(3,1,3)
     title('H-y Diagram')
     y = 0:0.01:5;
     %H = zeros(1,91);
