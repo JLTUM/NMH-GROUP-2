@@ -34,6 +34,7 @@ run.t = 0;
 [ flow ] = set_initial_condition( grid, flow);
 
 %% Preallocation of variables
+
 b = grid.ymax;
 Q = bconds.huwest*b;
 
@@ -60,8 +61,7 @@ N_M = NWV_muster(Q,b,0,I,k_st);
         xlim([0 5])
         xlabel('H') 
         ylabel('y')
-    fig_Channeld = figure;
-
+    fig_Channeld = figure('units','normalized','outerposition',[0 0 0.7 0.5]);
 %% Time integration
 
 for itstep = 1:run.ntst
@@ -88,19 +88,19 @@ for itstep = 1:run.ntst
     
     % Plot Channel Diagnosis
     set(0, 'CurrentFigure', fig_Channeld)
-    subplot(131)
-    plot(grid.x(2:end), v_st(2:end), grid.x(2:end), u(2:end), grid.x(2:end), flow.hu(2:end,2));
-    legend('v_{st}','u','hu')
-    title('Channel Velocity')
+%     subplot(131)
+%     plot(grid.x(2:end), v_st(2:end), grid.x(2:end), u(2:end), grid.x(2:end), flow.hu(2:end,2));
+%     legend('v_{st}','u','hu')
+%     title('Channel Velocity')
     
-    subplot(132)
+    subplot(121)
     plot(grid.x(2:end), H(2:end), grid.x(2:end), flow.h(2:end,2)+flow.zb(2:end,2),...
         grid.x(2:end), flow.h(2:end,2), grid.x(2:end),flow.zb (2:end,2));
     title('Channel Waterdepth / Energy / Discharge')
     legend('H','h+zb','h','zb','Location','southwest')
     
     hold off
-    subplot(133)
+    subplot(122)
     plot(grid.x(2:end),Fr(2:end));
     title('Channel Froude')
     legend('Fr','Location','northwest')
@@ -110,7 +110,7 @@ for itstep = 1:run.ntst
     set(0, 'CurrentFigure', fig_Hy)
     hold on
     scatter(flow.h(90,2),H(90),'b.')
-    scatter(flow.h(20,2),H(20),'r.')
+%     scatter(flow.h(20,2),H(20),'r.')
     scatter(N_M(1),N_M(2),'yx')
     hold off
       
