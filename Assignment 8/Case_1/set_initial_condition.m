@@ -31,6 +31,6 @@ flow.zb = repmat(flow.I_s .* grid.x',1,length(grid.y));
 % Strickler
 kst = 30;
 flow.kst = kst * ones( grid.nx, grid.ny );
-%flow.kst = readmatrix('kst2.txt')';
-%flow.zb = readmatrix('zb2.txt')';
+flow.kst = readmatrix('kst2.txt')';
+flow.zb = readmatrix('zb2.txt')';
 end
