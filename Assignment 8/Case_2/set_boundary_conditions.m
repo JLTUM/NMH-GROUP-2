@@ -7,10 +7,10 @@ bconds.beast = {'HEXT','HUEXT'};%{'HEXT','HUEXT'};% HEXT   HUEXT extrapolates va
 bconds.bsouth = {'WALL'};
 bconds.bnorth = {'WALL'};
 
-bconds.hwest = 1.3;
+bconds.hwest = 0.351;
 bconds.huwest = 1.5;
 %bconds.heast = 4.13;
-%bconds.hueast = 1.5;
+bconds.hueast = 1.5;
 %  bconds.hueast = 1.6
 
 end

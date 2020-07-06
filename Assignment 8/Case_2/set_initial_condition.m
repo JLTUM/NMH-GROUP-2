@@ -22,7 +22,7 @@ flow.kst = ones( grid.nx, grid.ny );
 
 % ---- Fields initialization ----------------------
 
-flow.I_s = -0.001;
+flow.I_s = -0.07;
 
 % Bottom elevation
 flow.zb = repmat(flow.I_s .* grid.x',1,length(grid.y));
@@ -31,6 +31,6 @@ flow.zb = repmat(flow.I_s .* grid.x',1,length(grid.y));
 % Strickler
 kst = 30;
 flow.kst = kst * ones( grid.nx, grid.ny );
-%flow.kst = readmatrix('kst2.txt')';
-%flow.zb = readmatrix('zb2.txt')';
+flow.kst = readmatrix('kst2.txt')';
+flow.zb = readmatrix('zb2.txt')';
 end
