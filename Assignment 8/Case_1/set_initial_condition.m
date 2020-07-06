@@ -47,7 +47,7 @@ elseif strcmp(infilename,'infile_2D_swe_channelFlow2.mat')
 elseif strcmp(infilename,'infile_2D_swe_channelFlow3.mat')
     flow.zb = readmatrix('zb3.txt')';
     flow.kst = readmatrix('kst3.txt')';
-    flow.h(:,:) = 1.35;
+    flow.h(:,:) = 0.5;
     flow.hu(:,:) = 1.5;
     disp('Reading Case 3')
     
