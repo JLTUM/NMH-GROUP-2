@@ -11,7 +11,7 @@ close all
 
 %% Initialize simulation
 % read infile 
-infilename = 'infile_2D_swe_channelFlow1.mat'; %% 1,2,3,4,5
+infilename = 'infile_2D_swe_channelFlow2.mat'; %% 1,2,3,4,5
 fprintf('infilename is: %s\n', infilename)
 
 % build structures 
@@ -48,7 +48,7 @@ k_st = 30;
 
 N_M = NWV_muster(Q,b,0,I,k_st);
 
-flow.h(:) = 10;
+%flow.h(:) = 4;
 %flow.hu(:) = N_M(3);
 
 for itstep = 1:run.ntst
@@ -78,7 +78,7 @@ for itstep = 1:run.ntst
     figure(1)
     
     subplot(2,2,1)
-    plot(grid.x,v_st,grid.x,v_h);
+    plot(grid.x(2:end),v_st(2:end),grid.x(2:end),v_h(2:end));
     title('Channel Velocity')
  
     subplot(2,2,2)
@@ -86,13 +86,13 @@ for itstep = 1:run.ntst
     title('Channel I_WSP')
     
     subplot(2,2,3)
-    plot(grid.x,flow.h(:,2),grid.x,energy);
-    title('Channel Waterdepth / Energy')
-    legend('Depth','Energy','Location','northwest')
+    plot(grid.x,flow.h(:,2)+flow.zb(:,2),grid.x,energy,grid.x,flow.hu,grid.x,flow.zb,'b');
+    title('Channel Waterdepth / Energy / Discharge')
+    %legend('Depth','Energy','Location','northwest')
     
     subplot(2,2,4)
     plot(grid.x,Fr);
-    title('Channel Waterdepth / Energy')
+    title('Channel Froude')
     legend('Fr','Location','northwest')
     
     

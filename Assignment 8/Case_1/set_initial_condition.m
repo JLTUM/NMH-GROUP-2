@@ -3,7 +3,7 @@ function [ flow ] = set_initial_condition( grid, flow )
 
 % ---- Create fields for shallow water equations ----------------------
 % Flow depth (cell-centred)
-flow.h = zeros( length(grid.x), length(grid.y) );
+flow.h = ones( length(grid.x), length(grid.y) );
 
 % Specific discharge in x-direction (cell-centred)
 flow.hu = ones( length(grid.x), length(grid.y) );
@@ -22,7 +22,7 @@ flow.kst = ones( grid.nx, grid.ny );
 
 % ---- Fields initialization ----------------------
 
-flow.I_s = -0.01;
+flow.I_s = -0.07;
 
 % Bottom elevation
 flow.zb = repmat(flow.I_s .* grid.x',1,length(grid.y));
@@ -31,6 +31,6 @@ flow.zb = repmat(flow.I_s .* grid.x',1,length(grid.y));
 % Strickler
 kst = 30;
 flow.kst = kst * ones( grid.nx, grid.ny );
-
-
+flow.kst = readmatrix('kst2.txt')';
+flow.zb = readmatrix('zb2.txt')';
 end
