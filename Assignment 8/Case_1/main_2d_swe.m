@@ -11,7 +11,7 @@ close all
 
 %% Initialize simulation
 % read infile 
-infilename = 'infile_2D_swe_channelFlow1.mat'; %% 1,2,3,4,5
+infilename = 'infile_2D_swe_channelFlow2.mat'; %% 1,2,3,4,5
 fprintf('infilename is: %s\n', infilename)
 
 % build structures 
@@ -47,56 +47,63 @@ Q = bconds.huwest*b;
 
 N_M = NWV_muster(Q,b,0,-flow.I_s,30);
 
-flow.h(:) = 0.2%N_M(1);
-flow.hu(:) = 1.5%N_M(3)*N_M(1);
-
+%flow.h(:) = 1%N_M(1);
+%flow.hu(:) = 0%N_M(3)*N_M(1);
+I_WSP = [];
+I_S = [];
+I_E = [];
 for itstep = 1:run.ntst
     [ run, flow ] = time_step_rk( itstep==1, constants, grid, run, ...
         flow, bconds );
     
     I = -flow.I_s;
-    k_st = 30;
-    
-    v_h = flow.hu(:,2) ./ flow.h(:,2);
-
-    
     k_st = flow.kst(1,1);
     N_M = NWV_muster(Q,b,0,I,k_st);
-
+    v_h = flow.hu(:,2) ./ flow.h(:,2);
     A = flow.h(:,2) .* grid.ymax;
     U = 2 .* flow.h(:,2) + grid.ymax;
     R = A ./ U;
     v_st = k_st*sqrt(I)*R.^(2/3);
+    
     Fr = v_h./(flow.h(:,2).*9.81).^(0.5);
-    %% Calculate NWV
-    
-%     for i = 1:length(grid.x)-1
-%     I_WSP(i) = ( (v_h(i)+v_h(i+1)) /2 )/ k_st / ( (R(i)+R(i+1))/2 )^(4/3);
-%     end
-    
     energy = v_h.^(2)/9.81/2+flow.h(:,2)+flow.zb(:,2);
+    
+    
+    
+
+    I_WSP(end+1) = abs((flow.zb(grid.NGHOST+1,grid.NGHOST+1) + flow.h(grid.NGHOST+1,grid.NGHOST+1)) -...
+        ((flow.zb(end,grid.NGHOST+1) + flow.h(end,grid.NGHOST+1))) )  / grid.xmax;
+    
+    I_S(end+1) = abs((flow.zb(grid.NGHOST+1,grid.NGHOST+1)-flow.zb(end))) / grid.xmax;
+   
+    I_E(end+1) = abs(energy(grid.NGHOST+1) - energy(end)) / grid.xmax;
+    
+
+    %% Calculate NWV   
+    
+
     
     figure(1)
     
-    subplot(3,1,1)
+    subplot(2,2,1)
     plot(grid.x(2:end),v_st(2:end),grid.x(2:end),v_h(2:end));
     title('Channel Velocity')
  
-%     subplot(2,2,2)
-%     plot(grid.x,-I*grid.x,grid.x(2:end),I_WSP)
-%     title('Channel I_WSP')
+    subplot(2,2,2)
+    plot(1:itstep,I_WSP,1:itstep,I_S,1:itstep,I_E)
+    title('Channel I_WSP')
     
-    subplot(3,1,2)
+    subplot(2,2,3)
     plot(grid.x,flow.h(:,2)+flow.zb(:,2),grid.x,energy,grid.x,flow.hu,grid.x,flow.zb,'b');
     title('Channel Waterdepth / Energy / Discharge')
-    legend('Depth','Energy','Location','northwest')
+    legend('h','H','q','zb','Location','southwest')
     
-%     subplot(2,2,4)
-%     plot(grid.x,Fr);
-%     title('Channel Froude')
-%     legend('Fr','Location','northwest')
-%     
-    subplot(3,1,3)
+    subplot(2,2,4)
+    plot(grid.x,Fr);
+    title('Channel Froude')
+    legend('Fr','Location','northwest')
+  
+    figure(2)
     title('H-y Diagram')
     y = 0:0.01:5;
     %H = zeros(1,91);
@@ -110,7 +117,8 @@ for itstep = 1:run.ntst
     xlim([0 5])
     xlabel('H') 
     ylabel('y')
-    scatter(flow.h(:,2),energy)
+    scatter(flow.h(90,2),energy(90))
+    scatter(flow.h(20,2),energy(20))
     scatter(N_M(1),N_M(2),'b')
     hold off
     
@@ -141,7 +149,7 @@ for itstep = 1:run.ntst
 %     yline(N_M(2))
 %     title('Channel Energy Test')
 %     
-    pause(0.000001)
+    pause(0.0001)
     
 
 
