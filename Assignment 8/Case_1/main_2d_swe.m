@@ -13,6 +13,7 @@ close all
 % read infile 
 global infilename
 infilename = 'infile_2D_swe_channelFlow5.mat'; %% 1,2,3,4,5
+
 fprintf('infilename is: %s\n', infilename)
 
 % build structures 
@@ -111,7 +112,6 @@ for itstep = 1:run.ntst
     ylabel('[m/s]')
     xlabel('timestep')
     legend('Q','U_b','Location','southwest')
-    hold off
     
     subplot(132)
     plot(grid.x(2:end), H(2:end), grid.x(2:end), flow.h(2:end,2)+flow.zb(2:end,2),...
@@ -119,9 +119,7 @@ for itstep = 1:run.ntst
     title('Head and Waterlevel')
     legend('H','h+zb','h','zb','Location','southwest')
     xlabel('x')
-    ylabel('[m]')
-    hold off
-    
+    ylabel('[m]')    
     
     subplot(133)
     title('Froud and specific Discharge')
@@ -133,7 +131,6 @@ for itstep = 1:run.ntst
     ylabel('[m²/s]')
     xlabel('x')
     legend('Fr','hu','Location','northwest')
-    hold off
 
     sgtitle(['n= ',num2str(itstep)])
 
@@ -141,7 +138,6 @@ for itstep = 1:run.ntst
     set(0, 'CurrentFigure', fig_Hy)
     hold on
     scatter(H(2),flow.h(2,2),'b.')
-%     scatter(flow.h(20,2),H(20),'r.')
     scatter(N_M(2),N_M(1),'yx')
     hold off
     

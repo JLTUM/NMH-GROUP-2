@@ -17,7 +17,7 @@ function [grid, run, constants] = set_params(infilename)
     grid.ymax = ymax;       
     grid.ymin = ymin;         
     
-    run.dt = dt;       
+    run.dt = 0.01;       
     run.ntst = ntst;
      
 end

@@ -32,7 +32,7 @@ if strcmp(infilename,'infile_2D_swe_channelFlow1.mat')
     flow.zb = repmat(flow.I_S .* grid.x',1,length(grid.y));
     kst = 30;
     flow.kst = kst * flow.kst;
-    flow.h(:,:) = 1.35;
+    flow.h(:,:) = 1.3;
     flow.hu(:,:) = 1.5;
     disp('Reading Case 1')
     
@@ -40,8 +40,8 @@ if strcmp(infilename,'infile_2D_swe_channelFlow1.mat')
 elseif strcmp(infilename,'infile_2D_swe_channelFlow2.mat')
     flow.zb = readmatrix('zb2.txt')';
     flow.kst = readmatrix('kst2.txt')';
-    flow.I_S = -0.015125;
-    flow.h(:,:) = 1.35;
+    flow.I_S = -0.015;
+    flow.h(:,:) = 0.351;
     flow.hu(:,:) = 1.5;
     disp('Reading Case 2')
   
