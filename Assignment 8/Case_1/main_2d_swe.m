@@ -12,7 +12,7 @@ close all
 %% Initialize simulation
 % read infile 
 global infilename
-infilename = 'infile_2D_swe_channelFlow5.mat'; %% 1,2,3,4,5
+infilename = 'infile_2D_swe_channelFlow3.mat'; %% 1,2,3,4,5
 fprintf('infilename is: %s\n', infilename)
 
 % build structures 
@@ -69,8 +69,15 @@ N_M = NWV_muster(Q,b,0,I,k_st);
 %% Time integration
 
 for itstep = 1:run.ntst
+    
     [ run, flow ] = time_step_rk( itstep==1, constants, grid, run, ...
-        flow, bconds );
+    flow, bconds );
+
+    % Calculation Channel Diagnosis
+    U_channeld(end+1) = mean(flow.hu(2:end-1,2) ./ flow.h(2:end-1,2));
+    Q_channeld(end+1) = mean(flow.hu(2:end-1,2) * grid.ymax);
+    
+    if ~mod(itstep,50)
     
     % Berechnung NWV
     u = flow.hu(:,2) ./ flow.h(:,2);
@@ -79,20 +86,17 @@ for itstep = 1:run.ntst
     R = A ./ U;
     v_st = k_st*sqrt(I) * R.^(2/3);
     
-    % Calculation Channel Diagnosis
-    U_channeld(end+1) = mean(flow.hu(2:end-1,2) ./ flow.h(2:end-1,2));
-    Q_channeld(end+1) = mean(flow.hu(2:end-1,2) * grid.ymax);
-    
     % Berechnung Fr und H
-    Fr = u ./ (flow.h(:,2).*9.81).^(0.5);
-    H = u.^(2)/9.81/2 + flow.h(:,2) + flow.zb(:,2);
+    Fr = u ./ sqrt((flow.h(:,2) .* constants.g));
+    H = u.^2 / (2*constants.g) + flow.h(:,2) + flow.zb(:,2);
+    v_h = u.^2 / (2*constants.g);
     
     % Berechnung Gefällelinien
     I_WSP(end+1) = abs((flow.zb(2,2) + flow.h(2,2)) - ((flow.zb(end,2) + flow.h(end,2))) )  / grid.xmax;
     I_S(end+1) = abs((flow.zb(2,2)-flow.zb(end))) / grid.xmax;
     I_E(end+1) = abs(H(2) - H(end)) / grid.xmax;
     
-%% Plot Results
+    %% Plot Results
     
     % Plot Channel Diagnosis
     set(0, 'CurrentFigure', fig_Channeld)
@@ -115,9 +119,9 @@ for itstep = 1:run.ntst
     
     subplot(132)
     plot(grid.x(2:end), H(2:end), grid.x(2:end), flow.h(2:end,2)+flow.zb(2:end,2),...
-         grid.x(2:end),flow.h (2:end,2), grid.x(2:end),flow.zb (2:end,2));
+         grid.x(2:end),flow.h (2:end,2), grid.x(2:end), flow.zb(2:end,2),grid.x(2:end), v_h(2:end));
     title('Head and Waterlevel')
-    legend('H','h+zb','h','zb','Location','southwest')
+    legend('H','h+zb','h','zb','v²/2g','Location','southwest')
     xlabel('x')
     ylabel('[m]')
     hold off
@@ -146,8 +150,8 @@ for itstep = 1:run.ntst
     hold off
     
     pause(0.0001)
+   
+    end
     
-
-
 end
 
