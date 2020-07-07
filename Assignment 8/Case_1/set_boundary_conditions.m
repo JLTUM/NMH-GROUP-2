@@ -1,8 +1,8 @@
 function [ bconds ] = set_boundary_conditions()
 %SET_BOUNDARY_CONDITIONS Set boundary conditions
 
-bconds.bwest = {'HFIX','HUFIX'}; % HFIX -> h  HUFIX -> hu
-bconds.beast = {'HEXT','HUEXT'}; % HEXT   HUEXT extrapolates values
+bconds.bwest = {'HFIX','HUFIX'};
+bconds.beast = {'HEXT','HUEXT'}; 
 bconds.bsouth = {'WALL'};
 bconds.bnorth = {'WALL'};
 

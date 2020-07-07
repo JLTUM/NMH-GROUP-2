@@ -12,7 +12,7 @@ close all
 %% Initialize simulation
 % read infile 
 global infilename
-infilename = 'infile_2D_swe_channelFlow3.mat'; %% 1,2,3,4,5
+infilename = 'infile_2D_swe_channelFlow5.mat'; %% 1,2,3,4,5
 fprintf('infilename is: %s\n', infilename)
 
 % build structures 
@@ -38,12 +38,15 @@ run.t = 0;
 b = grid.ymax;
 Q = bconds.huwest*b;
 
+U_channeld = [];
+Q_channeld = [];
 I_WSP = [];
 I_S = [];
 I_E = [];
 
-I = 0.01
 k_st = flow.kst(1,1);
+
+I = abs((flow.zb(2,2)-flow.zb(end))) / grid.xmax;
 N_M = NWV_muster(Q,b,0,I,k_st);
 
 %% Preallocation of Plots
@@ -62,6 +65,7 @@ N_M = NWV_muster(Q,b,0,I,k_st);
         xlabel('H') 
         ylabel('y')
     fig_Channeld = figure('units','normalized','outerposition',[0 0 0.7 0.5]);
+    
 %% Time integration
 
 for itstep = 1:run.ntst
@@ -74,6 +78,10 @@ for itstep = 1:run.ntst
     U = 2 .* flow.h(:,2) + grid.ymax;
     R = A ./ U;
     v_st = k_st*sqrt(I) * R.^(2/3);
+    
+    % Calculation Channel Diagnosis
+    U_channeld(end+1) = mean(flow.hu(2:end-1,2) ./ flow.h(2:end-1,2));
+    Q_channeld(end+1) = mean(flow.hu(2:end-1,2) * grid.ymax);
     
     % Berechnung Fr und H
     Fr = u ./ (flow.h(:,2).*9.81).^(0.5);
@@ -92,28 +100,51 @@ for itstep = 1:run.ntst
 %     plot(grid.x(2:end), v_st(2:end), grid.x(2:end), u(2:end), grid.x(2:end), flow.hu(2:end,2));
 %     legend('v_{st}','u','hu')
 %     title('Channel Velocity')
-    
-    subplot(121)
-    plot(grid.x(2:end), H(2:end), grid.x(2:end), flow.h(2:end,2)+flow.zb(2:end,2),...
-        grid.x(2:end), flow.hu(2:end,2), grid.x(2:end),flow.zb (2:end,2));
-    title('Channel Waterdepth / Energy / Discharge')
-    legend('H','h+zb','hu','zb','Location','southwest')
-    
-    hold off
-    subplot(122)
-    plot(grid.x(2:end),Fr(2:end));
-    title('Channel Froude')
-    legend('Fr','Location','northwest')
 
-  
+    subplot(131)
+    title('Channel Diagnosis')
+    yyaxis left
+    plot(1:itstep, Q_channeld)
+    ylabel('[m³/s]')
+    yyaxis right
+    plot(1:itstep, U_channeld)
+    ylabel('[m/s]')
+    xlabel('timestep')
+    legend('Q','U_b','Location','southwest')
+    hold off
+    
+    subplot(132)
+    plot(grid.x(2:end), H(2:end), grid.x(2:end), flow.h(2:end,2)+flow.zb(2:end,2),...
+         grid.x(2:end),flow.h (2:end,2), grid.x(2:end),flow.zb (2:end,2));
+    title('Head and Waterlevel')
+    legend('H','h+zb','h','zb','Location','southwest')
+    xlabel('x')
+    ylabel('[m]')
+    hold off
+    
+    
+    subplot(133)
+    title('Froud and specific Discharge')
+    yyaxis left 
+    plot(grid.x(2:end), Fr(2:end));
+    ylabel('Froude [-]')
+    yyaxis right
+    plot(grid.x(2:end), flow.hu(2:end,2))
+    ylabel('[m²/s]')
+    xlabel('x')
+    legend('Fr','hu','Location','northwest')
+    hold off
+
+    sgtitle(['n= ',num2str(itstep)])
+
     % Plot Hy-Diagramm
     set(0, 'CurrentFigure', fig_Hy)
     hold on
-    scatter(H(90),flow.h(90,2),'b.')
+    scatter(H(2),flow.h(2,2),'b.')
 %     scatter(flow.h(20,2),H(20),'r.')
     scatter(N_M(2),N_M(1),'yx')
     hold off
-      
+    
     pause(0.0001)
     
 

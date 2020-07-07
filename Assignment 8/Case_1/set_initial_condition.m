@@ -28,6 +28,7 @@ global infilename
 
 % Case 1
 if strcmp(infilename,'infile_2D_swe_channelFlow1.mat')
+    flow.I_S = -0.001;
     flow.zb = repmat(flow.I_S .* grid.x',1,length(grid.y));
     kst = 30;
     flow.kst = kst * flow.kst;
