@@ -21,17 +21,12 @@ flow.zb = zeros( length(grid.x) , length(grid.y) );
 % ---- Fields initialization ----------------------
 % Bottom elevation
 
-%% zb Curved
-flow.zb = 0.5 * grid.x' * grid.y;
- %flow.zb = 0.0 * grid.x' * grid.y;
- 
- %% zb Sharp edge
- %flow.zb(:,1:1:12) = 0.4;
 
- %% zb Constant
-flow.zb = 0.0 * grid.x' * grid.y;
- 
- 
+%flow.zb = 0.5 * grid.x' * grid.y;
+ flow.zb = 0.0 * grid.x' * grid.y;
+ flow.zb(:,1:1:12) = 0.1;
+
+
 % keep this part -> "WALL" boundary condition
 flow.zb(1,:) = flow.zb(2,:);
 flow.zb(end,:) = flow.zb(end-1,:);
@@ -43,27 +38,25 @@ h0 = 1;
 dh0 = 0.2;
 
 
-%% random log initial condition
-    % flow.h = lognrnd( log(h0^2/sqrt(h0^2+dh0^2)), sqrt(log(1+dh0^2/h0^2)), grid.nx+2, grid.ny+2 );
+% random log initial condition
+     flow.h = lognrnd( log(h0^2/sqrt(h0^2+dh0^2)), sqrt(log(1+dh0^2/h0^2)), grid.nx+2, grid.ny+2 );
 
-%% exp initial condition Droplet
+% % exp initial condition
+%     ii = 0 : grid.nx+2;
+%     jj = 0 : grid.ny+2;
+%     f = 7;
+%     xsq = ((ii - grid.nx/2) * f/grid.nx) .* ((ii - grid.nx/2) * f/grid.nx); 
+%     ysq = ((jj - grid.ny/2) * f/grid.ny) .* ((jj - grid.ny/2) * f/grid.ny);
+%     for i = 1 : grid.nx+2
+%         for j = 1 : grid.ny+2
+%             flow.h(i,j) = h0 + 1*exp(-xsq(i))*exp(-ysq(j));
+%         end
+%     end
 
-    ii = 0 : grid.nx+2;
-    jj = 0 : grid.ny+2;
-    f = 7;
-    xsq = ((ii - grid.nx/2) * f/grid.nx) .* ((ii - grid.nx/2) * f/grid.nx); 
-    ysq = ((jj - grid.ny/2) * f/grid.ny) .* ((jj - grid.ny/2) * f/grid.ny);
-    for i = 1 : grid.nx+2
-        for j = 1 : grid.ny+2
-            flow.h(i,j) = h0 + 1*exp(-xsq(i))*exp(-ysq(j));
-        end
-    end
-
-%% Constant Initial Condition
 % flow.h = ones(grid.nx+2,grid.ny+2);
 
 
-%% Constant Strickler
+% Constant Strickler
 kst = 20;
 flow.kst = kst *ones( grid.nx, grid.ny );
 
