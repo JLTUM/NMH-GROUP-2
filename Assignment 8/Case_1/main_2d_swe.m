@@ -12,7 +12,7 @@ close all
 %% Initialize simulation
 % read infile 
 global infilename
-infilename = 'infile_2D_swe_channelFlow2.mat'; %% 1,2,3,4,5
+infilename = 'infile_2D_swe_channelFlow3.mat'; %% 1,2,3,4,5
 fprintf('infilename is: %s\n', infilename)
 
 % build structures 
@@ -42,7 +42,7 @@ I_WSP = [];
 I_S = [];
 I_E = [];
 
-I = -flow.I_S;
+I = 0.01
 k_st = flow.kst(1,1);
 N_M = NWV_muster(Q,b,0,I,k_st);
 
