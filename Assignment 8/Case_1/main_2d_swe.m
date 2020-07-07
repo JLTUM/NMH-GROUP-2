@@ -64,13 +64,22 @@ N_M = NWV_muster(Q,b,0,I,k_st);
         xlim([0 5])
         xlabel('H') 
         ylabel('y')
-    fig_Channeld = figure('units','normalized','outerposition',[0 0 0.7 0.5]);
+    fig_Channeld = figure('units','normalized','outerposition',[0 0 1 0.6]);
     
 %% Time integration
-
+    
 for itstep = 1:run.ntst
     [ run, flow ] = time_step_rk( itstep==1, constants, grid, run, ...
         flow, bconds );
+    
+    % Calculation Channel Diagnosis
+    U_channeld(end+1) = mean(flow.hu(2:end-1,2) ./ flow.h(2:end-1,2));
+    Q_channeld(end+1) = mean(flow.hu(2:end-1,2) * grid.ymax);
+    
+        
+%% Plot Results
+% disp(itstep)
+if ~mod(itstep,500)
     
     % Berechnung NWV
     u = flow.hu(:,2) ./ flow.h(:,2);
@@ -78,22 +87,18 @@ for itstep = 1:run.ntst
     U = 2 .* flow.h(:,2) + grid.ymax;
     R = A ./ U;
     v_st = k_st*sqrt(I) * R.^(2/3);
-    
-    % Calculation Channel Diagnosis
-    U_channeld(end+1) = mean(flow.hu(2:end-1,2) ./ flow.h(2:end-1,2));
-    Q_channeld(end+1) = mean(flow.hu(2:end-1,2) * grid.ymax);
-    
+
     % Berechnung Fr und H
     Fr = u ./ (flow.h(:,2).*9.81).^(0.5);
     H = u.^(2)/9.81/2 + flow.h(:,2) + flow.zb(:,2);
+    v_H = u.^2/(2*9.81);
     
     % Berechnung Gefällelinien
     I_WSP(end+1) = abs((flow.zb(2,2) + flow.h(2,2)) - ((flow.zb(end,2) + flow.h(end,2))) )  / grid.xmax;
     I_S(end+1) = abs((flow.zb(2,2)-flow.zb(end))) / grid.xmax;
     I_E(end+1) = abs(H(2) - H(end)) / grid.xmax;
     
-%% Plot Results
-    
+
     % Plot Channel Diagnosis
     set(0, 'CurrentFigure', fig_Channeld)
 %     subplot(131)
@@ -115,13 +120,12 @@ for itstep = 1:run.ntst
     
     subplot(132)
     plot(grid.x(2:end), H(2:end), grid.x(2:end), flow.h(2:end,2)+flow.zb(2:end,2),...
-         grid.x(2:end),flow.h (2:end,2), grid.x(2:end),flow.zb (2:end,2));
+         grid.x(2:end),flow.h (2:end,2), grid.x(2:end),flow.zb (2:end,2), grid.x(2:end),v_H(2:end));
     title('Head and Waterlevel')
-    legend('H','h+zb','h','zb','Location','southwest')
+    legend('H','h+zb','h','zb','v²/2g','Location','southwest')
     xlabel('x')
     ylabel('[m]')
     hold off
-    
     
     subplot(133)
     title('Froud and specific Discharge')
@@ -140,14 +144,16 @@ for itstep = 1:run.ntst
     % Plot Hy-Diagramm
     set(0, 'CurrentFigure', fig_Hy)
     hold on
+
     scatter(H(2),flow.h(2,2),'b.')
-%     scatter(flow.h(20,2),H(20),'r.')
-    scatter(N_M(2),N_M(1),'yx')
+%     scatter(H(150),flow.h(150,2),'g.')
+%     scatter(H(190),flow.h(190,2),'r.')
+%     legend(['x = ', num2str(grid.x(2))],['x = ', num2str(grid.x(150))],['x = ', num2str(grid.x(190))])
     hold off
-    
+
     pause(0.0001)
     
-
+end
 
 end
 
