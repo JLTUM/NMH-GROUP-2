@@ -17,11 +17,18 @@ function [grid, run, constants] = set_params(infilename)
     grid.ymax = ymax;       
     grid.ymin = ymin;         
     
+<<<<<<< HEAD
     run.dt = 0.01;       
+=======
+    run.dt = dt;       
+>>>>>>> Nick
     run.ntst = ntst;
      
 end
 
+<<<<<<< HEAD
 
 
 
+=======
+>>>>>>> Nick

@@ -12,9 +12,15 @@ function [R_n] = NWV_muster(Q,b,m,I,k_st)%input here zum Testen: NWV_muster(20,1
 
  y = 0.9;
  y_n = 1;
+<<<<<<< HEAD
     while abs(y - y_n) > 5e-5 %Check if they are similar enough genauigkeit beliebig Ã¤ndern
         y = y_n;
         A = b*y+m*y^2; %Allgemeine FlÃ¤chen Formel
+=======
+    while abs(y - y_n) > 5e-5 %Check if they are similar enough genauigkeit beliebig ändern
+        y = y_n;
+        A = b*y+m*y^2; %Allgemeine Flächen Formel
+>>>>>>> Nick
         U = b + 2*sqrt( (m*y)^2 + y^2 ); %Allgemeine U Formel
         v = k_st * sqrt(I) * ( A / U )^(2/3); %Manning-Strickler
         
@@ -36,4 +42,8 @@ function [R_n] = NWV_muster(Q,b,m,I,k_st)%input here zum Testen: NWV_muster(20,1
     %Fr soll = 0.5635 
 end
 
+<<<<<<< HEAD
 %Julianlenz@outlook.com fÃ¼r Fragen
+=======
+%Julianlenz@outlook.com für Fragen
+>>>>>>> Nick
