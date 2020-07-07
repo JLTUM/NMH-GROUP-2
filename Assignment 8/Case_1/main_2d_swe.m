@@ -12,7 +12,7 @@ close all
 %% Initialize simulation
 % read infile 
 global infilename
-infilename = 'infile_2D_swe_channelFlow3.mat'; %% 1,2,3,4,5
+infilename = 'infile_2D_swe_channelFlow1.mat'; %% 1,2,3,4,5
 fprintf('infilename is: %s\n', infilename)
 
 % build structures 
@@ -42,7 +42,7 @@ I_WSP = [];
 I_S = [];
 I_E = [];
 
-I = 0.01
+I = 0.01;
 k_st = flow.kst(1,1);
 N_M = NWV_muster(Q,b,0,I,k_st);
 
@@ -97,8 +97,9 @@ for itstep = 1:run.ntst
     plot(grid.x(2:end), H(2:end), grid.x(2:end), flow.h(2:end,2)+flow.zb(2:end,2),...
         grid.x(2:end), flow.hu(2:end,2), grid.x(2:end),flow.zb (2:end,2));
     title('Channel Waterdepth / Energy / Discharge')
-    legend('H','h+zb','hu','zb','Location','southwest')
-    
+    legend('H','h+zb','q','zb','Location','southwest')
+    xlabel('channel distance')
+    ylabel('y')
     hold off
     subplot(122)
     plot(grid.x(2:end),Fr(2:end));
@@ -109,7 +110,7 @@ for itstep = 1:run.ntst
     % Plot Hy-Diagramm
     set(0, 'CurrentFigure', fig_Hy)
     hold on
-    scatter(H(90),flow.h(90,2),'b.')
+    scatter(H(40),flow.h(40,2),'b.')
 %     scatter(flow.h(20,2),H(20),'r.')
     scatter(N_M(2),N_M(1),'yx')
     hold off
