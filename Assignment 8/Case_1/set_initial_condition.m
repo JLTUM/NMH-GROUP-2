@@ -24,7 +24,7 @@ flow.kst = ones( grid.nx, grid.ny );
 % ---- Fields initialization ----------------------
 
 global infilename
-flow.I_S = -0.001;
+
 
 % Case 1
 if strcmp(infilename,'infile_2D_swe_channelFlow1.mat')
@@ -39,6 +39,7 @@ if strcmp(infilename,'infile_2D_swe_channelFlow1.mat')
 elseif strcmp(infilename,'infile_2D_swe_channelFlow2.mat')
     flow.zb = readmatrix('zb2.txt')';
     flow.kst = readmatrix('kst2.txt')';
+    flow.I_S = -0.015125;
     flow.h(:,:) = 1.35;
     flow.hu(:,:) = 1.5;
     disp('Reading Case 2')
@@ -47,7 +48,7 @@ elseif strcmp(infilename,'infile_2D_swe_channelFlow2.mat')
 elseif strcmp(infilename,'infile_2D_swe_channelFlow3.mat')
     flow.zb = readmatrix('zb3.txt')';
     flow.kst = readmatrix('kst3.txt')';
-    flow.h(:,:) = 0.5;
+    flow.h(:,:) = 1.3;
     flow.hu(:,:) = 1.5;
     disp('Reading Case 3')
     
@@ -55,7 +56,7 @@ elseif strcmp(infilename,'infile_2D_swe_channelFlow3.mat')
 elseif strcmp(infilename,'infile_2D_swe_channelFlow4.mat')
     flow.zb = readmatrix('zb4.txt')';
     flow.kst = readmatrix('kst4.txt')';
-    flow.h(:,:) = 1.35;
+    flow.h(:,:) = 0.6;
     flow.hu(:,:) = 1.5;
     disp('Reading Case 4')
     
@@ -63,7 +64,7 @@ elseif strcmp(infilename,'infile_2D_swe_channelFlow4.mat')
 elseif strcmp(infilename,'infile_2D_swe_channelFlow5.mat')
     flow.zb = readmatrix('zb5.txt')';
     flow.kst = readmatrix('kst5.txt')';
-    flow.h(:,:) = 1.35;
+    flow.h(:,:) = 0.4;
     flow.hu(:,:) = 1.5;
     disp('Reading Case 5')
     

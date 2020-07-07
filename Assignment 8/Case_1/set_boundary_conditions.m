@@ -20,17 +20,17 @@ elseif strcmp(infilename,'infile_2D_swe_channelFlow2.mat')
     
 % Case 3
 elseif strcmp(infilename,'infile_2D_swe_channelFlow3.mat')
-    bconds.hwest = 0.351;
+    bconds.hwest = 1.3;
     bconds.huwest = 1.5;
     
 % Case 4
 elseif strcmp(infilename,'infile_2D_swe_channelFlow4.mat')
-    bconds.hwest = 0.351;
+    bconds.hwest = 0.6;
     bconds.huwest = 1.5;
     
 % Case 5
 elseif strcmp(infilename,'infile_2D_swe_channelFlow5.mat')
-    bconds.hwest = 0.351;
+    bconds.hwest = 0.4;
     bconds.huwest = 1.5;
 end
 
