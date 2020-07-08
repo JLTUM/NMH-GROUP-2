@@ -9,7 +9,7 @@
 
 clear;
 close all
-
+set(0,'DefaultFigureVisible','off');
 %% Initialize simulation
 % read infile 
 infilename = 'infile_2D_swe_test.mat';
@@ -47,9 +47,8 @@ for itstep = 1:run.ntst
     if itstep == 1
         fig_Surf = figure('units','normalized','outerposition',[0 0 1 1]);
         fig_Quiver = figure('units','normalized','outerposition',[0 0 1 1]);
-        fig_ntst_1 = figure('units','normalized','outerposition',[0 0 1 1]); 
         surf(grid.x,grid.y,flow.h+flow.zb,'FaceAlpha',0.5)
-        hold on 
+        hold on
         surf(grid.x,grid.y,flow.zb,'FaceColor','b')
         xlabel('x','Fontsize',15)
         ylabel('y','Fontsize',15)
@@ -63,20 +62,11 @@ for itstep = 1:run.ntst
         pause(0.05)
         hold off  
     end
-    if itstep == 10
-         fig_ntst_10 = figure('units','normalized','outerposition',[0 0 1 1]); 
-    surf(grid.x,grid.y,flow.h+flow.zb,'FaceAlpha',0.5)
-    hold on 
-    surf(grid.x,grid.y,flow.zb,'FaceColor','b')
-    xlabel('x','Fontsize',15)
-    ylabel('y','Fontsize',15)
-    zlabel('h','Fontsize',15)
-    a = get(gca,'XTickLabel');
-    end
+    
 
 %% Plot results
 
-    set(0, 'CurrentFigure', fig_Surf)
+    set(0, 'CurrentFigure', fig_Surf) %Surf Definition
     surf(grid.x, grid.y, flow.h+flow.zb,'FaceAlpha',0.5)
     hold on 
     surf(grid.x, grid.y, flow.zb,'FaceColor','b')
@@ -84,7 +74,6 @@ for itstep = 1:run.ntst
     ylabel('y','Fontsize',15)
     zlabel('h','Fontsize',15)
     a = get(gca,'XTickLabel'); 
-
     set(gca,'XTickLabel',a,'fontsize',15,'FontWeight','bold')
     set(gca,'YTickLabel',a,'fontsize',15,'FontWeight','bold')
     set(gca,'ZTickLabel',a,'fontsize',15,'FontWeight','bold')
@@ -93,29 +82,22 @@ for itstep = 1:run.ntst
     pause(0.05)
     hold off
 
-     fig_ntst_100 = figure('units','normalized','outerposition',[0 0 1 1]); 
-    surf(grid.x,grid.y,flow.h+flow.zb,'FaceAlpha',0.5)
-    hold on 
-    surf(grid.x,grid.y,flow.zb,'FaceColor','b')
+    set(0, 'CurrentFigure', fig_Quiver)%Quiver Definition
+    quiver(grid.x,grid.y,flow.hu,flow.hv,'b')
     xlabel('x','Fontsize',15)
     ylabel('y','Fontsize',15)
-    zlabel('h','Fontsize',15)
-    a = get(gca,'XTickLabel');
+    a = get(gca,'XTickLabel'); 
     set(gca,'XTickLabel',a,'fontsize',15,'FontWeight','bold')
     set(gca,'YTickLabel',a,'fontsize',15,'FontWeight','bold')
-    set(gca,'ZTickLabel',a,'fontsize',15,'FontWeight','bold')
-    zlim([-1 2])
-    title(['n=',num2str(itstep)])
     pause(0.05)
-    hold off
-end
+
 
     if mod(itstep,10) == 0 || itstep == 1
-        mkdir Plots_seven
         print(fig_Surf,'-dpng',sprintf("Plots_seven/Surf at n=%d.png", itstep),'-r150');
         print(fig_Quiver,'-dpng',sprintf("Plots_seven/Quiver at n=%d.png", itstep),'-r150');
-        print(fig_ntst_1,'-dpng',"Plots_seven/ntst_1.png",'-r150');
-        print(fig_ntst_10,'-dpng',"Plots_seven/ntst_10.png",'-r150');
-        print(fig_ntst_100,'-dpng',"Plots_seven/ntst_100.png",'-r150');
     end
 
+
+end
+
+set(0,'DefaultFigureVisible','on');
