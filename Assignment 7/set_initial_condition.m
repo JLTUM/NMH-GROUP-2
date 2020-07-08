@@ -21,6 +21,7 @@ flow.zb = zeros( length(grid.x) , length(grid.y) );
 % ---- Fields initialization ----------------------
 % Bottom elevation
 
+
 %% zb Curved
 flow.zb = 0.5 * grid.x' * grid.y;
  %flow.zb = 0.0 * grid.x' * grid.y;
@@ -32,6 +33,7 @@ flow.zb = 0.5 * grid.x' * grid.y;
 flow.zb = 0.0 * grid.x' * grid.y;
  
  
+
 % keep this part -> "WALL" boundary condition
 flow.zb(1,:) = flow.zb(2,:);
 flow.zb(end,:) = flow.zb(end-1,:);
