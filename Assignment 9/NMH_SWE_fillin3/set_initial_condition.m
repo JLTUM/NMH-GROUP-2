@@ -20,16 +20,56 @@ flow.zb = zeros( length(grid.x) , length(grid.y) );
 % Strickler value (cell-centred)
 flow.kst = ones( grid.nx, grid.ny );
 
-% ---- Fields initialization ----------------------
-% Bottom elevation
-% TODO TODO TODO TODO TODO TODO TODO
+global infilename
 
-% Water level 
-% TODO TODO TODO TODO TODO TODO TODO
 
-% Strickler
-% TODO TODO TODO TODO TODO TODO TODO
-
+% Case 1
+if strcmp(infilename,'infile_2D_swe_damBreak.mat')
+ %   flow.zb = repmat(flow.I_S .* grid.x',1,length(grid.y));
+    kst = 30;
+    flow.kst = kst * flow.kst;
+    flow.h(:,:) = 0.1;
+    flow.h(1:51,1) = 1;
+    flow.hu(:,:) = 0;
+    flow.I_S = 0;
+    disp('Reading Case 1')
+    
+% Case 2
+elseif strcmp(infilename,'infile_2D_swe_channelFlow2.mat')
+    flow.zb = readmatrix('zb2.txt')';
+    flow.kst = readmatrix('kst2.txt')';
+    flow.h(:,:) = 0.351;
+    flow.hu(:,:) = 1.5;
+    flow.I_S = -0.001;
+    disp('Reading Case 2')
+  
+% Case 3
+elseif strcmp(infilename,'infile_2D_swe_channelFlow3.mat')
+    flow.zb = readmatrix('zb3.txt')';
+    flow.kst = readmatrix('kst3.txt')';
+    flow.h(:,:) = 0.5;
+    flow.hu(:,:) = 1.5;
+    disp('Reading Case 3')
+    
+% Case 4   
+elseif strcmp(infilename,'infile_2D_swe_channelFlow4.mat')
+    flow.zb = readmatrix('zb4.txt')';
+    flow.kst = readmatrix('kst4.txt')';
+    flow.h(:,:) = 1.35;
+    flow.hu(:,:) = 1.5;
+    flow.I_S = -0.001;
+    disp('Reading Case 4')
+    
+% Case 5
+elseif strcmp(infilename,'infile_2D_swe_channelFlow5.mat')
+    flow.zb = readmatrix('zb5.txt')';
+    flow.kst = readmatrix('kst5.txt')';
+    flow.h(:,:) = 1.35;
+    flow.hu(:,:) = 1.5;
+    flow.I_S = -0.001;
+    disp('Reading Case 5')
+    
+end
 
 
 
