@@ -21,10 +21,10 @@ function [grid, run, constants] = set_params(infilename)
     run.ntst = ntst;
      
     
-    grid.nx = 500;
+    grid.nx = 250;
     grid.ny = 10;
     run.t = 6;
-    run.dt = 0.0025;
+    run.dt = 0.005;
     run.ntst = run.t / run.dt;
 end
 

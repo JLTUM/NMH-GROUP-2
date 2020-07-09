@@ -44,12 +44,16 @@ Frame = 1;
 Video(run.ntst/itdiag) = struct('cdata',[],'colormap',[]);
 
 VidObj = VideoWriter('Video');  % Name of Video
+open(VidObj)
 
 %% Preallocation of Plots
 
  fig_Channeld = figure('units','normalized','outerposition',[0 0 0.7 0.5]);
- ax = gca;
- ax.NextPlot = 'replaceChildren';
+ Axes = gcf;
+ xlim([1 10]);
+ ylim([-0.1 1.2]);
+%  ax = gca;
+%  ax.NextPlot = 'replaceChildren';
 
 %% Time integration
 
@@ -65,7 +69,7 @@ for itstep = 1:run.ntst
     
    
     if mod(itstep, itdiag) == 0
-        open(VidObj)
+
     % Diagonostic output
         
         % Energy and flow head
@@ -84,22 +88,25 @@ for itstep = 1:run.ntst
         set(0, 'CurrentFigure', fig_Channeld)
         plot(grid.x(2:end), H(2:end), grid.x(2:end), flow.h(2:end,2)+flow.zb(2:end,2),...
              grid.x(2:end),flow.h (2:end,2), grid.x(2:end), flow.zb(2:end,2),grid.x(2:end), v_h(2:end));
-        title('Head and Waterlevel')
-        legend('H','h+zb','h','zb','u²/2g','Location','southwest')
+        title(['time = ',num2str(itstep * run.dt),'s'])
+        legend('H','h+zb','h','zb','u²/2g','Location','north')
         xlabel('x')
         ylabel('[m]')
+        xlim([1 10]);
+        ylim([-0.1 1.2]);
         hold off
         pause(0.001)
         
         % Save Video
         drawnow
         currentFrame = getframe;
-        Video(Frame) = currentFrame;
-        Frame = Frame +1;
+        Video(Frame) = getframe(gca);
         writeVideo(VidObj,currentFrame);
-        close(VidObj)
+        Frame = Frame +1;
+        
     
     end
     
 end
 
+close(VidObj);
