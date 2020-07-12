@@ -108,11 +108,11 @@ for itstep = 1:run.ntst
         end
         
         if itstep * run.dt == 3
-        print(fig_Channeld,'-dpng',"Plots_nine/time=3s",'-r150');
+        print(fig_Channeld,'-dpng',fullfile(dir),"time=3s"),'-r150');
         end
         
         if itstep * run.dt == 6
-        print(fig_Channeld,'-dpng',"Plots_nine/time=6s",'-r150');
+        print(fig_Channeld,'-dpng',fullfile(dir),"time=6s"),'-r150');
         end
         
         
