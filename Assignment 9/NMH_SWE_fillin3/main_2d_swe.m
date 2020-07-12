@@ -56,7 +56,8 @@ open(VidObj)
 %  ax.NextPlot = 'replaceChildren';
 
 %% Time integration
-mkdir Plots_nine
+dir= 'Plot_nine_'+infilename
+mkdir (sprintf(dir)) 
 
 fprintf('start time integration\n')
 for itstep = 1:run.ntst
@@ -99,11 +100,11 @@ for itstep = 1:run.ntst
         pause(0.001)
         
         if itstep * run.dt == 0.1
-        print(fig_Channeld,'-dpng',"Plots_nine/time=0,1s",'-r150');
+        print(fig_Channeld,'-dpng',fullfile(dir,"time=0,1s"),'-r150');
         end
                
         if itstep * run.dt == 1
-        print(fig_Channeld,'-dpng',"Plots_nine/time=1s",'-r150');
+        print(fig_Channeld,'-dpng',fullfile(dir,"time=1s"),'-r150');
         end
         
         if itstep * run.dt == 3
