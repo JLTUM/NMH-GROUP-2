@@ -83,6 +83,54 @@ elseif strcmp(infilename,'infile_2D_swe_damBreak_V3.mat')
  % specific discharge
     flow.hu(:,:) = 0;
     
+
+elseif strcmp(infilename,'infile_2D_swe_damBreak_V4.mat')
+    
+    disp('Reading Case 5')
+ % bottom elevation
+    flow.I_S = -0.001;
+    flow.zb = repmat(flow.I_S .* grid.x',1,length(grid.y));
+ % kst
+    flow.kst(:,:) = 2;
+ % water level 
+    flow.h(:,:) = 0.1;
+    flow.h(1:51,:) = 1;
+ % specific discharge
+    flow.hu(:,:) = 0;
+   
+    elseif strcmp(infilename,'infile_2D_swe_damBreak_V5.mat')
+    
+    disp('Reading Case 6')
+ % bottom elevation
+    flow.I_S = -0.001;
+    flow.zb = repmat(flow.I_S .* grid.x',1,length(grid.y));
+    flow.zb(130:134,:) = 0.09;
+ % kst
+    flow.kst(:,:) = 30;
+ % water level 
+    flow.h(:,:) = 0.1;
+    flow.h(1:51,:) = 1;
+    flow.h(130:134,:) = 0.01;
+ 
+ % specific discharge
+    flow.hu(:,:) = 0;
+    
+        elseif strcmp(infilename,'infile_2D_swe_damBreak_V6.mat')
+    
+    disp('Reading Case 7')
+ % bottom elevation
+    flow.I_S = -0.001;
+    flow.zb = repmat(flow.I_S .* grid.x',1,length(grid.y));
+    flow.zb(130:134,:) = 0.09;
+ % kst
+    flow.kst(:,:) = 30;
+ % water level 
+    flow.h(:,:) = 0.1;
+    flow.h(1:51,:) = 1;
+    flow.h(130:134,:) = 0.01;
+ 
+ % specific discharge
+    flow.hu(:,:) = 0;
 end
 
 end

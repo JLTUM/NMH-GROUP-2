@@ -30,6 +30,22 @@ elseif strcmp(infilename,'infile_2D_swe_damBreak_V3.mat')
     bconds.bwest = {'WALL'};
     bconds.beast = {'WALL'};
     
+   % Case 5
+elseif strcmp(infilename,'infile_2D_swe_damBreak_V4.mat')
+    
+    bconds.bwest = {'WALL'};
+    bconds.beast = {'WALL'};
+    
+    % Case 6
+elseif strcmp(infilename,'infile_2D_swe_damBreak_V5.mat')
+    
+    bconds.bwest = {'WALL'};
+    bconds.beast = {'WALL'};
+    
+elseif strcmp(infilename,'infile_2D_swe_damBreak_V6.mat')
+    
+    bconds.bwest = {'WALL'};
+    bconds.beast = {'WALL'};
 end
 
 end

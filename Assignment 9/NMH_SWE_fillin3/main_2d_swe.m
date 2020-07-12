@@ -12,7 +12,7 @@ close all
 %% Initialize simulation
 % read infile 
 global infilename 
-infilename = "infile_2D_swe_damBreak_V2.mat";
+infilename = "infile_2D_swe_damBreak_V6.mat"; %%V1,V2;V3,V4,V5
 fprintf('infilename is: %s\n', infilename)
 
 % build structures 
@@ -82,7 +82,7 @@ for itstep = 1:run.ntst
         v_h = U.^2 / (2*constants.g);                               % velocity head
         
         % CFL number
-        fprintf('%d : CFL number:         %e\n', itstep, ...
+        fprintf('%d : CFL number:         %e\n', itstep*run.dt, ...
             compute_CFL_number(constants, grid, run.dt, flow.h, flow.hu, flow.hv));
         
      % Plot results
@@ -99,6 +99,13 @@ for itstep = 1:run.ntst
         hold off
         pause(0.001)
         
+        % Save Video
+        drawnow
+        currentFrame = getframe;
+        Video(Frame) = getframe(gca);
+        writeVideo(VidObj,currentFrame);    
+        Frame = Frame +1;
+        
         if itstep * run.dt == 0.1
         print(fig_Channeld,'-dpng',fullfile(dir,"time=0,1s"),'-r150');
         end
@@ -108,20 +115,15 @@ for itstep = 1:run.ntst
         end
         
         if itstep * run.dt == 3
-        print(fig_Channeld,'-dpng',fullfile(dir),"time=3s"),'-r150');
+        print(fig_Channeld,'-dpng',fullfile(dir,"time=3s"),'-r150');
         end
         
         if itstep * run.dt == 6
-        print(fig_Channeld,'-dpng',fullfile(dir),"time=6s"),'-r150');
+        print(fig_Channeld,'-dpng',fullfile(dir,"time=6s"),'-r150');
         end
         
         
-        % Save Video
-        drawnow
-        currentFrame = getframe;
-        Video(Frame) = getframe(gca);
-        writeVideo(VidObj,currentFrame);
-        Frame = Frame +1;
+     
         
     
     end
