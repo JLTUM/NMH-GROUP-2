@@ -10,8 +10,9 @@ clear;
 close all
 
 %% Initialize simulation
-global infilename
-infilename = 'infile_2D_swe_damBreak.mat'; 
+% read infile 
+global infilename 
+infilename = "infile_2D_swe_damBreak_V2.mat";
 fprintf('infilename is: %s\n', infilename)
 
 % build structures 
@@ -29,92 +30,102 @@ fprintf('parameters set\n')
 run.t = 0;
 [ flow ] = set_initial_condition( grid, flow );
 
-%% ---- Create boundary conditions -----------------------------------------
+% Create boundary conditions 
 [ bconds ] = set_boundary_conditions();
 
-% ---- Setup of for time integration --------------------------------------
-% Frequency of diagnostic output
-% itdiag = 
+%% Preallocation of variables
 
+itdiag = 10;
+
+U_channeld = [];
+Q_channeld = [];
+
+Frame = 1;
+Video(run.ntst/itdiag) = struct('cdata',[],'colormap',[]);
+
+VidObj = VideoWriter('Video');  % Name of Video
+open(VidObj)
+
+%% Preallocation of Plots
+
+ fig_Channeld = figure('units','normalized','outerposition',[0 0 0.7 0.5]);
+ Axes = gcf;
+ xlim([1 10]);
+ ylim([-0.1 1.2]);
+%  ax = gca;
+%  ax.NextPlot = 'replaceChildren';
 
 %% Time integration
-itdiag=1;
+mkdir Plots_nine
+
 fprintf('start time integration\n')
 for itstep = 1:run.ntst
+    
     [ run, flow ] = time_step_rk( itstep==1, constants, grid, run, ...
         flow, bconds );
 
+    % Calculation Channel Diagnosis
+    U_channeld(end+1) = mean(flow.hu(2:end-1,2) ./ flow.h(2:end-1,2));
+    Q_channeld(end+1) = mean(flow.hu(2:end-1,2) * grid.ymax);
+    
+   
+    if mod(itstep, itdiag) == 0
+
     % Diagonostic output
-if mod(itstep, itdiag) == 0
+        
+        % Energy and flow head
+        u = flow.hu(:,2) ./ flow.h(:,2);                            % u velocity
+        v = flow.hv(:,2) ./ flow.h(:,2);                            % v velocity
+        U = sqrt (u.^2 + v.^2);                                     % Velocity Vector
+        H = U.^2 / (2*constants.g) + flow.h(:,2) + flow.zb(:,2);    % energy head
+        v_h = U.^2 / (2*constants.g);                               % velocity head
+        
         % CFL number
         fprintf('%d : CFL number:         %e\n', itstep, ...
             compute_CFL_number(constants, grid, run.dt, flow.h, flow.hu, flow.hv));
         
-%% Plot results
-%% Plot Results
-% disp(itstep)
-if ~mod(itstep,1)
+     % Plot results
     
-   
-
-    % Plot Channel Diagnosis
-%    set(0, 'CurrentFigure', fig_Channeld)
-%     subplot(131)
-%     plot(grid.x(2:end), v_st(2:end), grid.x(2:end), u(2:end), grid.x(2:end), flow.hu(2:end,2));
-%     legend('v_{st}','u','hu')
-%     title('Channel Velocity')
-
-%     subplot(131)
-%     title('Channel Diagnosis')
-%     yyaxis left
-%     plot(1:itstep, Q_channeld)
-%     ylabel('[m³/s]')
-%     yyaxis right
-%     plot(1:itstep, U_channeld)
-%     ylabel('[m/s]')
-%     xlabel('timestep')
-%     legend('Q','U_b','Location','southwest')
-%     hold off
-    
-%     subplot(1)
-%     plot(grid.x(2:end), flow.h(2:end,2)+flow.zb(2:end,2),...
-%          grid.x(2:end),flow.h (2:end,2), grid.x(2:end),flow.zb (2:end,2));
-%     title('Head and Waterlevel')
-%     legend('h+zb','h','zb','Location','southwest')
-%     xlabel('x')
-%     ylabel('[m]')
-%     hold off
-    
-    surf(grid.x,grid.y,flow.h','FaceColor','b')
-    
-        xlabel('x','Fontsize',15)
-        ylabel('y','Fontsize',15)
-        zlabel('h','Fontsize',15)
-%         a = get(gca,'XTickLabel');
-%         set(gca,'XTickLabel',a,'fontsize',15,'FontWeight','bold')
-%         set(gca,'YTickLabel',a,'fontsize',15,'FontWeight','bold')
-%         set(gca,'ZTickLabel',a,'fontsize',15,'FontWeight','bold')
-%         zlim([-1 2])
-        title(['n=',num2str(itstep)])
-        pause(0.05)
-        %hold off  
+        set(0, 'CurrentFigure', fig_Channeld)
+        plot(grid.x(2:end), H(2:end), grid.x(2:end), flow.h(2:end,2)+flow.zb(2:end,2),...
+             grid.x(2:end),flow.h (2:end,2), grid.x(2:end), flow.zb(2:end,2),grid.x(2:end), v_h(2:end));
+        title(['time = ',num2str(itstep * run.dt),'s'])
+        legend('H','h+zb','h','zb','u²/2g','Location','north')
+        xlabel('x')
+        ylabel('[m]')
+        xlim([1 10]);
+        ylim([-0.1 1.2]);
+        hold off
+        pause(0.001)
         
-%     subplot(133)
-%     title('Froud and specific Discharge')
-%     yyaxis left 
-%     plot(grid.x(2:end), Fr(2:end));
-%     ylabel('Froude [-]')
-%     yyaxis right
-%     plot(grid.x(2:end), flow.hu(2:end,2))
-%     ylabel('[m²/s]')
-%     xlabel('x')
-%     legend('Fr','hu','Location','northwest')
-%     hold off
-
+        if itstep * run.dt == 0.1
+        print(fig_Channeld,'-dpng',"Plots_nine/time=0,1s",'-r150');
+        end
+               
+        if itstep * run.dt == 1
+        print(fig_Channeld,'-dpng',"Plots_nine/time=1s",'-r150');
+        end
+        
+        if itstep * run.dt == 3
+        print(fig_Channeld,'-dpng',"Plots_nine/time=3s",'-r150');
+        end
+        
+        if itstep * run.dt == 6
+        print(fig_Channeld,'-dpng',"Plots_nine/time=6s",'-r150');
+        end
+        
+        
+        % Save Video
+        drawnow
+        currentFrame = getframe;
+        Video(Frame) = getframe(gca);
+        writeVideo(VidObj,currentFrame);
+        Frame = Frame +1;
+        
     
-
-    
-end
-
     end
+    
 end
+
+
+close(VidObj);
