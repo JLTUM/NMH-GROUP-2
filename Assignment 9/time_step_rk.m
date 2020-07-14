@@ -67,7 +67,6 @@ for irk = 1:s
     % apply boundary conditions on the intermediate fields
     [hstage, hustage, hvstage] = apply_boundary_conditions(constants, grid, bconds, hstage, hustage, hvstage);
     
-
     % evaluate stage
     [ dhdt(:,:,irk), dhudt(:,:,irk), dhvdt(:,:,irk)] = ...
         shallow_water_equations( constants, grid, ...
