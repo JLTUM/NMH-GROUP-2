@@ -5,10 +5,10 @@ function [R_n] = NWV_muster(Q,b,m,I,k_st)%input here zum Testen: NWV_muster(20,1
 % I = 0.401/100;
 % k_st = 30;
 
-%Q = 1.95
-%kst = 30;
-%b = 0.5;
-%I = 0.001
+Q = 1.95
+kst = 30;
+b = 0.5;
+I = 0.001
 
  y = 0.9;
  y_n = 1;
